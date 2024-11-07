@@ -22,6 +22,7 @@ This project is a starting point for a Flutter application.
 - go_router: ^14.4.1
 - google_fonts: ^6.2.1
 - crypto: ^3.0.6
+- cached_network_image: ^3.4.1
 
 After you clone this repository, you can change project's name, icon, and package name.
 <br/>Please use latest dependencies below:
