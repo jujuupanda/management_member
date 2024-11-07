@@ -25,6 +25,6 @@ This project is a starting point for a Flutter application.
 
 After you clone this repository, you can change project's name, icon, and package name.
 <br/>Please use latest dependencies below:
-<br/>Change package name   : change_app_package_name: ^1.3.0
-<br/>Change app name       : rename_app: ^1.6.1
-<br/>Change icon launcher  : icons_launcher: ^3.0.0
+- Change package name   : change_app_package_name: ^1.3.0
+- Change app name       : rename_app: ^1.6.1
+- Change icon launcher  : icons_launcher: ^3.0.0
