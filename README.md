@@ -7,8 +7,8 @@ Dart     : v3.4.3
 ## Getting Started
 
 This project is a starting point for a Flutter application.
-/nA few resources to get you started if this is your first Flutter project:
-Dependencies Flutter Initial:
+<br/>A few resources to get you started if this is your first Flutter project:
+<br/>Dependencies Flutter Initial:
 - cupertino_icons: ^1.0.6
 - get_it: ^8.0.2
 - flutter_bloc: ^8.1.6
@@ -24,7 +24,7 @@ Dependencies Flutter Initial:
 - crypto: ^3.0.6
 
 After you clone this repository, you can change project's name, icon, and package name.
-\nPlease use latest dependencies below:
-\nChange package name   : change_app_package_name: ^1.3.0
-\nChange app name       : rename_app: ^1.6.1
-\nChange icon launcher  : icons_launcher: ^3.0.0
+<br/>Please use latest dependencies below:
+<br/>Change package name   : change_app_package_name: ^1.3.0
+<br/>Change app name       : rename_app: ^1.6.1
+<br/>Change icon launcher  : icons_launcher: ^3.0.0
