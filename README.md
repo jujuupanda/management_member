@@ -9,19 +9,19 @@ Dart     : v3.4.3
 This project is a starting point for a Flutter application.
 A few resources to get you started if this is your first Flutter project:
 Dependencies Flutter Initial:
-  cupertino_icons: ^1.0.6
-  get_it: ^8.0.2
-  flutter_bloc: ^8.1.6
-  equatable: ^2.0.5
-  dartz: ^0.10.1
-  connectivity_plus: ^6.1.0
-  http: ^1.2.2
-  shared_preferences: ^2.3.2
-  mockito: ^5.4.4
-  intl: ^0.19.0
-  go_router: ^14.4.1
-  google_fonts: ^6.2.1
-  crypto: ^3.0.6
+- cupertino_icons: ^1.0.6
+- get_it: ^8.0.2
+- flutter_bloc: ^8.1.6
+- equatable: ^2.0.5
+- dartz: ^0.10.1
+- connectivity_plus: ^6.1.0
+- http: ^1.2.2
+- shared_preferences: ^2.3.2
+- mockito: ^5.4.4
+- intl: ^0.19.0
+- go_router: ^14.4.1
+- google_fonts: ^6.2.1
+- crypto: ^3.0.6
 
 After you clone this repository, you can change project's name, icon, and package name.
 Please use latest dependencies below:
