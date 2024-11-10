@@ -6,7 +6,7 @@ Dart     : v3.4.3
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a starting point for a Flutter application with some dependencies.
 <br/>A few resources to get you started if this is your first Flutter project:
 <br/>Dependencies Flutter Initial:
 - cupertino_icons: ^1.0.6
