@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "799424153062",
+    "project_id": "member-management-4c1bb",
+    "storage_bucket": "member-management-4c1bb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799424153062:android:e7652954bbc873b73e8227",
+        "android_client_info": {
+          "package_name": "co.id.kenarok.member_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMl60bbzq0UpADMAi-z3XbIVnL553ROdc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

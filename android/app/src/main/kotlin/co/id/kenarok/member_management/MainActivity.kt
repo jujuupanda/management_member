@@ -1,4 +1,4 @@
-package co.id.kenarok.initial_setup_for_flutter
+package co.id.kenarok.member_management
 
 import io.flutter.embedding.android.FlutterActivity
 

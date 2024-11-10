@@ -13,4 +13,8 @@ class ServerFailure extends Failure {
 
 class InputFailure extends Failure {}
 
-class CacheFailure extends Failure {}
+class CacheFailure extends Failure {
+  final String message;
+
+  CacheFailure(this.message);
+}

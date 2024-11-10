@@ -38,6 +38,14 @@ dependencies:
   google_fonts: ^6.2.1
   crypto: ^3.0.6
   cached_network_image: ^3.4.1
+  gap: ^3.0.1
+  dart_jsonwebtoken: ^2.14.1
+  change_app_package_name: ^1.4.0
+  rename_app: ^1.6.1
+  firebase_core: ^3.7.0
+  firebase_messaging: ^15.1.4
+  cloud_firestore: ^5.4.5
+  flutter_secure_storage: ^4.2.1
 
 dev_dependencies:
   flutter_test:

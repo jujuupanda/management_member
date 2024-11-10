@@ -1,0 +1,40 @@
+export 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+class SecureStorageService {
+  final storage = const FlutterSecureStorage();
+
+  // Menyimpan token
+  Future<void> saveToken(String token) async {
+    await storage.write(key: 'jwtToken', value: token);
+  }
+
+  // Mengambil token
+  Future<String?> getToken() async {
+    final token = await storage.read(key: 'jwtToken');
+    if (token != null) {
+      return token;
+    } else {
+      return null;
+    }
+  }
+
+  // Menghapus token
+  Future<void> deleteToken() async {
+    await storage.delete(key: 'jwtToken');
+  }
+
+  // Menghapus semua data
+  Future<void> deleteAllData() async {
+    await storage.deleteAll();
+  }
+
+  Future<void> saveString(String name, String value) async {
+    await storage.write(key: name, value: value);
+  }
+
+  Future<void> retrieveString(String name) async {
+    await storage.read(key: name);
+  }
+}
