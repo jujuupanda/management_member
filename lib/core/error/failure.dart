@@ -13,6 +13,12 @@ class ServerFailure extends Failure {
 
 class InputFailure extends Failure {}
 
+class JWTFailure extends Failure {
+  final String message;
+
+  JWTFailure(this.message);
+}
+
 class CacheFailure extends Failure {
   final String message;
 

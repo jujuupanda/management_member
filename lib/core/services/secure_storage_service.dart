@@ -2,6 +2,8 @@ export 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../error/failure.dart';
+
 class SecureStorageService {
   final storage = const FlutterSecureStorage();
 
@@ -11,12 +13,12 @@ class SecureStorageService {
   }
 
   // Mengambil token
-  Future<String?> getToken() async {
+  getToken() async {
     final token = await storage.read(key: 'jwtToken');
     if (token != null) {
       return token;
     } else {
-      return null;
+      return JWTFailure("Token kosong");
     }
   }
 
