@@ -91,17 +91,13 @@ class AuthRemoteDataSource extends AuthDataSource {
       final jwtToken = await SecureStorageService().getToken();
       if (jwtToken != null) {
         final jwt = await TokenService().verifyToken(jwtToken);
-        if (jwt == "Expired") {
+        if (jwt is JWTFailure) {
           await SecureStorageService().deleteAllData();
-          return Left(CacheFailure("Token kadaluarsa"));
-        }
-        if (jwt == "Token invalid") {
-          await SecureStorageService().deleteAllData();
-          return Left(CacheFailure("Token bermasalah"));
+          return Left(CacheFailure(jwt.message));
         }
         return Right(BlankModel());
       }
-      return Left(CacheFailure("Tidak ada token tersimpan"));
+      return Left(CacheFailure("Token kosong"));
     } catch (e) {
       await SecureStorageService().deleteAllData();
       return Left(CacheFailure("Terjadi kesalahan saat melakukan pengecekan"));

@@ -1,5 +1,6 @@
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import '../error/failure.dart';
 import 'secure_storage_service.dart';
 
 class TokenService {
@@ -28,9 +29,9 @@ class TokenService {
       final jwt = JWT.verify(token, SecretKey('kenArok'));
       return jwt;
     } on JWTExpiredException {
-      return "Expired";
+      return JWTFailure("Token kadaluarsa");
     } on JWTException {
-      return "Token invalid";
+      return JWTFailure("Token salah");
     }
   }
 
@@ -44,19 +45,38 @@ class TokenService {
     }
   }
 
+  //get jwt payload
+  jwtPayload() async {
+    final jwtToken = await SecureStorageService().getToken();
+    if (jwtToken is JWTFailure) {
+      return jwtToken;
+    }
+    final jwtPayload = await TokenService().verifyToken(jwtToken!);
+    if (jwtPayload is JWTFailure) {
+      return jwtPayload;
+    }
+    return jwtPayload;
+  }
+
   //get username by token
   jwtPayloadUsername() async {
-    final jwtToken = await SecureStorageService().getToken();
-    final jwtPayload = await TokenService().verifyToken(jwtToken!);
-    final payloadUsername = jwtPayload.payload["username"].toString();
+    final payload = await jwtPayload();
+    if (payload is JWTFailure) {
+      return payload;
+    }
+    final payloadUsername = payload.payload["username"].toString();
+
     return payloadUsername;
   }
 
   //get role by token
   jwtPayloadRole() async {
-    final jwtToken = await SecureStorageService().getToken();
-    final jwtPayload = await TokenService().verifyToken(jwtToken!);
-    final payloadUsername = jwtPayload.payload["role"].toString();
-    return payloadUsername;
+    final payload = await jwtPayload();
+    if (payload is JWTFailure) {
+      return payload;
+    }
+    final payloadRole = payload.payload["role"].toString();
+
+    return payloadRole;
   }
 }
