@@ -12,7 +12,7 @@ class LoginCheckerUseCase extends FutureUseCase<BlankEntity, NoParam> {
   LoginCheckerUseCase(this.repository);
 
   @override
-  Future<Either<Failure, BlankEntity>> call(NoParam params) async {
+  Future<Either<Failure, BlankEntity>> call(params) async {
     return await repository.loginChecker(params);
   }
 }

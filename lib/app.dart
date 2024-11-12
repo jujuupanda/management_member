@@ -20,9 +20,9 @@ class App extends StatelessWidget {
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           primarySwatch: Colors.blue,
-          scaffoldBackgroundColor: ColorPalette().white,
+          scaffoldBackgroundColor: PaletteColor().white,
           textTheme: TextTheme(
-            bodyLarge: GoogleFonts.openSans(color: ColorPalette().black),
+            bodyLarge: GoogleFonts.openSans(color: PaletteColor().black),
           ),
         ),
       ),

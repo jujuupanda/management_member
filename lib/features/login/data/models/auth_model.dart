@@ -10,20 +10,22 @@ class AuthModel extends AuthEntity {
   });
 
   factory AuthModel.fromJson(Map<String, dynamic> json) {
-    final username = json["username"];
-    final password = json["password"];
-    final role = json["role"];
-    final jwtToken = json["jwtToken"];
-    final fcmToken = json["fcmToken"];
-
-    final authModel = AuthModel(
-      username: username,
-      password: password,
-      role: role,
-      jwtToken: jwtToken,
-      fcmToken: fcmToken,
+    return AuthModel(
+      username: json["username"],
+      password: json["password"],
+      role: json["role"],
+      jwtToken: json["jwt_token"],
+      fcmToken: json["fcm_token"],
     );
+  }
 
-    return authModel;
+  Map<String, dynamic> toJson() {
+    return {
+      "username": username,
+      "password": password,
+      "role": role,
+      "jwt_token": jwtToken,
+      "fcm_token": fcmToken,
+    };
   }
 }

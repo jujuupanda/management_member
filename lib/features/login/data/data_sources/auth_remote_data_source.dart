@@ -5,8 +5,6 @@ import '../../../../core/services/firebase_service.dart';
 import '../../../../core/services/secure_storage_service.dart';
 import '../../../../core/services/token_service.dart';
 import '../../../../core/shared/model/blank_model.dart';
-import '../../../../core/shared/param/no_param.dart';
-import '../../domain/use_cases/login_use_case.dart';
 import '../models/auth_model.dart';
 
 import 'auth_data_source.dart';
@@ -15,7 +13,7 @@ class AuthRemoteDataSource extends AuthDataSource {
   final firebaseDB = FirebaseService().firebaseFirestore;
 
   @override
-  Future<Either<Failure, AuthModel>> login(LoginParam params) async {
+  Future<Either<Failure, AuthModel>> login(params) async {
     try {
       final responseLogin = await firebaseDB
           .collection("logins")
@@ -57,7 +55,7 @@ class AuthRemoteDataSource extends AuthDataSource {
   }
 
   @override
-  Future<Either<Failure, BlankModel>> logout(NoParam params) async {
+  Future<Either<Failure, BlankModel>> logout(params) async {
     try {
       final payloadUsername = await TokenService().jwtPayloadUsername();
       await firebaseDB
@@ -86,7 +84,7 @@ class AuthRemoteDataSource extends AuthDataSource {
   }
 
   @override
-  Future<Either<Failure, BlankModel>> loginChecker(NoParam params) async {
+  Future<Either<Failure, BlankModel>> loginChecker(params) async {
     try {
       final jwtToken = await SecureStorageService().getToken();
       if (jwtToken != null) {
