@@ -5,10 +5,11 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/route_app.dart';
+import '../../../../core/utils/bloc_function.dart';
 import '../../../../core/widgets/custom_circle_loading.dart';
+import '../../../../core/widgets/page_header_notification.dart';
 import '../../../login/presentation/manager/auth_bloc.dart';
-import '../widgets/profile_background.dart';
-import '../widgets/profile_header.dart';
+import '../../../../core/widgets/page_background.dart';
 import '../widgets/profile_information_body.dart';
 import '../widgets/profile_information_header.dart';
 
@@ -20,10 +21,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  logoutButton() {
-    return () {
-      context.read<AuthBloc>().add(LogoutEvent());
-    };
+  @override
+  void initState() {
+    BlocFunction().getProfile(context);
+
+    super.initState();
   }
 
   @override
@@ -41,16 +43,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Scaffold(
         body: Stack(
           children: [
-            const ProfileBackground(),
+            const PageBackground(),
             Column(
               children: [
-                const ProfileHeader(),
+                const PageHeaderNotification(),
                 Gap(32.h),
                 const ProfileInformationHeader(),
                 Gap(24.h),
                 Expanded(
                   child: ProfileInformationBody(
-                    onTap: logoutButton(),
+                    onTap: BlocFunction().logoutButton(context),
                   ),
                 ),
               ],

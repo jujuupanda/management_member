@@ -12,7 +12,7 @@ class LogoutUseCase extends FutureUseCase<BlankEntity, NoParam> {
   LogoutUseCase(this.repository);
 
   @override
-  Future<Either<Failure, BlankEntity>> call(NoParam params) async {
+  Future<Either<Failure, BlankEntity>> call(params) async {
     return await repository.logout(params);
   }
 }

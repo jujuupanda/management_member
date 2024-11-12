@@ -19,8 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
         preferredSize: Size(double.maxFinite, 56.h),
         child: AppBar(
           title: const Text("Aplikasi Kehadiran"),
-          titleTextStyle: StyleText().openSansHeader,
-          backgroundColor: ColorPalette().softBlue1,
+          titleTextStyle: StyleText().openSansHeaderBlack,
+          backgroundColor: PaletteColor().softBlue1,
           actions: [
             InkWell(
               onTap: () {
@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Center(
                   child: Text(
                     "Laporan Kehadiran",
-                    style: StyleText().openSansTitle,
+                    style: StyleText().openSansTitleBlack,
                   ),
                 ),
                 Gap(10.h),
@@ -68,8 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 200,
                     width: 400,
                     decoration: BoxDecoration(
-                      color: ColorPalette().white,
-                      border: Border.all(color: ColorPalette().softBlue1),
+                      color: PaletteColor().white,
+                      border: Border.all(color: PaletteColor().softBlue1),
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                   ),
@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Text(
                       "Kehadiranmu",
-                      style: StyleText().openSansTitle,
+                      style: StyleText().openSansTitleBlack,
                     ),
                     const Spacer(),
                     IconButton(
@@ -96,8 +96,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 140.h,
                       width: 120.w,
                       decoration: BoxDecoration(
-                        color: ColorPalette().white,
-                        border: Border.all(color: ColorPalette().softBlue1),
+                        color: PaletteColor().white,
+                        border: Border.all(color: PaletteColor().softBlue1),
                         borderRadius: BorderRadius.circular(8.r),
                         boxShadow: [
                           BoxShadow(
@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: 70.w,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: ColorPalette().greenPresence,
+                              color: PaletteColor().greenPresence,
                             ),
                             child: Center(
                               child: Text(
@@ -128,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Gap(10.h),
                           Text(
                             "Hadir",
-                            style: StyleText().openSansTitle,
+                            style: StyleText().openSansTitleBlack,
                           ),
                         ],
                       ),
@@ -137,8 +137,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 140.h,
                       width: 120.w,
                       decoration: BoxDecoration(
-                        color: ColorPalette().white,
-                        border: Border.all(color: ColorPalette().softBlue1),
+                        color: PaletteColor().white,
+                        border: Border.all(color: PaletteColor().softBlue1),
                         borderRadius: BorderRadius.circular(8.r),
                         boxShadow: [
                           BoxShadow(
@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: 70.w,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: ColorPalette().yellowPresence,
+                              color: PaletteColor().yellowPresence,
                             ),
                             child: Center(
                               child: Text(
@@ -169,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Gap(10.h),
                           Text(
                             "Terlambat",
-                            style: StyleText().openSansTitle,
+                            style: StyleText().openSansTitleBlack,
                           ),
                         ],
                       ),
@@ -178,8 +178,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 140.h,
                       width: 120.w,
                       decoration: BoxDecoration(
-                        color: ColorPalette().white,
-                        border: Border.all(color: ColorPalette().softBlue1),
+                        color: PaletteColor().white,
+                        border: Border.all(color: PaletteColor().softBlue1),
                         borderRadius: BorderRadius.circular(8.r),
                         boxShadow: [
                           BoxShadow(
@@ -198,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: 70.w,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: ColorPalette().redPresence,
+                              color: PaletteColor().redPresence,
                             ),
                             child: Center(
                               child: Text(
@@ -210,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Gap(10.h),
                           Text(
                             "Tidak Hadir",
-                            style: StyleText().openSansTitle,
+                            style: StyleText().openSansTitleBlack,
                           ),
                         ],
                       ),
@@ -223,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Text(
                       "Pengajuan Izin",
-                      style: StyleText().openSansTitle,
+                      style: StyleText().openSansTitleBlack,
                     ),
                     const Spacer(),
                     IconButton(onPressed: () {}, icon: const Icon(Icons.help))
@@ -237,24 +237,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 140.h,
                       width: 120.w,
                       decoration: BoxDecoration(
-                          color: ColorPalette().white,
-                          border: Border.all(color: ColorPalette().softBlue1),
+                          color: PaletteColor().white,
+                          border: Border.all(color: PaletteColor().softBlue1),
                           borderRadius: BorderRadius.circular(8.r)),
                     ),
                     Container(
                       height: 140.h,
                       width: 120.w,
                       decoration: BoxDecoration(
-                          color: ColorPalette().white,
-                          border: Border.all(color: ColorPalette().softBlue1),
+                          color: PaletteColor().white,
+                          border: Border.all(color: PaletteColor().softBlue1),
                           borderRadius: BorderRadius.circular(8.r)),
                     ),
                     Container(
                       height: 140.h,
                       width: 120.w,
                       decoration: BoxDecoration(
-                          color: ColorPalette().white,
-                          border: Border.all(color: ColorPalette().softBlue1),
+                          color: PaletteColor().white,
+                          border: Border.all(color: PaletteColor().softBlue1),
                           borderRadius: BorderRadius.circular(8.r)),
                     ),
                   ],
@@ -262,7 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Gap(20.h),
                 Text(
                   "Pengajuan Izin Terbaru",
-                  style: StyleText().openSansTitle,
+                  style: StyleText().openSansTitleBlack,
                 ),
                 ListView.builder(
                   itemCount: 3,
@@ -276,8 +276,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 140.h,
                         width: 120.w,
                         decoration: BoxDecoration(
-                          color: ColorPalette().white,
-                          border: Border.all(color: ColorPalette().softBlue1),
+                          color: PaletteColor().white,
+                          border: Border.all(color: PaletteColor().softBlue1),
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                       ),

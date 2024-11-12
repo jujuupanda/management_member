@@ -31,8 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   loginChecker(LoginCheckerEvent event, Emitter emit) async {
     emit(AuthLoading());
     try {
-      final loginChecked =
-          await loginCheckerUseCase.repository.loginChecker(NoParam());
+      final loginChecked = await loginCheckerUseCase.call(NoParam());
       loginChecked.fold(
         (l) {
           if (l is CacheFailure) {
@@ -42,31 +41,45 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         (r) => emit(IsAuth()),
       );
     } catch (e) {
-      throw Exception(e);
+      emit(const UnAuth("Terjadi kesalahan pada sistem"));
     }
   }
 
   login(LoginEvent event, Emitter emit) async {
     emit(AuthLoading());
-    final authCred = await loginUseCase.repository.login(event.params);
-    authCred.fold((l) {
-      if (l is ServerFailure) {
-        emit(LoginFailed(l.message));
-      }
-    }, (r) {
-      emit(LoginSuccess(r));
-    });
+    try {
+      final authCred = await loginUseCase.call(event.params);
+      authCred.fold(
+        (l) {
+          if (l is ServerFailure) {
+            emit(LoginFailed(l.message));
+          }
+        },
+        (r) {
+          emit(LoginSuccess(r));
+        },
+      );
+    } catch (e) {
+      emit(const UnAuth("Terjadi kesalahan pada sistem"));
+    }
   }
 
   logout(LogoutEvent event, Emitter emit) async {
     emit(AuthLoading());
-    final logout = await logoutUseCase.repository.logout(NoParam());
-    logout.fold((l) {
-      if (l is ServerFailure) {
-        emit(LogoutFailed());
-      }
-    }, (r) {
-      emit(LogoutSuccess());
-    });
+    try {
+      final logout = await logoutUseCase.call(NoParam());
+      logout.fold(
+        (l) {
+          if (l is ServerFailure) {
+            emit(LogoutFailed());
+          }
+        },
+        (r) {
+          emit(LogoutSuccess());
+        },
+      );
+    } catch (e) {
+      emit(const UnAuth("Terjadi kesalahan pada sistem"));
+    }
   }
 }

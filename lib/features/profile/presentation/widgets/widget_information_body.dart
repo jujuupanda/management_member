@@ -8,12 +8,14 @@ class WidgetInformationBody extends StatelessWidget {
     super.key,
     required this.iconData,
     required this.name,
+    required this.value,
     required this.onTap,
   });
 
-  final String name;
-  final VoidCallback onTap;
   final IconData iconData;
+  final String name;
+  final String value;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class WidgetInformationBody extends StatelessWidget {
       height: 50.h,
       width: 350.w,
       decoration: BoxDecoration(
-        color: ColorPalette().grayToWhite,
+        color: PaletteColor().grayToWhite,
         borderRadius: BorderRadius.circular(24.r),
       ),
       child: Row(
@@ -31,9 +33,19 @@ class WidgetInformationBody extends StatelessWidget {
             child: Icon(iconData),
           ),
           Expanded(
-            child: Text(
-              name,
-              style: StyleText().openSansNormalBlack,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: StyleText().openSansSmallBlack,
+                ),
+                Text(
+                  value,
+                  style: StyleText().openSansNormalBlack,
+                ),
+              ],
             ),
           ),
           IconButton(

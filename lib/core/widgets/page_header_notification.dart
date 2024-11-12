@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/utils.dart';
 
-class ProfileHeader extends StatelessWidget {
-  const ProfileHeader({
+class PageHeaderNotification extends StatelessWidget {
+  const PageHeaderNotification({
     super.key,
   });
 
@@ -21,7 +21,7 @@ class ProfileHeader extends StatelessWidget {
             onPressed: () {},
             icon: Icon(
               Icons.notifications,
-              color: ColorPalette().white,
+              color: PaletteColor().white,
             ),
           ),
         ],

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/utils/utils.dart';
-
+import '../manager/profile_bloc.dart';
+import 'widget_shimmer_profile.dart';
 
 class ProfileInformationHeader extends StatelessWidget {
   const ProfileInformationHeader({
@@ -12,26 +14,37 @@ class ProfileInformationHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: 120.h,
-          width: 120.w,
-          decoration: BoxDecoration(
-            color: ColorPalette().white,
-            shape: BoxShape.circle,
-          ),
-        ),
-        Gap(12.h),
-        Text(
-          "Nama Pengguna",
-          style: StyleText().openSansBigValueWhite,
-        ),
-        Text(
-          "Mobile Developer",
-          style: StyleText().openSansNormalWhite,
-        ),
-      ],
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        if (state is ProfileLoading) {
+          return WidgetShimmerProfile().profileInformationHeaderShimmer();
+        }
+        if (state is GetProfileSuccess) {
+          final dataUser = state.dataUser;
+          return Column(
+            children: [
+              Container(
+                height: 120.h,
+                width: 120.w,
+                decoration: BoxDecoration(
+                  color: PaletteColor().white,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              Gap(12.h),
+              Text(
+                dataUser.fullName,
+                style: StyleText().openSansBigValueWhite,
+              ),
+              Text(
+                dataUser.status,
+                style: StyleText().openSansNormalWhite,
+              ),
+            ],
+          );
+        }
+        return WidgetShimmerProfile().profileInformationHeaderShimmer();
+      },
     );
   }
 }

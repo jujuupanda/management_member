@@ -1,33 +1,39 @@
 part of 'utils.dart';
 
 class StyleText {
+  TextStyle openSansSmallBlack = GoogleFonts.openSans(fontSize: 10.sp);
   TextStyle openSansNormalBlack = GoogleFonts.openSans();
   TextStyle openSansNormalRed = GoogleFonts.openSans(
-    color: ColorPalette().redWarning,
+    color: PaletteColor().redWarning,
   );
   TextStyle openSansNormalWhite = GoogleFonts.openSans(
-    color: ColorPalette().white,
+    color: PaletteColor().white,
   );
-  TextStyle openSansTitle = GoogleFonts.openSans(
+  TextStyle openSansTitleSoftBlue1 = GoogleFonts.openSans(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w600,
+    color: PaletteColor().softBlue1,
+  );
+  TextStyle openSansTitleBlack = GoogleFonts.openSans(
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
   );
   TextStyle openSansTitleWhite = GoogleFonts.openSans(
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
-    color: ColorPalette().white,
+    color: PaletteColor().white,
   );
   TextStyle openSansBigValueWhite = GoogleFonts.openSans(
     fontSize: 18.sp,
     fontWeight: FontWeight.w700,
-    color: ColorPalette().white,
+    color: PaletteColor().white,
   );
   TextStyle openSansBigValueBlack = GoogleFonts.openSans(
     fontSize: 18.sp,
     fontWeight: FontWeight.w700,
-    color: ColorPalette().black,
+    color: PaletteColor().black,
   );
-  TextStyle openSansHeader = GoogleFonts.openSans(
+  TextStyle openSansHeaderBlack = GoogleFonts.openSans(
     fontSize: 18.sp,
     fontWeight: FontWeight.w700,
   );

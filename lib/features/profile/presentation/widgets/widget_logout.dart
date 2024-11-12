@@ -19,14 +19,14 @@ class WidgetLogout extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24.r),
         border: Border.all(
-          color: ColorPalette().redWarning,
+          color: PaletteColor().redWarning,
         ),
       ),
       child: Material(
-        color: ColorPalette().transparent,
+        color: PaletteColor().transparent,
 
         child: InkWell(
-          splashColor: ColorPalette().softBlue5,
+          splashColor: PaletteColor().softBlue5,
           onTap: onTap,borderRadius: BorderRadius.circular(24.r),
           child: Row(
             children: [
@@ -34,7 +34,7 @@ class WidgetLogout extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Icon(
                   Icons.logout,
-                  color: ColorPalette().redWarning,
+                  color: PaletteColor().redWarning,
                 ),
               ),
               Expanded(

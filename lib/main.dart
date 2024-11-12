@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/services/firebase_service.dart';
+import 'features/attendance/presentation/manager/attendance_bloc.dart';
 import 'features/login/presentation/manager/auth_bloc.dart';
+import 'features/profile/presentation/manager/profile_bloc.dart';
 import 'firebase_options.dart';
 import 'service_locator.dart';
 
@@ -28,6 +30,12 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => getIt<AuthBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<ProfileBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<AttendanceBloc>(),
         ),
       ],
       child: GestureDetector(
