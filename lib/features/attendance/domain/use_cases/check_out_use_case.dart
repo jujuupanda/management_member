@@ -18,6 +18,10 @@ class CheckOutUseCase extends FutureUseCase<AttendanceEntity, CheckOutParam> {
 }
 
 class CheckOutParam extends Equatable {
+  final String checkOutTime;
+
+  const CheckOutParam(this.checkOutTime);
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [checkOutTime];
 }

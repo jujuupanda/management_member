@@ -14,30 +14,54 @@ final class AttendanceLoading extends AttendanceState {
   List<Object> get props => [];
 }
 
-final class CheckInSuccess extends AttendanceState {
+final class AttendSuccess extends AttendanceState {
   final AttendanceEntity attendance;
 
-  const CheckInSuccess(this.attendance);
+  const AttendSuccess(this.attendance);
 
   @override
   List<Object?> get props => [attendance];
 }
 
-final class CheckInFailed extends AttendanceState {
+final class AttendFailed extends AttendanceState {
   final String message;
 
-  const CheckInFailed(this.message);
+  const AttendFailed(this.message);
 
   @override
   List<Object?> get props => [message];
 }
 
 final class CheckOutSuccess extends AttendanceState {
+  final AttendanceEntity attendance;
+
+  const CheckOutSuccess(this.attendance);
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 final class CheckOutFailed extends AttendanceState {
+  final String message;
+
+  const CheckOutFailed(this.message);
+
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [message];
+}
+
+final class AttendCheckerSuccess extends AttendanceState {
+  final AttendanceEntity attendance;
+
+  const AttendCheckerSuccess(this.attendance);
+  @override
+  List<Object?> get props => [];
+}
+
+final class AttendCheckerFailed extends AttendanceState {
+  final String message;
+
+  const AttendCheckerFailed(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }

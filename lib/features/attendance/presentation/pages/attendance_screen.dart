@@ -19,6 +19,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   @override
   void initState() {
     BlocFunction().getProfile(context);
+    BlocFunction().attendChecker(context);
     super.initState();
   }
 
@@ -32,9 +33,19 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             children: [
               const PageHeaderNotification(),
               Gap(32.h),
-              const AttendanceInformationProfile(),
-              Gap(12.h),
-              const AttendanceInformationAttend(),
+              RefreshIndicator(
+                onRefresh: () async {},
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      const AttendanceInformationProfile(),
+                      Gap(12.h),
+                      const AttendanceInformationAttend(),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ],

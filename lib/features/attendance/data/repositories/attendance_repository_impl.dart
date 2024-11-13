@@ -20,8 +20,20 @@ class AttendanceRepositoryImpl extends AttendanceRepository {
   }
 
   @override
-  Future<Either<Failure, AttendanceEntity>> checkOut(params) {
-    // TODO: implement checkOut
-    throw UnimplementedError();
+  Future<Either<Failure, AttendanceEntity>> checkOut(params) async {
+    final checkedOut = await remoteDataSource.checkOut(params);
+    return checkedOut.fold(
+      (l) => Left(l),
+      (r) => Right(r),
+    );
+  }
+
+  @override
+  Future<Either<Failure, AttendanceEntity>> attendChecker(params) async {
+    final attendedChecker = await remoteDataSource.attendChecker(params);
+    return attendedChecker.fold(
+      (l) => Left(l),
+      (r) => Right(r),
+    );
   }
 }

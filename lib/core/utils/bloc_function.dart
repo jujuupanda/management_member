@@ -26,4 +26,12 @@ class BlocFunction {
           ),
         );
   }
+
+  checkOutButton(BuildContext context) {
+    context.read<AttendanceBloc>().add(CheckOutEvent());
+  }
+
+  attendChecker(BuildContext context) {
+    context.read<AttendanceBloc>().add(AttendCheckerEvent());
+  }
 }

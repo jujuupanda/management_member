@@ -16,14 +16,15 @@ final class CheckInEvent extends AttendanceEvent {
   );
 
   @override
-  List<Object?> get props => [ typeAttend, imagePath, location];
+  List<Object?> get props => [typeAttend, imagePath, location];
 }
 
 final class CheckOutEvent extends AttendanceEvent {
-  final CheckOutParam checkOutParam;
-
-  const CheckOutEvent(this.checkOutParam);
-
   @override
-  List<Object?> get props => [checkOutParam];
+  List<Object?> get props => [];
+}
+
+final class AttendCheckerEvent extends AttendanceEvent {
+  @override
+  List<Object?> get props => [];
 }

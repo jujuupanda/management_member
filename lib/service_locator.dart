@@ -2,7 +2,9 @@ import 'package:get_it/get_it.dart';
 
 import 'features/attendance/data/data_sources/attendance_remote_data_source.dart';
 import 'features/attendance/data/repositories/attendance_repository_impl.dart';
+import 'features/attendance/domain/use_cases/attend_checker_use_case.dart';
 import 'features/attendance/domain/use_cases/check_in_use_case.dart';
+import 'features/attendance/domain/use_cases/check_out_use_case.dart';
 import 'features/attendance/presentation/manager/attendance_bloc.dart';
 import 'features/login/data/data_sources/auth_remote_data_source.dart';
 import 'features/login/data/repositories/auth_repository_impl.dart';
@@ -70,6 +72,16 @@ void serviceLocator() async {
       getIt<AttendanceRepositoryImpl>(),
     ),
   );
+  getIt.registerLazySingleton<CheckOutUseCase>(
+        () => CheckOutUseCase(
+      getIt<AttendanceRepositoryImpl>(),
+    ),
+  );
+  getIt.registerLazySingleton<AttendCheckerUseCase>(
+        () => AttendCheckerUseCase(
+      getIt<AttendanceRepositoryImpl>(),
+    ),
+  );
 
   /// Bloc
   // Auth
@@ -90,6 +102,8 @@ void serviceLocator() async {
   getIt.registerFactory<AttendanceBloc>(
     () => AttendanceBloc(
       checkInUseCase: getIt<CheckInUseCase>(),
+      checkOutUseCase: getIt<CheckOutUseCase>(),
+      attendCheckerUseCase: getIt<AttendCheckerUseCase>(),
     ),
   );
 
