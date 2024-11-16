@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../../core/services/secure_storage_service.dart';
 import '../../../../core/shared/param/no_param.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/use_cases/get_profile_use_case.dart';
@@ -29,6 +30,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           }
         },
         (r) {
+          SecureStorageService().saveString("activeWork", r.activeWork);
           emit(GetProfileSuccess(r));
         },
       );

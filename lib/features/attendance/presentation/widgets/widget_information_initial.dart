@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import '../../../../core/utils/pop_up_dialog.dart';
 import 'widget_information_attend.dart';
 import 'widget_information_timer.dart';
 
@@ -48,7 +49,7 @@ class WidgetInformationInitial extends StatelessWidget {
             WidgetButtonAttendance(
               name: "Masuk",
               onTap: () {
-                BlocFunction().checkInButton(context);
+                PopUpDialog().attendanceCheckInDialog(context);
               },
               isActive: true,
             ),

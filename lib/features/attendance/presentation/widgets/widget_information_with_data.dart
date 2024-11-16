@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../core/utils/bloc_function.dart';
 import '../../../../core/utils/parsing_string.dart';
+import '../../../../core/utils/pop_up_dialog.dart';
 import '../../domain/entities/attendance_entity.dart';
 import 'widget_button_attendance.dart';
 import 'widget_information_attend.dart';
@@ -47,16 +48,16 @@ class WidgetInformationWithData extends StatelessWidget {
           informationValue: (attendance.attendToday.checkIn == "")
               ? ""
               : ParsingString().formatDateTimeHHmm(
-            attendance.attendToday.checkIn,
-          ),
+                  attendance.attendToday.checkIn,
+                ),
         ),
         WidgetInformationAttend(
           informationName: "Waktu Keluar",
           informationValue: (attendance.attendToday.checkIn == "")
               ? ""
               : ParsingString().formatDateTimeHHmm(
-            attendance.attendToday.checkOut,
-          ),
+                  attendance.attendToday.checkOut,
+                ),
         ),
         Gap(24.h),
         Row(
@@ -65,10 +66,9 @@ class WidgetInformationWithData extends StatelessWidget {
             WidgetButtonAttendance(
               name: "Masuk",
               onTap: () {
-                BlocFunction().checkInButton(context);
+                PopUpDialog().attendanceCheckInDialog(context);
               },
-              isActive:
-              attendance.attendToday.checkIn == "" ? true : false,
+              isActive: attendance.attendToday.checkIn == "" ? true : false,
             ),
             WidgetButtonAttendance(
               name: "Keluar",
@@ -76,7 +76,7 @@ class WidgetInformationWithData extends StatelessWidget {
                 BlocFunction().checkOutButton(context);
               },
               isActive: attendance.attendToday.checkIn != "" &&
-                  attendance.attendToday.checkOut == ""
+                      attendance.attendToday.checkOut == ""
                   ? true
                   : false,
             ),

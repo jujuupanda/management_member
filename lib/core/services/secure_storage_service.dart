@@ -36,7 +36,7 @@ class SecureStorageService {
     await storage.write(key: name, value: value);
   }
 
-  Future<void> retrieveString(String name) async {
-    await storage.read(key: name);
+  Future<String?> retrieveString(String name) async {
+    return await storage.read(key: name);
   }
 }

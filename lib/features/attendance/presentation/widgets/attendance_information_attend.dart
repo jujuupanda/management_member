@@ -38,20 +38,17 @@ class AttendanceInformationAttend extends StatelessWidget {
         ),
         child: BlocBuilder<AttendanceBloc, AttendanceState>(
           builder: (context, state) {
+            print("AttendanceScreen");
+            print(state);
             if (state is AttendanceLoading) {
               return WidgetShimmerAttendance()
                   .attendanceInformationAttendShimmer();
             }
-            if (state is AttendCheckerSuccess) {
-              final attendance = state.attendance;
-              return WidgetInformationWithData(attendance: attendance);
-            }
-            if (state is AttendCheckerFailed) {
-              return const WidgetInformationInitial();
-            }
-            if (state is AttendSuccess) {
-              final attendance = state.attendance;
-              return WidgetInformationWithData(attendance: attendance);
+            if (state is GetAttendanceSuccess) {
+              final attendance = state.attendToday;
+              return attendance != null
+                  ? WidgetInformationWithData(attendance: attendance)
+                  : const WidgetInformationInitial();
             }
             return WidgetShimmerAttendance()
                 .attendanceInformationAttendShimmer();
@@ -61,4 +58,3 @@ class AttendanceInformationAttend extends StatelessWidget {
     );
   }
 }
-

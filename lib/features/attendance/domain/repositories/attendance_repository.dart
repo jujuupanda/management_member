@@ -12,4 +12,6 @@ abstract class AttendanceRepository {
   Future<Either<Failure, AttendanceEntity>> checkOut(CheckOutParam params);
 
   Future<Either<Failure, AttendanceEntity>> attendChecker(NoParam params);
+
+  Stream<Either<Failure, List<AttendanceEntity>>> getAttendance(NoParam params);
 }

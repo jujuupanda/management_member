@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/services/firebase_service.dart';
+import 'core/services/geo_location_service.dart';
 import 'features/attendance/presentation/manager/attendance_bloc.dart';
 import 'features/login/presentation/manager/auth_bloc.dart';
 import 'features/profile/presentation/manager/profile_bloc.dart';
@@ -16,6 +17,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseService().initialFirebaseMessaging();
+  GeoLocationService().getCurrentLocation();
   runApp(const MyApp());
 
   serviceLocator();

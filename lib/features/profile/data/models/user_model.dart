@@ -10,6 +10,8 @@ class UserModel extends UserEntity {
     required super.address,
     required super.salary,
     required super.image,
+    required super.activeWork,
+    required super.division,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,8 @@ class UserModel extends UserEntity {
       address: json["address"],
       salary: json["salary"],
       image: json["image"],
+      activeWork: json["active_work"],
+      division: json["division"],
     );
   }
 
@@ -35,6 +39,8 @@ class UserModel extends UserEntity {
       "address": address,
       "salary": salary,
       "image": image,
+      "active_work": activeWork,
+      "division": division,
     };
   }
 }

@@ -79,4 +79,27 @@ class AttendanceRemoteDataSource extends AttendanceDataSource {
           ServerFailure("Terjadi kesalahan saat mendapatkan info presensi"));
     }
   }
+
+  @override
+  Stream<Either<Failure, List<AttendanceModel>>> getAttendance(params) async* {
+    final payloadUsername = await TokenService().jwtPayloadUsername();
+    final docRef = firebaseDB
+        .collection("attendances")
+        .doc(payloadUsername)
+        .collection("attendance");
+    final responseAttend = docRef.snapshots();
+    yield* responseAttend.map(
+      (snapshot) {
+        try {
+          final listAttendance = snapshot.docs
+              .map((e) => AttendanceModel.fromJson(e.data()))
+              .toList();
+          return Right(listAttendance);
+        } catch (e) {
+          return Left(ServerFailure(
+              "Terjadi kesalahan saat mendapatkan info presensi"));
+        }
+      },
+    );
+  }
 }

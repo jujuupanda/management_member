@@ -3,7 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 class ConnectivityService {
   getConnectivityInfo() async {
     final List<ConnectivityResult> connectivityResult =
-        await (Connectivity().checkConnectivity());
+        await Connectivity().checkConnectivity();
     return connectivityResult.first;
   }
 
