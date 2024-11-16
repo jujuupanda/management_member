@@ -17,12 +17,17 @@ class BlocFunction {
     };
   }
 
-  checkInButton(BuildContext context) {
+  checkInButton(
+    BuildContext context,
+    String attendType,
+    String imagePath,
+    String location,
+  ) {
     context.read<AttendanceBloc>().add(
-          const CheckInEvent(
-            "Luring",
-            "image path",
-            "123123, 321321",
+          CheckInEvent(
+            attendType,
+            imagePath,
+            location,
           ),
         );
   }
@@ -33,5 +38,9 @@ class BlocFunction {
 
   attendChecker(BuildContext context) {
     context.read<AttendanceBloc>().add(AttendCheckerEvent());
+  }
+
+  getAttendance(BuildContext context) {
+    context.read<AttendanceBloc>().add(GetAttendanceEvent());
   }
 }

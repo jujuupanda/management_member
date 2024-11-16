@@ -36,4 +36,10 @@ class AttendanceRepositoryImpl extends AttendanceRepository {
       (r) => Right(r),
     );
   }
+
+  @override
+  Stream<Either<Failure, List<AttendanceEntity>>> getAttendance(params) {
+    final listAllAttendance = remoteDataSource.getAttendance(params);
+    return listAllAttendance;
+  }
 }

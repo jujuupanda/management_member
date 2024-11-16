@@ -7,6 +7,8 @@ class UserEntity {
   final String address;
   final int salary;
   final String image;
+  final String activeWork;
+  final String division;
 
   const UserEntity({
     required this.username,
@@ -17,5 +19,7 @@ class UserEntity {
     required this.address,
     required this.salary,
     required this.image,
+    required this.activeWork,
+    required this.division,
   });
 }

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/routes/route_app.dart';
-import '../../../../core/services/token_service.dart';
 import '../../../../core/widgets/custom_circle_loading.dart';
 import '../../domain/use_cases/login_use_case.dart';
 import '../manager/auth_bloc.dart';

@@ -14,53 +14,42 @@ final class AttendanceLoading extends AttendanceState {
   List<Object> get props => [];
 }
 
-final class AttendSuccess extends AttendanceState {
-  final AttendanceEntity attendance;
+final class GetAttendanceSuccess extends AttendanceState {
+  final List<AttendanceEntity>? attendances;
+  final AttendanceEntity? attendToday;
 
-  const AttendSuccess(this.attendance);
+  final String? activeWork;
+  final bool? isLoading;
+
+  const GetAttendanceSuccess({
+    this.attendances = const [],
+    this.attendToday,
+    this.activeWork,
+    this.isLoading = false,
+  });
 
   @override
-  List<Object?> get props => [attendance];
+  List<Object?> get props => [attendances, attendToday, activeWork, isLoading];
+
+  GetAttendanceSuccess copyWith({
+    List<AttendanceEntity>? attendances,
+    AttendanceEntity? attendToday,
+    String? activeWork,
+    bool? isLoading,
+  }) {
+    return GetAttendanceSuccess(
+      attendances: attendances ?? this.attendances,
+      attendToday: attendToday ?? this.attendToday,
+      activeWork: activeWork ?? this.activeWork,
+      isLoading: isLoading ?? this.isLoading,
+    );
+  }
 }
 
-final class AttendFailed extends AttendanceState {
+final class GetAttendanceFailed extends AttendanceState {
   final String message;
 
-  const AttendFailed(this.message);
-
-  @override
-  List<Object?> get props => [message];
-}
-
-final class CheckOutSuccess extends AttendanceState {
-  final AttendanceEntity attendance;
-
-  const CheckOutSuccess(this.attendance);
-  @override
-  List<Object?> get props => [];
-}
-
-final class CheckOutFailed extends AttendanceState {
-  final String message;
-
-  const CheckOutFailed(this.message);
-
-  @override
-  List<Object?> get props => [message];
-}
-
-final class AttendCheckerSuccess extends AttendanceState {
-  final AttendanceEntity attendance;
-
-  const AttendCheckerSuccess(this.attendance);
-  @override
-  List<Object?> get props => [];
-}
-
-final class AttendCheckerFailed extends AttendanceState {
-  final String message;
-
-  const AttendCheckerFailed(this.message);
+  const GetAttendanceFailed(this.message);
 
   @override
   List<Object?> get props => [message];

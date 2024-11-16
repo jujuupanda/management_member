@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../core/utils/bloc_function.dart';
+import '../../../../core/utils/sorting_filter_object.dart';
 import '../../../../core/utils/utils.dart';
+import '../../../attendance/presentation/manager/attendance_bloc.dart';
+import '../widgets/widget_attendance_recap.dart';
+import '../widgets/widget_shimmer_home.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,6 +18,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void didChangeDependencies() {
+    BlocFunction().getAttendance(context);
+    BlocFunction().getProfile(context);
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,16 +76,46 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Gap(10.h),
-                Center(
-                  child: Container(
-                    height: 200,
-                    width: 400,
-                    decoration: BoxDecoration(
-                      color: PaletteColor().white,
-                      border: Border.all(color: PaletteColor().softBlue1),
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                  ),
+                BlocBuilder<AttendanceBloc, AttendanceState>(
+                  builder: (context, state) {
+                    if (state is GetAttendanceSuccess) {
+                      final attendance = state.attendances!;
+                      return Center(
+                        child: Container(
+                          height: 200,
+                          width: 400,
+                          decoration: BoxDecoration(
+                            color: PaletteColor().white,
+                            border: Border.all(color: PaletteColor().softBlue1),
+                            borderRadius: BorderRadius.circular(8.r),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "stream get attendance success ${attendance.length}",
+                              style: StyleText().openSansBigValueBlack,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    return Center(
+                      child: Container(
+                        height: 200,
+                        width: 400,
+                        decoration: BoxDecoration(
+                          color: PaletteColor().white,
+                          border: Border.all(color: PaletteColor().softBlue1),
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: Center(
+                          child: Text(
+                            state.toString(),
+                            style: StyleText().openSansBigValueBlack,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -89,133 +132,44 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 Gap(10.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: 140.h,
-                      width: 120.w,
-                      decoration: BoxDecoration(
-                        color: PaletteColor().white,
-                        border: Border.all(color: PaletteColor().softBlue1),
-                        borderRadius: BorderRadius.circular(8.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            spreadRadius: 2,
-                            blurRadius: 2,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 70.h,
-                            width: 70.w,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: PaletteColor().greenPresence,
+                BlocBuilder<AttendanceBloc, AttendanceState>(
+                  builder: (context, state) {
+                    if (state is GetAttendanceSuccess) {
+                      if (state.isLoading == false) {
+                        final attendances = state.attendances;
+                        final absentAttend =
+                            SortingFilterObject().absentAttendFilter(
+                          stringStartDate: state.activeWork!,
+                          attendanceList: attendances!,
+                        );
+                        final lateAttend = SortingFilterObject()
+                            .attendanceLateFilter(
+                                attendances: attendances, hour: 8, minute: 0);
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            WidgetAttendanceRecap(
+                              name: "Hadir",
+                              value: attendances.length.toString(),
+                              identifiedAs: "present",
                             ),
-                            child: Center(
-                              child: Text(
-                                "10",
-                                style: StyleText().openSansBigValueWhite,
-                              ),
+                            WidgetAttendanceRecap(
+                              name: "Terlambat",
+                              value: lateAttend.length.toString(),
+                              identifiedAs: "late",
                             ),
-                          ),
-                          Gap(10.h),
-                          Text(
-                            "Hadir",
-                            style: StyleText().openSansTitleBlack,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 140.h,
-                      width: 120.w,
-                      decoration: BoxDecoration(
-                        color: PaletteColor().white,
-                        border: Border.all(color: PaletteColor().softBlue1),
-                        borderRadius: BorderRadius.circular(8.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            spreadRadius: 2,
-                            blurRadius: 2,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 70.h,
-                            width: 70.w,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: PaletteColor().yellowPresence,
+                            WidgetAttendanceRecap(
+                              name: "Tidak Hadir",
+                              value: absentAttend.length.toString(),
+                              identifiedAs: "absent",
                             ),
-                            child: Center(
-                              child: Text(
-                                "10",
-                                style: StyleText().openSansBigValueWhite,
-                              ),
-                            ),
-                          ),
-                          Gap(10.h),
-                          Text(
-                            "Terlambat",
-                            style: StyleText().openSansTitleBlack,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 140.h,
-                      width: 120.w,
-                      decoration: BoxDecoration(
-                        color: PaletteColor().white,
-                        border: Border.all(color: PaletteColor().softBlue1),
-                        borderRadius: BorderRadius.circular(8.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            spreadRadius: 2,
-                            blurRadius: 2,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 70.h,
-                            width: 70.w,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: PaletteColor().redPresence,
-                            ),
-                            child: Center(
-                              child: Text(
-                                "10",
-                                style: StyleText().openSansBigValueWhite,
-                              ),
-                            ),
-                          ),
-                          Gap(10.h),
-                          Text(
-                            "Tidak Hadir",
-                            style: StyleText().openSansTitleBlack,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                          ],
+                        );
+                      }
+                      return WidgetShimmerHome().attendanceRecapShimmer();
+                    }
+                    return WidgetShimmerHome().attendanceRecapShimmer();
+                  },
                 ),
                 Gap(20.h),
                 Row(

@@ -24,3 +24,9 @@ class CacheFailure extends Failure {
 
   CacheFailure(this.message);
 }
+
+class GeoLocatorFailure extends Failure {
+  final String message;
+
+  GeoLocatorFailure(this.message);
+}

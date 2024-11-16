@@ -5,6 +5,7 @@ import 'features/attendance/data/repositories/attendance_repository_impl.dart';
 import 'features/attendance/domain/use_cases/attend_checker_use_case.dart';
 import 'features/attendance/domain/use_cases/check_in_use_case.dart';
 import 'features/attendance/domain/use_cases/check_out_use_case.dart';
+import 'features/attendance/domain/use_cases/get_attendance_use_case.dart';
 import 'features/attendance/presentation/manager/attendance_bloc.dart';
 import 'features/login/data/data_sources/auth_remote_data_source.dart';
 import 'features/login/data/repositories/auth_repository_impl.dart';
@@ -73,12 +74,17 @@ void serviceLocator() async {
     ),
   );
   getIt.registerLazySingleton<CheckOutUseCase>(
-        () => CheckOutUseCase(
+    () => CheckOutUseCase(
       getIt<AttendanceRepositoryImpl>(),
     ),
   );
   getIt.registerLazySingleton<AttendCheckerUseCase>(
-        () => AttendCheckerUseCase(
+    () => AttendCheckerUseCase(
+      getIt<AttendanceRepositoryImpl>(),
+    ),
+  );
+  getIt.registerLazySingleton<GetAttendanceUseCase>(
+    () => GetAttendanceUseCase(
       getIt<AttendanceRepositoryImpl>(),
     ),
   );
@@ -104,6 +110,7 @@ void serviceLocator() async {
       checkInUseCase: getIt<CheckInUseCase>(),
       checkOutUseCase: getIt<CheckOutUseCase>(),
       attendCheckerUseCase: getIt<AttendCheckerUseCase>(),
+      getAttendanceUseCase: getIt<GetAttendanceUseCase>(),
     ),
   );
 

@@ -4,6 +4,7 @@ class PaletteColor {
   Color white = const Color(0xFFf5f5f5);
   Color black = const Color(0xFF050505);
   Color grayToWhite = const Color(0xFFeaeaea);
+  Color gray = const Color(0xFF808080);
   Color blue1 = const Color(0xFF4d8afa);
   Color blue2 = const Color(0xFF29449e);
   Color softBlue1 = const Color(0xFF92b6f0);

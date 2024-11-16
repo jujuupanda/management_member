@@ -28,3 +28,8 @@ final class AttendCheckerEvent extends AttendanceEvent {
   @override
   List<Object?> get props => [];
 }
+
+final class GetAttendanceEvent extends AttendanceEvent {
+  @override
+  List<Object?> get props => [];
+}
