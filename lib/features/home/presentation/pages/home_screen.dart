@@ -79,8 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 BlocBuilder<AttendanceBloc, AttendanceState>(
                   builder: (context, state) {
                     if (state is GetAttendanceSuccess) {
-                      final attendance = state.attendances;
-
+                      final attendance = state.attendances!;
                       return Center(
                         child: Container(
                           height: 200,
@@ -135,42 +134,39 @@ class _HomeScreenState extends State<HomeScreen> {
                 Gap(10.h),
                 BlocBuilder<AttendanceBloc, AttendanceState>(
                   builder: (context, state) {
-                    print("HomeScreen");
-                    print(state);
-                    if (state is AttendanceLoading) {
-                      return WidgetShimmerHome().attendanceRecapShimmer();
-                    }
                     if (state is GetAttendanceSuccess) {
-                      final attendance = state.attendances;
-                      const activeWork = "2024-10-15 18:44:41.188637";
-                      final absentAttend =
-                          SortingFilterObject().absentAttendFilter(
-                        stringStartDate: activeWork,
-                        attendanceList: attendance,
-                      );
-                      final lateAttend = SortingFilterObject()
-                          .attendanceLateFilter(
-                              attendances: attendance, hour: 8, minute: 0);
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          WidgetAttendanceRecap(
-                            name: "Hadir",
-                            value: attendance.length.toString(),
-                            identifiedAs: "present",
-                          ),
-                          WidgetAttendanceRecap(
-                            name: "Terlambat",
-                            value: lateAttend.length.toString(),
-                            identifiedAs: "late",
-                          ),
-                          WidgetAttendanceRecap(
-                            name: "Tidak Hadir",
-                            value: absentAttend.length.toString(),
-                            identifiedAs: "absent",
-                          ),
-                        ],
-                      );
+                      if (state.isLoading == false) {
+                        final attendances = state.attendances;
+                        final absentAttend =
+                            SortingFilterObject().absentAttendFilter(
+                          stringStartDate: state.activeWork!,
+                          attendanceList: attendances!,
+                        );
+                        final lateAttend = SortingFilterObject()
+                            .attendanceLateFilter(
+                                attendances: attendances, hour: 8, minute: 0);
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            WidgetAttendanceRecap(
+                              name: "Hadir",
+                              value: attendances.length.toString(),
+                              identifiedAs: "present",
+                            ),
+                            WidgetAttendanceRecap(
+                              name: "Terlambat",
+                              value: lateAttend.length.toString(),
+                              identifiedAs: "late",
+                            ),
+                            WidgetAttendanceRecap(
+                              name: "Tidak Hadir",
+                              value: absentAttend.length.toString(),
+                              identifiedAs: "absent",
+                            ),
+                          ],
+                        );
+                      }
+                      return WidgetShimmerHome().attendanceRecapShimmer();
                     }
                     return WidgetShimmerHome().attendanceRecapShimmer();
                   },

@@ -40,8 +40,10 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   }
 
   checkIn(event, emit) async {
-    emit(AttendanceLoading());
-    // emit((state as GetAttendanceSuccess).copyWith(isLoading: true));
+    final currentState = state is GetAttendanceSuccess
+        ? state as GetAttendanceSuccess
+        : const GetAttendanceSuccess().copyWith();
+    emit(currentState.copyWith(isLoading: true));
     // get info
     final deviceInfo = await DeviceService().getDeviceInfo();
     final connectivityInfo = await ConnectivityService().getConnectivityInfo();
@@ -77,84 +79,68 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     checkedIn.fold(
       (l) {
         if (l is ServerFailure) {
-          print("check in l");
           emit(GetAttendanceFailed(l.message));
         }
       },
       (r) {
-        print("check in r");
-        final currentState = state is GetAttendanceSuccess
-            ? state as GetAttendanceSuccess
-            : const GetAttendanceSuccess(attendances: []);
         emit(currentState.copyWith(attendToday: r, isLoading: false));
       },
     );
   }
 
   checkOut(event, emit) async {
-    emit(AttendanceLoading());
-    // emit((state as GetAttendanceSuccess).copyWith(isLoading: true));
+    final currentState = state is GetAttendanceSuccess
+        ? state as GetAttendanceSuccess
+        : const GetAttendanceSuccess().copyWith();
+
+    emit(currentState.copyWith(isLoading: true));
     final checkOutParam = CheckOutParam(DateTime.now().toString());
     final checkedOut = await checkOutUseCase.call(checkOutParam);
     checkedOut.fold(
       (l) {
-        print("check out l");
         if (l is ServerFailure) {
           emit(GetAttendanceFailed(l.message));
         }
       },
       (r) {
-        print("check out r");
-        final currentState = state is GetAttendanceSuccess
-            ? state as GetAttendanceSuccess
-            : const GetAttendanceSuccess(attendances: []);
         emit(currentState.copyWith(attendToday: r, isLoading: false));
       },
     );
   }
 
   attendChecker(event, emit) async {
-    emit(AttendanceLoading());
-    // emit((state as GetAttendanceSuccess).copyWith(isLoading: true));
+    final currentState = state is GetAttendanceSuccess
+        ? state as GetAttendanceSuccess
+        : const GetAttendanceSuccess().copyWith();
+
+    emit(currentState.copyWith(isLoading: true));
     final attendedChecker = await attendCheckerUseCase.call(NoParam());
     attendedChecker.fold(
       (l) {
-        print("attend checker l");
-
-        final currentState = state is GetAttendanceSuccess
-            ? state as GetAttendanceSuccess
-            : const GetAttendanceSuccess(attendances: []);
-        emit(currentState.copyWith( isLoading: false));
+        emit(currentState.copyWith(isLoading: false));
       },
       (r) {
-        print("attend checker r");
-
-        final currentState = state is GetAttendanceSuccess
-            ? state as GetAttendanceSuccess
-            : const GetAttendanceSuccess(attendances: []);
         emit(currentState.copyWith(attendToday: r, isLoading: false));
       },
     );
   }
 
   getAttendance(event, emit) async {
-    emit(AttendanceLoading());
-    // emit((state as GetAttendanceSuccess).copyWith(isLoading: true));
+    final currentState = state is GetAttendanceSuccess
+        ? state as GetAttendanceSuccess
+        : const GetAttendanceSuccess().copyWith();
+    final activeWork = await SecureStorageService().retrieveString("activeWork");
+    emit(currentState.copyWith(isLoading: true));
     final getAttendances = getAttendanceUseCase.call(NoParam());
     await getAttendances.forEach(
       (element) => element.fold(
         (l) {
           if (l is ServerFailure) {
-            print("get attend l");
             emit(GetAttendanceFailed(l.message));
           }
         },
         (r) {
-          print("get attend r");
-          final currentState = state is GetAttendanceSuccess
-              ? state as GetAttendanceSuccess
-              : const GetAttendanceSuccess(attendances: []);
-          emit(currentState.copyWith(attendances: r, isLoading: false));
+          emit(currentState.copyWith(attendances: r, isLoading: false, activeWork: activeWork));
         },
       ),
     );

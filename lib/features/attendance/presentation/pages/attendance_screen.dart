@@ -39,7 +39,9 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: [
-                      const AttendanceInformationProfile(),
+                      GestureDetector(onTap: (){
+                        BlocFunction().attendChecker(context);
+                      },child: const AttendanceInformationProfile()),
                       Gap(12.h),
                       const AttendanceInformationAttend(),
                     ],

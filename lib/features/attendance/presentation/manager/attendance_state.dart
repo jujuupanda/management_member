@@ -15,18 +15,21 @@ final class AttendanceLoading extends AttendanceState {
 }
 
 final class GetAttendanceSuccess extends AttendanceState {
-  final List<AttendanceEntity> attendances;
+  final List<AttendanceEntity>? attendances;
   final AttendanceEntity? attendToday;
 
   final String? activeWork;
   final bool? isLoading;
 
   const GetAttendanceSuccess({
-    required this.attendances,
+    this.attendances = const [],
     this.attendToday,
     this.activeWork,
     this.isLoading = false,
   });
+
+  @override
+  List<Object?> get props => [attendances, attendToday, activeWork, isLoading];
 
   GetAttendanceSuccess copyWith({
     List<AttendanceEntity>? attendances,
@@ -41,9 +44,6 @@ final class GetAttendanceSuccess extends AttendanceState {
       isLoading: isLoading ?? this.isLoading,
     );
   }
-
-  @override
-  List<Object?> get props => [attendances, attendToday, activeWork, isLoading];
 }
 
 final class GetAttendanceFailed extends AttendanceState {
