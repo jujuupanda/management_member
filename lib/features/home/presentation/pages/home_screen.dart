@@ -19,10 +19,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
-  void didChangeDependencies() {
-    BlocFunction().getAttendance(context);
+  void initState() {
+    super.initState();
     BlocFunction().getProfile(context);
-    super.didChangeDependencies();
+    BlocFunction().getAttendance(context);
   }
 
   @override
@@ -79,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 BlocBuilder<AttendanceBloc, AttendanceState>(
                   builder: (context, state) {
                     if (state is GetAttendanceSuccess) {
+                      print(state);
                       final attendance = state.attendances!;
                       return Center(
                         child: Container(
@@ -137,9 +138,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (state is GetAttendanceSuccess) {
                       if (state.isLoading == false) {
                         final attendances = state.attendances;
+                        const activeWork = "2024-10-15 18:44:41.188637";
                         final absentAttend =
                             SortingFilterObject().absentAttendFilter(
-                          stringStartDate: state.activeWork!,
+                          stringStartDate: activeWork,
                           attendanceList: attendances!,
                         );
                         final lateAttend = SortingFilterObject()

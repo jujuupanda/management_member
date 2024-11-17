@@ -11,6 +11,7 @@ class ProfileRemoteDataSource extends ProfileDataSource {
 
   @override
   Future<Either<Failure, UserModel>> getProfile(params) async {
+
     try {
       final payloadUsername = await TokenService().jwtPayloadUsername();
       final responseUser = await firebaseDB
@@ -21,7 +22,7 @@ class ProfileRemoteDataSource extends ProfileDataSource {
           )
           .get();
       if (responseUser.docs.isNotEmpty) {
-        final resultUser = UserModel.fromJson(responseUser.docs.first.data());
+        final resultUser =  UserModel.fromJson(responseUser.docs.first.data());
         return Right(resultUser);
       }
       return Left(ServerFailure("Data pengguna tidak ditemukan"));

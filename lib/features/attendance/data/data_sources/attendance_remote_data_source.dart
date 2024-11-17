@@ -89,7 +89,7 @@ class AttendanceRemoteDataSource extends AttendanceDataSource {
         .collection("attendance");
     final responseAttend = docRef.snapshots();
     yield* responseAttend.map(
-      (snapshot) {
+          (snapshot) {
         try {
           final listAttendance = snapshot.docs
               .map((e) => AttendanceModel.fromJson(e.data()))
