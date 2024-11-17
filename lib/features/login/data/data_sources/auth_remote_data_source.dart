@@ -5,6 +5,7 @@ import '../../../../core/services/firebase_service.dart';
 import '../../../../core/services/secure_storage_service.dart';
 import '../../../../core/services/token_service.dart';
 import '../../../../core/shared/model/blank_model.dart';
+import '../../../profile/data/models/user_model.dart';
 import '../models/auth_model.dart';
 
 import 'auth_data_source.dart';
@@ -41,6 +42,21 @@ class AuthRemoteDataSource extends AuthDataSource {
                 "jwtToken": jwtToken,
                 "fcmToken": fcmToken,
               });
+              // await firebaseDB
+              //     .collection("users")
+              //     .where(
+              //       "username",
+              //       isEqualTo: params.username.toLowerCase(),
+              //     )
+              //     .get()
+              //     .then(
+              //   (value) async {
+              //     final responseUser =
+              //         UserModel.fromJson(value.docs.first.data());
+              //     await SecureStorageService()
+              //         .saveString("activeWork", responseUser.activeWork);
+              //   },
+              // );
             },
           );
           await SecureStorageService().saveToken(jwtToken);

@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/error/failure.dart';
 import '../../../../core/services/connectivity_service.dart';
 import '../../../../core/services/device_service.dart';
 import '../../../../core/services/secure_storage_service.dart';
@@ -78,9 +77,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     final checkedIn = await checkInUseCase.call(checkInParam);
     checkedIn.fold(
       (l) {
-        if (l is ServerFailure) {
-          emit(GetAttendanceFailed(l.message));
-        }
+        emit(currentState.copyWith(isLoading: false));
       },
       (r) {
         emit(currentState.copyWith(attendToday: r, isLoading: false));
@@ -98,9 +95,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     final checkedOut = await checkOutUseCase.call(checkOutParam);
     checkedOut.fold(
       (l) {
-        if (l is ServerFailure) {
-          emit(GetAttendanceFailed(l.message));
-        }
+        emit(currentState.copyWith(isLoading: false));
       },
       (r) {
         emit(currentState.copyWith(attendToday: r, isLoading: false));
@@ -129,18 +124,18 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     final currentState = state is GetAttendanceSuccess
         ? state as GetAttendanceSuccess
         : const GetAttendanceSuccess().copyWith();
-    final activeWork = await SecureStorageService().retrieveString("activeWork");
+    final activeWork =
+        await SecureStorageService().retrieveString("activeWork");
     emit(currentState.copyWith(isLoading: true));
     final getAttendances = getAttendanceUseCase.call(NoParam());
     await getAttendances.forEach(
       (element) => element.fold(
         (l) {
-          if (l is ServerFailure) {
-            emit(GetAttendanceFailed(l.message));
-          }
+          emit(currentState.copyWith(isLoading: false, activeWork: activeWork));
         },
         (r) {
-          emit(currentState.copyWith(attendances: r, isLoading: false, activeWork: activeWork));
+          emit(currentState.copyWith(
+              attendances: r, isLoading: false, activeWork: activeWork));
         },
       ),
     );
