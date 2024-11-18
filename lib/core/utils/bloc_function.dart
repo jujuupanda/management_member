@@ -43,4 +43,31 @@ class BlocFunction {
   getAttendance(BuildContext context) {
     context.read<AttendanceBloc>().add(GetAttendanceEvent());
   }
+
+  addUser(
+    BuildContext context,
+    String username,
+    String password,
+    String role,
+    String fullName,
+    String division,
+    String phone,
+    String activeWork,
+  ) {
+    context.read<ProfileBloc>().add(
+          AddUser(
+            username,
+            password,
+            role,
+            fullName,
+            division,
+            phone,
+            activeWork,
+          ),
+        );
+  }
+
+  initialProfile(BuildContext context) {
+    context.read<ProfileBloc>().add(InitialProfile());
+  }
 }

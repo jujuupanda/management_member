@@ -28,7 +28,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LogoutEvent>(logout);
   }
 
-  loginChecker(LoginCheckerEvent event, Emitter emit) async {
+  loginChecker(LoginCheckerEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
       final loginChecked = await loginCheckerUseCase.call(NoParam());
@@ -45,7 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  login(LoginEvent event, Emitter emit) async {
+  login(LoginEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
       final authCred = await loginUseCase.call(event.params);
@@ -64,7 +64,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  logout(LogoutEvent event, Emitter emit) async {
+  logout(LogoutEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
       final logout = await logoutUseCase.call(NoParam());

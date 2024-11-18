@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/routes/route_app.dart';
 import '../../../../core/utils/bloc_function.dart';
 import '../../../../core/widgets/custom_circle_loading.dart';
-import '../../../../core/widgets/page_header_notification.dart';
+import '../../../../core/widgets/page_header.dart';
 import '../../../login/presentation/manager/auth_bloc.dart';
 import '../../../../core/widgets/page_background.dart';
 import '../widgets/profile_information_body.dart';
@@ -24,7 +24,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     BlocFunction().getProfile(context);
-
     super.initState();
   }
 
@@ -46,10 +45,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const PageBackground(),
             Column(
               children: [
-                const PageHeaderNotification(),
+                const PageHeader(isAdmin: true,),
                 Gap(32.h),
                 const ProfileInformationHeader(),
-                Gap(24.h),
+                Gap(32.h),
                 Expanded(
                   child: ProfileInformationBody(
                     onTap: BlocFunction().logoutButton(context),

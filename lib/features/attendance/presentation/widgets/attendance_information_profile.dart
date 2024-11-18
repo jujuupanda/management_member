@@ -35,12 +35,12 @@ class AttendanceInformationProfile extends StatelessWidget {
         ),
         child: BlocBuilder<ProfileBloc, ProfileState>(
           builder: (context, state) {
-            if (state is ProfileLoading) {
-              return WidgetShimmerAttendance()
-                  .attendanceInformationProfileShimmer();
-            }
-            if (state is GetProfileSuccess) {
-              final dataUser = state.dataUser;
+            if (state is ProfileSuccessState) {
+              if(state.isLoading == true){
+                return WidgetShimmerAttendance()
+                    .attendanceInformationProfileShimmer();
+              }
+              final dataUser = state.dataUser!;
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -62,13 +62,14 @@ class AttendanceInformationProfile extends StatelessWidget {
                     style: StyleText().openSansBigValueBlack,
                   ),
                   Text(
-                    dataUser.status,
+                    dataUser.division,
                     style: StyleText().openSansTitleBlack,
                   ),
                   Gap(24.h),
                 ],
               );
             }
+
             return WidgetShimmerAttendance()
                 .attendanceInformationProfileShimmer();
           },

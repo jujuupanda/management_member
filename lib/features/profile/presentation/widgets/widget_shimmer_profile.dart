@@ -46,73 +46,78 @@ class WidgetShimmerProfile {
     );
   }
 
-  Column profileInformationBodyShimmer() {
-    return Column(
-      children: [
-        Gap(24.h),
-        ShimmerWidget(
-          child: WidgetInformationBody(
-            iconData: Icons.lock_outline,
-            name: "Kata Sandi",
-            value: "",
-            onTap: () {},
+  SingleChildScrollView profileInformationBodyShimmer() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: EdgeInsets.zero,
+      child: Column(
+        children: [
+          Gap(24.h),
+          ShimmerWidget(
+            child: WidgetInformationBody(
+              iconData: Icons.lock_outline,
+              name: "Kata Sandi",
+              value: "",
+              onTap: () {},
+            ),
           ),
-        ),
-        Gap(10.h),
-        ShimmerWidget(
-          child: WidgetInformationBody(
-            iconData: Icons.perm_contact_cal_outlined,
-            name: "Nama Pengguna",
-            value: "",
-            onTap: () {},
+          Gap(10.h),
+          ShimmerWidget(
+            child: WidgetInformationBody(
+              iconData: Icons.perm_contact_cal_outlined,
+              name: "Nama Pengguna",
+              value: "",
+              onTap: () {},
+            ),
           ),
-        ),
-        Gap(10.h),
-        ShimmerWidget(
-          child: WidgetInformationBody(
-            iconData: Icons.email_outlined,
-            name: "Email",
-            value: "",
-            onTap: () {},
+          Gap(10.h),
+          ShimmerWidget(
+            child: WidgetInformationBody(
+              iconData: Icons.email_outlined,
+              name: "Email",
+              value: "",
+              onTap: () {},
+            ),
           ),
-        ),
-        Gap(10.h),
-        ShimmerWidget(
-          child: WidgetInformationBody(
-            iconData: Icons.phone_outlined,
-            name: "Telepon",
-            value: "",
-            onTap: () {},
+          Gap(10.h),
+          ShimmerWidget(
+            child: WidgetInformationBody(
+              iconData: Icons.phone_outlined,
+              name: "Telepon",
+              value: "",
+              onTap: () {},
+            ),
           ),
-        ),
-        Gap(10.h),
-        ShimmerWidget(
-          child: WidgetInformationBody(
-            iconData: Icons.location_on_outlined,
-            name: "Alamat",
-            value: "",
-            onTap: () {},
+          Gap(10.h),
+          ShimmerWidget(
+            child: WidgetInformationBody(
+              iconData: Icons.location_on_outlined,
+              name: "Alamat",
+              value: "",
+              onTap: () {},
+            ),
           ),
-        ),
-        Gap(10.h),
-        ShimmerWidget(
-          child: WidgetInformationBody(
-            iconData: Icons.money,
-            name: "Gaji",
-            value: "",
-            onTap: () {},
+          Gap(10.h),
+          ShimmerWidget(
+            child: WidgetInformationBody(
+              iconData: Icons.money,
+              name: "Gaji",
+              value: "",
+              onTap: () {},
+            ),
           ),
-        ),
-        Gap(30.h),
-        ShimmerWidget(
-          child: WidgetInformationBody(
-            iconData: Icons.logout,
-            name: "Logout",
-            value: "",
-            onTap: () {},
+          Gap(30.h),
+          ShimmerWidget(
+            child: WidgetInformationBody(
+              iconData: Icons.logout,
+              name: "Logout",
+              value: "",
+              onTap: () {},
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
