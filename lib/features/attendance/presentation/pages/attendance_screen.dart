@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 
 import '../../../../core/utils/bloc_function.dart';
 import '../../../../core/widgets/page_background.dart';
-import '../../../../core/widgets/page_header_notification.dart';
+import '../../../../core/widgets/page_header.dart';
 import '../widgets/attendance_information_attend.dart';
 import '../widgets/attendance_information_profile.dart';
 
@@ -31,17 +31,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           const PageBackground(),
           Column(
             children: [
-              const PageHeaderNotification(),
+              const PageHeader(),
               Gap(32.h),
               RefreshIndicator(
-                onRefresh: () async {},
+                onRefresh: () async {
+                  BlocFunction().attendChecker(context);
+                },
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: [
-                      GestureDetector(onTap: (){
-                        BlocFunction().attendChecker(context);
-                      },child: const AttendanceInformationProfile()),
+                      const AttendanceInformationProfile(),
                       Gap(12.h),
                       const AttendanceInformationAttend(),
                     ],

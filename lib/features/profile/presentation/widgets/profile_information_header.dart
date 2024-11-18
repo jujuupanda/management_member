@@ -16,11 +16,11 @@ class ProfileInformationHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
-        if (state is ProfileLoading) {
-          return WidgetShimmerProfile().profileInformationHeaderShimmer();
-        }
-        if (state is GetProfileSuccess) {
-          final dataUser = state.dataUser;
+        if (state is ProfileSuccessState) {
+          if(state.isLoading == true){
+            return WidgetShimmerProfile().profileInformationHeaderShimmer();
+          }
+          final dataUser = state.dataUser!;
           return Column(
             children: [
               Container(
@@ -37,7 +37,7 @@ class ProfileInformationHeader extends StatelessWidget {
                 style: StyleText().openSansBigValueWhite,
               ),
               Text(
-                dataUser.status,
+                dataUser.division,
                 style: StyleText().openSansNormalWhite,
               ),
             ],

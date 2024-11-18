@@ -12,7 +12,7 @@ class GetProfileUseCase extends FutureUseCase<UserEntity, NoParam> {
   GetProfileUseCase(this.repository);
 
   @override
-  Future<Either<Failure, UserEntity>> call(params) async {
+  Future<Either<Failure, UserEntity>> call(NoParam params) async {
     return await repository.getProfile(params);
   }
 }

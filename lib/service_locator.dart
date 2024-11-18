@@ -15,6 +15,7 @@ import 'features/login/domain/use_cases/logout_use_case.dart';
 import 'features/login/presentation/manager/auth_bloc.dart';
 import 'features/profile/data/data_sources/profile_remote_data_source.dart';
 import 'features/profile/data/repositories/profile_repository_impl.dart';
+import 'features/profile/domain/use_cases/add_user_use_case.dart';
 import 'features/profile/domain/use_cases/get_profile_use_case.dart';
 import 'features/profile/presentation/manager/profile_bloc.dart';
 
@@ -67,6 +68,9 @@ void serviceLocator() async {
   getIt.registerLazySingleton<GetProfileUseCase>(
     () => GetProfileUseCase(getIt<ProfileRepositoryImpl>()),
   );
+  getIt.registerLazySingleton<AddUserUseCase>(
+        () => AddUserUseCase(getIt<ProfileRepositoryImpl>()),
+  );
   //Attendance
   getIt.registerLazySingleton<CheckInUseCase>(
     () => CheckInUseCase(
@@ -102,6 +106,7 @@ void serviceLocator() async {
   getIt.registerFactory<ProfileBloc>(
     () => ProfileBloc(
       getProfileUseCase: getIt<GetProfileUseCase>(),
+      addUserUseCase:  getIt<AddUserUseCase>(),
     ),
   );
   //Attendance

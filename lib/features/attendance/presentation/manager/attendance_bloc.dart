@@ -78,9 +78,11 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     checkedIn.fold(
       (l) {
         emit(currentState.copyWith(isLoading: false));
+        add(GetAttendanceEvent());
       },
       (r) {
         emit(currentState.copyWith(attendToday: r, isLoading: false));
+        add(GetAttendanceEvent());
       },
     );
   }

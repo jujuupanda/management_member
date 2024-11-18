@@ -7,6 +7,7 @@ import '../../features/login/presentation/pages/login_screen.dart';
 import '../../features/message/presentation/pages/message_screen.dart';
 import '../../features/navigation_bar/presentation/pages/bottom_navigation_bar.dart';
 import '../../features/news/presentation/pages/news_screen.dart';
+import '../../features/profile/presentation/pages/add_user_screen.dart';
 import '../../features/profile/presentation/pages/profile_screen.dart';
 import '../../features/splash/presentation/pages/splash_screen.dart';
 
@@ -34,6 +35,13 @@ final GoRouter routerApp = GoRouter(
       name: RouteName().login,
       builder: (context, state) {
         return const LoginScreen();
+      },
+    ),
+    GoRoute(
+      path: '/addUser',
+      name: RouteName().addUser,
+      builder: (context, state) {
+        return const AddUserScreen();
       },
     ),
 

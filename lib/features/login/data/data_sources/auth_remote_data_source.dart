@@ -39,24 +39,24 @@ class AuthRemoteDataSource extends AuthDataSource {
                   .collection("logins")
                   .doc(value.docs.first.id)
                   .update({
-                "jwtToken": jwtToken,
-                "fcmToken": fcmToken,
+                "jwt_token": jwtToken,
+                "fcm_token": fcmToken,
               });
-              // await firebaseDB
-              //     .collection("users")
-              //     .where(
-              //       "username",
-              //       isEqualTo: params.username.toLowerCase(),
-              //     )
-              //     .get()
-              //     .then(
-              //   (value) async {
-              //     final responseUser =
-              //         UserModel.fromJson(value.docs.first.data());
-              //     await SecureStorageService()
-              //         .saveString("activeWork", responseUser.activeWork);
-              //   },
-              // );
+              await firebaseDB
+                  .collection("users")
+                  .where(
+                    "username",
+                    isEqualTo: params.username.toLowerCase(),
+                  )
+                  .get()
+                  .then(
+                (value) async {
+                  final responseUser =
+                      UserModel.fromJson(value.docs.first.data());
+                  await SecureStorageService()
+                      .saveString("activeWork", responseUser.activeWork);
+                },
+              );
             },
           );
           await SecureStorageService().saveToken(jwtToken);
@@ -87,8 +87,8 @@ class AuthRemoteDataSource extends AuthDataSource {
               .collection("logins")
               .doc(value.docs.first.id)
               .update({
-            "jwtToken": "",
-            "fcmToken": "",
+            "jwt_token": "",
+            "fcm_token": "",
           });
         },
       );

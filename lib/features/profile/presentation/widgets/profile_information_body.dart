@@ -38,59 +38,64 @@ class ProfileInformationBody extends StatelessWidget {
       ),
       child: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
-          if (state is ProfileLoading) {
-            return WidgetShimmerProfile().profileInformationBodyShimmer();
-          }
-          if (state is GetProfileSuccess) {
-            final dataUser = state.dataUser;
-            return Column(
-              children: [
-                Gap(24.h),
-                WidgetInformationBody(
-                  iconData: Icons.perm_contact_cal_outlined,
-                  name: "Nama Pengguna",
-                  value: dataUser.username,
-                  onTap: () {},
-                ),
-                Gap(10.h),
-                WidgetInformationBody(
-                  iconData: Icons.email_outlined,
-                  name: "Email",
-                  value: dataUser.email,
-                  onTap: () {},
-                ),
-                Gap(10.h),
-                WidgetInformationBody(
-                  iconData: Icons.phone_outlined,
-                  name: "Telepon",
-                  value: dataUser.phone,
-                  onTap: () {},
-                ),
-                Gap(10.h),
-                WidgetInformationBody(
-                  iconData: Icons.location_on_outlined,
-                  name: "Alamat",
-                  value: dataUser.address,
-                  onTap: () {},
-                ),
-                Gap(10.h),
-                WidgetInformationBody(
-                  iconData: Icons.money,
-                  name: "Gaji",
-                  value:
-                      "Rp. ${ParsingString().formatCurrency(dataUser.salary)}",
-                  onTap: () {},
-                ),
-                Gap(10.h),
-                WidgetInformationBody(
-                  iconData: Icons.lock_outline,
-                  name: "Kata Sandi",
-                  value: "Ubah Kata Sandi",
-                  onTap: () {},
-                ),
-                Gap(30.h),
-                WidgetLogout(onTap: onTap),
-              ],
+          if (state is ProfileSuccessState) {
+            if(state.isLoading == true){
+              return WidgetShimmerProfile().profileInformationBodyShimmer();
+            }
+            final dataUser = state.dataUser!;
+            return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              child: Column(
+                children: [
+                  Gap(24.h),
+                  WidgetInformationBody(
+                    iconData: Icons.perm_contact_cal_outlined,
+                    name: "Nama Pengguna",
+                    value: dataUser.username,
+                    onTap: () {},
+                  ),
+                  Gap(10.h),
+                  WidgetInformationBody(
+                    iconData: Icons.email_outlined,
+                    name: "Email",
+                    value: dataUser.email,
+                    onTap: () {},
+                  ),
+                  Gap(10.h),
+                  WidgetInformationBody(
+                    iconData: Icons.phone_outlined,
+                    name: "Telepon",
+                    value: dataUser.phone,
+                    onTap: () {},
+                  ),
+                  Gap(10.h),
+                  WidgetInformationBody(
+                    iconData: Icons.location_on_outlined,
+                    name: "Alamat",
+                    value: dataUser.address,
+                    onTap: () {},
+                  ),
+                  Gap(10.h),
+                  WidgetInformationBody(
+                    iconData: Icons.money,
+                    name: "Gaji",
+                    value:
+                        "Rp. ${ParsingString().formatCurrency(dataUser.salary)}",
+                    onTap: () {},
+                  ),
+                  Gap(10.h),
+                  WidgetInformationBody(
+                    iconData: Icons.lock_outline,
+                    name: "Kata Sandi",
+                    value: "Ubah Kata Sandi",
+                    onTap: () {},
+                  ),
+                  Gap(30.h),
+                  WidgetLogout(onTap: onTap),
+                ],
+              ),
             );
           }
           return WidgetShimmerProfile().profileInformationBodyShimmer();

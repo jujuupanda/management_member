@@ -37,14 +37,15 @@ class _LoginFormFieldState extends State<LoginFormField> {
       validator: validator(),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-          border: const OutlineInputBorder(),
-          label: Text(
-            widget.label,
-            style: GoogleFonts.openSans(),
-          ),
-          hintText: widget.hint,
-          hintStyle: GoogleFonts.openSans(),
-          suffixIcon: suffixIcon()),
+        border: const OutlineInputBorder(),
+        label: Text(
+          widget.label,
+          style: GoogleFonts.openSans(),
+        ),
+        hintText: widget.hint,
+        hintStyle: GoogleFonts.openSans(),
+        suffixIcon: suffixIcon(),
+      ),
     );
   }
 

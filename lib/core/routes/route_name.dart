@@ -8,4 +8,5 @@ class RouteName {
   final attendance = "attendance";
   final message = "message";
   final profile = "profile";
+  final addUser = "addUser";
 }
