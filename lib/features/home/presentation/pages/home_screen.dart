@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/routes/route_app.dart';
 import '../../../../core/utils/bloc_function.dart';
 import '../../../../core/utils/sorting_filter_object.dart';
 import '../../../../core/utils/utils.dart';
@@ -33,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: AppBar(
           title: const Text("Aplikasi Kehadiran"),
           titleTextStyle: StyleText().openSansHeaderBlack,
-          backgroundColor: PaletteColor().softBlue1,
+          backgroundColor: PaletteColor().blue1,
           actions: [
             InkWell(
               onTap: () {
@@ -91,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              "stream get attendance success ${attendance.length}",
+                              "laporan grafik ${attendance.length}",
                               style: StyleText().openSansBigValueBlack,
                             ),
                           ),
@@ -136,32 +138,59 @@ class _HomeScreenState extends State<HomeScreen> {
                   builder: (context, state) {
                     if (state is GetAttendanceSuccess) {
                       if (state.isLoading == false) {
-                        final attendances = state.attendances;
-                        final absentAttend =
-                            SortingFilterObject().absentAttendFilter(
-                          stringStartDate: state.activeWork!,
-                          attendanceList: attendances!,
-                        );
-                        final lateAttend = SortingFilterObject()
+                        final attendances = state.attendances!;
+                        final attendanceSorted = SortingFilterObject()
+                            .attendanceSortingFilter(attendances: attendances);
+                        final attendancesLate = SortingFilterObject()
                             .attendanceLateFilter(
                                 attendances: attendances, hour: 8, minute: 0);
+                        final attendancesAbsent =
+                            SortingFilterObject().absentAttendFilter(
+                          stringStartDate: state.activeWork!,
+                          attendanceList: attendances,
+                        );
+
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            WidgetAttendanceRecap(
-                              name: "Hadir",
-                              value: attendances.length.toString(),
-                              identifiedAs: "present",
+                            GestureDetector(
+                              onTap: () {
+                                context.pushNamed(
+                                  RouteName().present,
+                                  extra: attendanceSorted,
+                                );
+                              },
+                              child: WidgetAttendanceRecap(
+                                name: "Hadir",
+                                value: attendanceSorted.length.toString(),
+                                identifiedAs: "present",
+                              ),
                             ),
-                            WidgetAttendanceRecap(
-                              name: "Terlambat",
-                              value: lateAttend.length.toString(),
-                              identifiedAs: "late",
+                            GestureDetector(
+                              onTap: () {
+                                context.pushNamed(
+                                  RouteName().late,
+                                  extra: attendancesLate,
+                                );
+                              },
+                              child: WidgetAttendanceRecap(
+                                name: "Terlambat",
+                                value: attendancesLate.length.toString(),
+                                identifiedAs: "late",
+                              ),
                             ),
-                            WidgetAttendanceRecap(
-                              name: "Tidak Hadir",
-                              value: absentAttend.length.toString(),
-                              identifiedAs: "absent",
+                            GestureDetector(
+                              onTap: () {
+                                context.pushNamed(
+                                  RouteName().absent,
+                                  extra: attendancesAbsent,
+                                );
+                              },
+                              child: WidgetAttendanceRecap(
+                                name: "Tidak Hadir",
+                                value: attendancesAbsent.length.toString(),
+                                identifiedAs: "absent",
+                              ),
                             ),
                           ],
                         );
