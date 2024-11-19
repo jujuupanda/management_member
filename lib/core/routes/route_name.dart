@@ -9,4 +9,7 @@ class RouteName {
   final message = "message";
   final profile = "profile";
   final addUser = "addUser";
+  final absent = "absent";
+  final present = "present";
+  final late = "late";
 }

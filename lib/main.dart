@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'core/services/firebase_service.dart';
 import 'core/services/geo_location_service.dart';
 import 'features/attendance/presentation/manager/attendance_bloc.dart';
@@ -18,6 +19,7 @@ void main() async {
   );
   await FirebaseService().initialFirebaseMessaging();
   GeoLocationService().getCurrentLocation();
+  await initializeDateFormatting('id_ID', null);
   runApp(const MyApp());
 
   serviceLocator();

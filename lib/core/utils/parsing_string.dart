@@ -13,15 +13,14 @@ class ParsingString {
     return clockString;
   }
 
-  String formatDateTimeComplete(String dateTimeString) {
+  String formatDateTimeIDFormat(String dateTimeString) {
     DateTime dateTime = DateTime.parse(dateTimeString);
-    String time = DateFormat('HH:mm').format(dateTime);
     String date = DateFormat('d MMMM yyyy', 'id_ID').format(dateTime);
-    return "$time, $date";
+    return date;
   }
 
   String formatDateTimeHHmm(String dateTimeString) {
-    if(dateTimeString == ""){
+    if (dateTimeString == "") {
       return "";
     }
     DateTime dateTime = DateTime.parse(dateTimeString);

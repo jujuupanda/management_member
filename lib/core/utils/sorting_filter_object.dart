@@ -40,6 +40,7 @@ class SortingFilterObject {
       });
     }).toList();
 
+    absentDates.sort((a, b) => b.compareTo(a)); // Descending filter
     return absentDates;
   }
 
@@ -54,6 +55,22 @@ class SortingFilterObject {
         return dateTime.hour > hour ||
             (dateTime.hour == hour && dateTime.minute > minute);
       },
-    ).toList();
+    ).toList()
+      ..sort((a, b) {
+        final dateTimeA = DateTime.parse(a.attendToday.checkIn);
+        final dateTimeB = DateTime.parse(b.attendToday.checkIn);
+        return dateTimeB.compareTo(dateTimeA); // Descending order
+      });
+  }
+
+  List<AttendanceEntity> attendanceSortingFilter({
+    required List<AttendanceEntity> attendances,
+  }) {
+    return attendances
+      ..sort((a, b) {
+        final dateTimeA = DateTime.parse(a.attendToday.checkIn);
+        final dateTimeB = DateTime.parse(b.attendToday.checkIn);
+        return dateTimeB.compareTo(dateTimeA); // Descending order
+      });
   }
 }

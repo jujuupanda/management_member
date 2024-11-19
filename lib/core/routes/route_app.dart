@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/attendance/domain/entities/attendance_entity.dart';
 import '../../features/attendance/presentation/pages/attendance_screen.dart';
+import '../../features/home/presentation/pages/absent_screen.dart';
 import '../../features/home/presentation/pages/home_screen.dart';
+import '../../features/home/presentation/pages/late_screen.dart';
+import '../../features/home/presentation/pages/present_screen.dart';
 import '../../features/login/presentation/pages/login_screen.dart';
 import '../../features/message/presentation/pages/message_screen.dart';
 import '../../features/navigation_bar/presentation/pages/bottom_navigation_bar.dart';
@@ -42,6 +46,33 @@ final GoRouter routerApp = GoRouter(
       name: RouteName().addUser,
       builder: (context, state) {
         return const AddUserScreen();
+      },
+    ),
+    GoRoute(
+      path: '/present',
+      name: RouteName().present,
+      builder: (context, state) {
+        return PresentScreen(
+          attendance: state.extra as List<AttendanceEntity>,
+        );
+      },
+    ),
+    GoRoute(
+      path: '/absent',
+      name: RouteName().absent,
+      builder: (context, state) {
+        return AbsentScreen(
+          attendance: state.extra as List<DateTime>,
+        );
+      },
+    ),
+    GoRoute(
+      path: '/late',
+      name: RouteName().late,
+      builder: (context, state) {
+        return LateScreen(
+          attendance: state.extra as List<AttendanceEntity>,
+        );
       },
     ),
 
