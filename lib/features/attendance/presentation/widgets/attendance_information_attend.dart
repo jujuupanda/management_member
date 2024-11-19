@@ -39,14 +39,16 @@ class AttendanceInformationAttend extends StatelessWidget {
         child: BlocBuilder<AttendanceBloc, AttendanceState>(
           builder: (context, state) {
             if (state is GetAttendanceSuccess) {
-              if (state.isLoading == false) {
-                final attendance = state.attendToday;
-                return attendance != null
-                    ? WidgetInformationWithData(attendance: attendance)
-                    : const WidgetInformationInitial();
+              if (state.isLoading == true) {
+                return WidgetShimmerAttendance()
+                    .attendanceInformationAttendShimmer();
               }
-              return WidgetShimmerAttendance()
-                  .attendanceInformationAttendShimmer();
+              if (state.attendToday == null) {
+                return const WidgetInformationInitial();
+              }
+              return WidgetInformationWithData(
+                  key: ValueKey(state.attendToday),
+                  attendance: state.attendToday!);
             }
             return WidgetShimmerAttendance()
                 .attendanceInformationAttendShimmer();

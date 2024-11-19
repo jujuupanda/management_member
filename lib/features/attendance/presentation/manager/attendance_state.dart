@@ -17,7 +17,6 @@ final class AttendanceLoading extends AttendanceState {
 final class GetAttendanceSuccess extends AttendanceState {
   final List<AttendanceEntity>? attendances;
   final AttendanceEntity? attendToday;
-
   final String? activeWork;
   final bool? isLoading;
 
@@ -33,13 +32,14 @@ final class GetAttendanceSuccess extends AttendanceState {
 
   GetAttendanceSuccess copyWith({
     List<AttendanceEntity>? attendances,
+    bool removeAttendToday = false,
     AttendanceEntity? attendToday,
     String? activeWork,
     bool? isLoading,
   }) {
     return GetAttendanceSuccess(
       attendances: attendances ?? this.attendances,
-      attendToday: attendToday ?? this.attendToday,
+      attendToday: removeAttendToday ? null : (attendToday ?? this.attendToday),
       activeWork: activeWork ?? this.activeWork,
       isLoading: isLoading ?? this.isLoading,
     );

@@ -58,26 +58,26 @@ class AttendanceRemoteDataSource extends AttendanceDataSource {
   }
 
   @override
-  Future<Either<Failure, AttendanceModel>> attendChecker(params) async {
-    try {
-      final docId = ParsingString().parsingTimeToYMD(DateTime.now().toString());
-      final payloadUsername = await TokenService().jwtPayloadUsername();
-      final docRef = firebaseDB
-          .collection("attendances")
-          .doc(payloadUsername)
-          .collection("attendance")
-          .doc(docId);
-      final responseAttend = await docRef.get();
-
-      if (responseAttend.exists) {
-        final resultAttend = AttendanceModel.fromJson(responseAttend.data()!);
-        return Right(resultAttend);
-      }
-      return Left(ServerFailure("Data presensi tidak ditemukan"));
-    } catch (e) {
-      return Left(
-          ServerFailure("Terjadi kesalahan saat mendapatkan info presensi"));
-    }
+  Stream<Either<Failure, AttendanceModel>> attendChecker(params) async* {
+    final docId = ParsingString().parsingTimeToYMD(DateTime.now().toString());
+    final payloadUsername = await TokenService().jwtPayloadUsername();
+    final docRef = firebaseDB
+        .collection("attendances")
+        .doc(payloadUsername)
+        .collection("attendance")
+        .doc(docId);
+    final responseAttend = docRef.snapshots();
+    yield* responseAttend.map(
+      (snapshot) {
+        try {
+          final attendance = AttendanceModel.fromJson(snapshot.data()!);
+          return Right(attendance);
+        } catch (e) {
+          return Left(ServerFailure(
+              "Terjadi kesalahan saat mendapatkan info presensi"));
+        }
+      },
+    );
   }
 
   @override
@@ -89,7 +89,7 @@ class AttendanceRemoteDataSource extends AttendanceDataSource {
         .collection("attendance");
     final responseAttend = docRef.snapshots();
     yield* responseAttend.map(
-          (snapshot) {
+      (snapshot) {
         try {
           final listAttendance = snapshot.docs
               .map((e) => AttendanceModel.fromJson(e.data()))

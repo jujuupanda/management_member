@@ -62,7 +62,6 @@ class WidgetInformationInitial extends StatelessWidget {
             ),
           ],
         ),
-        Gap(32.h),
       ],
     );
   }

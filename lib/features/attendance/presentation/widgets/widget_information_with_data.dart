@@ -21,7 +21,7 @@ class WidgetInformationWithData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Gap(12.h),
         const WidgetInformationTimer(),
@@ -82,7 +82,6 @@ class WidgetInformationWithData extends StatelessWidget {
             ),
           ],
         ),
-        Gap(32.h),
       ],
     );
   }
