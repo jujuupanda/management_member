@@ -17,10 +17,10 @@ class AttendanceScreen extends StatefulWidget {
 
 class _AttendanceScreenState extends State<AttendanceScreen> {
   @override
-  void initState() {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     BlocFunction().getProfile(context);
     BlocFunction().attendChecker(context);
-    super.initState();
   }
 
   @override
@@ -33,18 +33,20 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             children: [
               const PageHeader(),
               Gap(32.h),
-              RefreshIndicator(
-                onRefresh: () async {
-                  BlocFunction().attendChecker(context);
-                },
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    children: [
-                      const AttendanceInformationProfile(),
-                      Gap(12.h),
-                      const AttendanceInformationAttend(),
-                    ],
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    BlocFunction().attendChecker(context);
+                  },
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        const AttendanceInformationProfile(),
+                        Gap(12.h),
+                        const AttendanceInformationAttend()
+                      ],
+                    ),
                   ),
                 ),
               ),

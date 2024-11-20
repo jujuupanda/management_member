@@ -11,7 +11,7 @@ abstract class AttendanceDataSource {
 
   Future<Either<Failure, AttendanceModel>> checkOut(CheckOutParam params);
 
-  Future<Either<Failure, AttendanceModel>> attendChecker(NoParam params);
+  Stream<Either<Failure, AttendanceModel>> attendChecker(NoParam params);
 
   Stream<Either<Failure, List<AttendanceModel>>> getAttendance(NoParam params);
 }

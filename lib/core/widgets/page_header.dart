@@ -30,7 +30,7 @@ class _PageHeaderState extends State<PageHeader> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 70.h,
+      height: 100.h,
       width: MediaQuery.of(context).size.width,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,

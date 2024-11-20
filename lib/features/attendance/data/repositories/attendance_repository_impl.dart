@@ -29,12 +29,9 @@ class AttendanceRepositoryImpl extends AttendanceRepository {
   }
 
   @override
-  Future<Either<Failure, AttendanceEntity>> attendChecker(params) async {
-    final attendedChecker = await remoteDataSource.attendChecker(params);
-    return attendedChecker.fold(
-      (l) => Left(l),
-      (r) => Right(r),
-    );
+  Stream<Either<Failure, AttendanceEntity>> attendChecker(params) {
+    final attendedChecker = remoteDataSource.attendChecker(params);
+    return attendedChecker;
   }
 
   @override
