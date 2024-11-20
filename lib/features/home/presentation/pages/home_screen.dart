@@ -9,6 +9,8 @@ import '../../../../core/utils/bloc_function.dart';
 import '../../../../core/utils/sorting_filter_object.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../attendance/presentation/manager/attendance_bloc.dart';
+import '../widgets/attendance_chart_legend.dart';
+import '../widgets/pie_chart_attendance.dart';
 import '../widgets/widget_attendance_recap.dart';
 import '../widgets/widget_shimmer_home.dart';
 
@@ -61,7 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: RefreshIndicator(
         onRefresh: () async {
           BlocFunction().getAttendance(context);
-
         },
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -70,206 +71,241 @@ class _HomeScreenState extends State<HomeScreen> {
               vertical: 12.h,
               horizontal: 12.w,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Text(
-                    "Laporan Kehadiran",
-                    style: StyleText().openSansTitleBlack,
-                  ),
-                ),
-                Gap(10.h),
-                BlocBuilder<AttendanceBloc, AttendanceState>(
-                  builder: (context, state) {
-                    if (state is GetAttendanceSuccess) {
-                      final attendance = state.attendances!;
-                      return Center(
+            child: BlocBuilder<AttendanceBloc, AttendanceState>(
+              builder: (context, state) {
+                if (state is GetAttendanceSuccess) {
+                  if (state.isLoading == true) {
+                    return WidgetShimmerHome().homeScreenShimmer(context);
+                  }
+                  final attendances = state.attendances!;
+                  final attendanceSorted = SortingFilterObject()
+                      .attendanceSortingFilter(attendances: attendances);
+                  final attendanceLate =
+                      SortingFilterObject().attendanceLateFilter(
+                    attendances: attendances,
+                    hour: 8,
+                    minute: 0,
+                  );
+                  final attendanceAbsent =
+                      SortingFilterObject().absentAttendFilter(
+                    stringStartDate: state.activeWork!,
+                    attendanceList: attendances,
+                  );
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: PaletteColor().transparent,
+                        ),
+                        child: Stack(
+                          children: [
+                            Center(
+                              child: Text(
+                                "Laporan Kehadiran",
+                                style: StyleText().openSansTitleBlack,
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.filter_alt),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Gap(10.h),
+                      Center(
                         child: Container(
-                          height: 200,
+                          height: 300,
                           width: 400,
                           decoration: BoxDecoration(
                             color: PaletteColor().white,
                             border: Border.all(color: PaletteColor().softBlue1),
                             borderRadius: BorderRadius.circular(8.r),
                           ),
-                          child: Center(
-                            child: Text(
-                              "laporan grafik ${attendance.length}",
-                              style: StyleText().openSansBigValueBlack,
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                    return Center(
-                      child: Container(
-                        height: 200,
-                        width: 400,
-                        decoration: BoxDecoration(
-                          color: PaletteColor().white,
-                          border: Border.all(color: PaletteColor().softBlue1),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: Center(
-                          child: Text(
-                            state.toString(),
-                            style: StyleText().openSansBigValueBlack,
+                          child: Stack(
+                            children: [
+                              PieChartAttendance(
+                                attendancePresent: attendanceSorted,
+                                attendanceLate: attendanceLate,
+                                attendanceAbsent: attendanceAbsent,
+                              ),
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 8.h,
+                                    horizontal: 8.w,
+                                  ),
+                                  child: Text(
+                                    "Semua Tanggal",
+                                    style: StyleText().openSansTitleBlack,
+                                  ),
+                                ),
+                              ),
+                              const AttendChartLegend(),
+                            ],
                           ),
                         ),
                       ),
-                    );
-                  },
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Kehadiranmu",
-                      style: StyleText().openSansTitleBlack,
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.filter_alt),
-                    )
-                  ],
-                ),
-                Gap(10.h),
-                BlocBuilder<AttendanceBloc, AttendanceState>(
-                  builder: (context, state) {
-                    if (state is GetAttendanceSuccess) {
-                      if (state.isLoading == false) {
-                        final attendances = state.attendances!;
-                        final attendanceSorted = SortingFilterObject()
-                            .attendanceSortingFilter(attendances: attendances);
-                        final attendancesLate = SortingFilterObject()
-                            .attendanceLateFilter(
-                                attendances: attendances, hour: 8, minute: 0);
-                        final attendancesAbsent =
-                            SortingFilterObject().absentAttendFilter(
-                          stringStartDate: state.activeWork!,
-                          attendanceList: attendances,
-                        );
-
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Gap(10.h),
+                      Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: PaletteColor().transparent,
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                context.pushNamed(
-                                  RouteName().present,
-                                  extra: attendanceSorted,
-                                );
-                              },
-                              child: WidgetAttendanceRecap(
-                                name: "Hadir",
-                                value: attendanceSorted.length.toString(),
-                                identifiedAs: "present",
-                              ),
+                            Text(
+                              "Kehadiranmu",
+                              style: StyleText().openSansTitleBlack,
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                context.pushNamed(
-                                  RouteName().late,
-                                  extra: attendancesLate,
-                                );
-                              },
-                              child: WidgetAttendanceRecap(
-                                name: "Terlambat",
-                                value: attendancesLate.length.toString(),
-                                identifiedAs: "late",
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                context.pushNamed(
-                                  RouteName().absent,
-                                  extra: attendancesAbsent,
-                                );
-                              },
-                              child: WidgetAttendanceRecap(
-                                name: "Tidak Hadir",
-                                value: attendancesAbsent.length.toString(),
-                                identifiedAs: "absent",
-                              ),
+                            const Spacer(),
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.help),
                             ),
                           ],
-                        );
-                      }
-                      return WidgetShimmerHome().attendanceRecapShimmer();
-                    }
-                    return WidgetShimmerHome().attendanceRecapShimmer();
-                  },
-                ),
-                Gap(20.h),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Pengajuan Izin",
-                      style: StyleText().openSansTitleBlack,
-                    ),
-                    const Spacer(),
-                    IconButton(onPressed: () {}, icon: const Icon(Icons.help))
-                  ],
-                ),
-                Gap(10.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      height: 140.h,
-                      width: 120.w,
-                      decoration: BoxDecoration(
-                          color: PaletteColor().white,
-                          border: Border.all(color: PaletteColor().softBlue1),
-                          borderRadius: BorderRadius.circular(8.r)),
-                    ),
-                    Container(
-                      height: 140.h,
-                      width: 120.w,
-                      decoration: BoxDecoration(
-                          color: PaletteColor().white,
-                          border: Border.all(color: PaletteColor().softBlue1),
-                          borderRadius: BorderRadius.circular(8.r)),
-                    ),
-                    Container(
-                      height: 140.h,
-                      width: 120.w,
-                      decoration: BoxDecoration(
-                          color: PaletteColor().white,
-                          border: Border.all(color: PaletteColor().softBlue1),
-                          borderRadius: BorderRadius.circular(8.r)),
-                    ),
-                  ],
-                ),
-                Gap(20.h),
-                Text(
-                  "Pengajuan Izin Terbaru",
-                  style: StyleText().openSansTitleBlack,
-                ),
-                ListView.builder(
-                  itemCount: 3,
-                  padding: EdgeInsets.symmetric(vertical: 8.h),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.h),
-                      child: Container(
-                        height: 140.h,
-                        width: 120.w,
-                        decoration: BoxDecoration(
-                          color: PaletteColor().white,
-                          border: Border.all(color: PaletteColor().softBlue1),
-                          borderRadius: BorderRadius.circular(8.r),
                         ),
                       ),
-                    );
-                  },
-                )
-              ],
+                      Gap(10.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              context.pushNamed(
+                                RouteName().present,
+                                extra: attendanceSorted,
+                              );
+                            },
+                            child: WidgetAttendanceRecap(
+                              name: "Hadir",
+                              value: attendanceSorted.length.toString(),
+                              identifiedAs: "present",
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              context.pushNamed(
+                                RouteName().late,
+                                extra: attendanceLate,
+                              );
+                            },
+                            child: WidgetAttendanceRecap(
+                              name: "Terlambat",
+                              value: attendanceLate.length.toString(),
+                              identifiedAs: "late",
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              context.pushNamed(
+                                RouteName().absent,
+                                extra: attendanceAbsent,
+                              );
+                            },
+                            child: WidgetAttendanceRecap(
+                              name: "Tidak Hadir",
+                              value: attendanceAbsent.length.toString(),
+                              identifiedAs: "absent",
+                            ),
+                          ),
+                        ],
+                      ),
+                      Gap(20.h),
+                      Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: PaletteColor().transparent,
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Pengajuan Izin",
+                              style: StyleText().openSansTitleBlack,
+                            ),
+                            const Spacer(),
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.help),
+                            )
+                          ],
+                        ),
+                      ),
+                      Gap(10.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            height: 140.h,
+                            width: 120.w,
+                            decoration: BoxDecoration(
+                                color: PaletteColor().white,
+                                border:
+                                    Border.all(color: PaletteColor().softBlue1),
+                                borderRadius: BorderRadius.circular(8.r)),
+                          ),
+                          Container(
+                            height: 140.h,
+                            width: 120.w,
+                            decoration: BoxDecoration(
+                                color: PaletteColor().white,
+                                border:
+                                    Border.all(color: PaletteColor().softBlue1),
+                                borderRadius: BorderRadius.circular(8.r)),
+                          ),
+                          Container(
+                            height: 140.h,
+                            width: 120.w,
+                            decoration: BoxDecoration(
+                                color: PaletteColor().white,
+                                border:
+                                    Border.all(color: PaletteColor().softBlue1),
+                                borderRadius: BorderRadius.circular(8.r)),
+                          ),
+                        ],
+                      ),
+                      Gap(20.h),
+                      Text(
+                        "Pengajuan Izin Terbaru",
+                        style: StyleText().openSansTitleBlack,
+                      ),
+                      ListView.builder(
+                        itemCount: 3,
+                        padding: EdgeInsets.symmetric(vertical: 8.h),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10.h),
+                            child: Container(
+                              height: 140.h,
+                              width: 120.w,
+                              decoration: BoxDecoration(
+                                color: PaletteColor().white,
+                                border:
+                                    Border.all(color: PaletteColor().softBlue1),
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    ],
+                  );
+                }
+                return WidgetShimmerHome().homeScreenShimmer(context);
+              },
             ),
           ),
         ),
