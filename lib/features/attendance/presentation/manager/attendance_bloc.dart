@@ -77,11 +77,15 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     final checkedIn = await checkInUseCase.call(checkInParam);
     checkedIn.fold(
       (l) {
-        emit(currentState.copyWith(isLoading: false));
+        emit(currentState.copyWith(
+          isLoading: false,
+        ));
       },
       (r) {
-        emit(currentState.copyWith(isLoading: false));
-        add(AttendCheckerEvent());
+        emit(currentState.copyWith(
+          attendToday: r,
+          isLoading: false,
+        ));
         add(GetAttendanceEvent());
       },
     );
@@ -98,14 +102,14 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     checkedOut.fold(
       (l) {
         emit(currentState.copyWith(
-          isLoading: false
+          isLoading: false,
         ));
       },
       (r) {
         emit(currentState.copyWith(
-          isLoading: false
+          attendToday: r,
+          isLoading: false,
         ));
-        add(AttendCheckerEvent());
         add(GetAttendanceEvent());
       },
     );
