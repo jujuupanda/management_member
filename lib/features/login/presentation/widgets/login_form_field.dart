@@ -3,12 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginFormField extends StatefulWidget {
-  const LoginFormField(
-      {super.key,
-      required this.controller,
-      required this.label,
-      required this.hint,
-      required this.identifiedAs});
+  const LoginFormField({
+    super.key,
+    required this.controller,
+    required this.label,
+    required this.hint,
+    required this.identifiedAs,
+  });
 
   final TextEditingController controller;
   final String label, hint, identifiedAs;
