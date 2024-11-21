@@ -19,6 +19,12 @@ class ParsingString {
     return date;
   }
 
+  String formatDateTimeIDOnlyMonthYear(String dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    String date = DateFormat('MMMM yyyy', 'id_ID').format(dateTime);
+    return date;
+  }
+
   String formatDateTimeHHmm(String dateTimeString) {
     if (dateTimeString == "") {
       return "";

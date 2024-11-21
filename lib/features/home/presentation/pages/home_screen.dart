@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 import '../../../../core/routes/route_app.dart';
 import '../../../../core/utils/bloc_function.dart';
+import '../../../../core/utils/parsing_string.dart';
 import '../../../../core/utils/sorting_filter_object.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../attendance/presentation/manager/attendance_bloc.dart';
@@ -22,10 +24,42 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  DateTime? selectedDate = DateTime.now();
+
   @override
   void initState() {
     super.initState();
     BlocFunction().getAttendance(context);
+  }
+
+  Future<void> monthPicker(BuildContext contexto) async {
+    return await showMonthPicker(
+      context: contexto,
+      firstDate: DateTime(DateTime.now().year - 2, 5),
+      lastDate: DateTime(DateTime.now().year + 2, 9),
+      initialDate: selectedDate ?? DateTime.now(),
+      confirmWidget: Text(
+        'Pilih',
+        style: StyleText().openSansTitleBlack,
+      ),
+      cancelWidget: Text(
+        'Batal',
+        style: StyleText().openSansTitleBlack,
+      ),
+      monthPickerDialogSettings: MonthPickerDialogSettings(
+        headerSettings: PickerHeaderSettings(
+          headerBackgroundColor: Colors.blueAccent,
+          headerCurrentPageTextStyle: StyleText().openSansTitleWhite,
+          headerSelectedIntervalTextStyle: StyleText().openSansTitleWhite,
+        ),
+      ),
+    ).then((DateTime? date) {
+      if (date != null) {
+        setState(() {
+          selectedDate = date;
+        });
+      }
+    });
   }
 
   @override
@@ -78,18 +112,30 @@ class _HomeScreenState extends State<HomeScreen> {
                     return WidgetShimmerHome().homeScreenShimmer(context);
                   }
                   final attendances = state.attendances!;
-                  final attendanceSorted = SortingFilterObject()
-                      .attendanceSortingFilter(attendances: attendances);
+                  final attendanceSorted = selectedDate != null
+                      ? attendances
+                          .where((date) =>
+                              DateTime.parse(date.attendToday.timeStamp).year ==
+                                  selectedDate!.year &&
+                              DateTime.parse(date.attendToday.timeStamp)
+                                      .month ==
+                                  selectedDate!.month)
+                          .toList()
+                      : attendances;
+
+                  final attendancePresent = SortingFilterObject()
+                      .attendanceSortingFilter(attendances: attendanceSorted);
                   final attendanceLate =
                       SortingFilterObject().attendanceLateFilter(
-                    attendances: attendances,
+                    attendances: attendanceSorted,
                     hour: 8,
                     minute: 0,
                   );
                   final attendanceAbsent =
                       SortingFilterObject().absentAttendFilter(
-                    stringStartDate: state.activeWork!,
-                    attendanceList: attendances,
+                    startDate: selectedDate ,
+                    activeWork: state.activeWork!,
+                    attendanceList: attendanceSorted,
                   );
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,13 +154,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: StyleText().openSansTitleBlack,
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.filter_alt),
-                              ),
-                            )
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                selectedDate != null
+                                    ? IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            selectedDate = null;
+                                          });
+                                        },
+                                        icon: const Icon(Icons.close),
+                                      )
+                                    : const SizedBox(),
+                                IconButton(
+                                  onPressed: () {
+                                    monthPicker(context);
+                                  },
+                                  icon: const Icon(Icons.filter_alt),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -131,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Stack(
                             children: [
                               PieChartAttendance(
-                                attendancePresent: attendanceSorted,
+                                attendancePresent: attendancePresent,
                                 attendanceLate: attendanceLate,
                                 attendanceAbsent: attendanceAbsent,
                               ),
@@ -143,7 +204,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     horizontal: 8.w,
                                   ),
                                   child: Text(
-                                    "Semua Tanggal",
+                                    selectedDate != null
+                                        ? ParsingString()
+                                            .formatDateTimeIDOnlyMonthYear(
+                                                selectedDate.toString())
+                                        : "Semua Tanggal",
                                     style: StyleText().openSansTitleBlack,
                                   ),
                                 ),
@@ -183,12 +248,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTap: () {
                               context.pushNamed(
                                 RouteName().present,
-                                extra: attendanceSorted,
+                                extra: attendancePresent,
                               );
                             },
                             child: WidgetAttendanceRecap(
                               name: "Hadir",
-                              value: attendanceSorted.length.toString(),
+                              value: attendancePresent.length.toString(),
                               identifiedAs: "present",
                             ),
                           ),
