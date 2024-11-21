@@ -16,18 +16,77 @@ class SortingFilterObject {
 
   //daftar hadir
   List<DateTime> absentAttendFilter({
-    required String stringStartDate,
+    DateTime? startDate,
+    required String activeWork,
     required List<AttendanceEntity> attendanceList,
   }) {
     // value date
     final stringEndDate = DateTime.now().toString();
     //konversi string ke date time
-    final startDate = DateTime.parse(stringStartDate);
-    final endDate = DateTime.parse(stringEndDate);
+    final activeWorkDate = DateTime.parse(activeWork);
+    final endDateNow = DateTime.parse(stringEndDate);
+    if (startDate != null) {
+      final stringStartDate = startDate.toString();
+
+      final startSelectedDateInMonth = DateTime.parse(_getFirstDateOfMonthFormatted(stringStartDate));
+      final endSelectedDateInMonth =
+          DateTime.parse(_getLastDateOfMonthFormatted(stringStartDate));
+
+      //pengecekan tanggal yang tidak sesuai dengan active work
+      if (startSelectedDateInMonth.isBefore(activeWorkDate) &&
+          startSelectedDateInMonth.month == activeWorkDate.month) {
+        // Buat daftar semua tanggal antara startDate dan endDate
+        final allDates = List.generate(
+          endSelectedDateInMonth.difference(activeWorkDate).inDays + 1,
+          (index) => activeWorkDate.add(Duration(days: index)),
+        );
+        // Filter tanggal yang tidak ada di attendanceList
+        final absentDates = allDates.where((date) {
+          return !attendanceList.any((entity) {
+            final attendanceDate = DateTime.parse(entity.attendToday.timeStamp);
+            return attendanceDate.year == date.year &&
+                attendanceDate.month == date.month &&
+                attendanceDate.day == date.day;
+          });
+        }).toList();
+
+        absentDates.sort((a, b) => b.compareTo(a)); // Descending filter
+        return absentDates;
+      }
+      if (startSelectedDateInMonth.isBefore(activeWorkDate) &&
+          startSelectedDateInMonth.month != activeWorkDate.month) {
+        return [];
+      }
+      if (startSelectedDateInMonth.isAfter(activeWorkDate) &&
+          endDateNow.isAfter(startSelectedDateInMonth)) {
+        // Buat daftar semua tanggal antara startDate dan endDate
+        final allDates = List.generate(
+          endDateNow.difference(startSelectedDateInMonth).inDays + 1,
+          (index) => startSelectedDateInMonth.add(Duration(days: index)),
+        );
+        // Filter tanggal yang tidak ada di attendanceList
+        final absentDates = allDates.where((date) {
+          return !attendanceList.any((entity) {
+            final attendanceDate = DateTime.parse(entity.attendToday.timeStamp);
+            return attendanceDate.year == date.year &&
+                attendanceDate.month == date.month &&
+                attendanceDate.day == date.day;
+          });
+        }).toList();
+
+        absentDates.sort((a, b) => b.compareTo(a)); // Descending filter
+        return absentDates;
+      }
+      if (startSelectedDateInMonth.isAfter(activeWorkDate) &&
+          endDateNow.isBefore(startSelectedDateInMonth)) {
+        return [];
+      }
+    }
+
     // Buat daftar semua tanggal antara startDate dan endDate
     final allDates = List.generate(
-      endDate.difference(startDate).inDays + 1,
-      (index) => startDate.add(Duration(days: index)),
+      endDateNow.difference(activeWorkDate).inDays + 1,
+      (index) => activeWorkDate.add(Duration(days: index)),
     );
 
     // Filter tanggal yang tidak ada di attendanceList
@@ -73,4 +132,27 @@ class SortingFilterObject {
         return dateTimeB.compareTo(dateTimeA); // Descending order
       });
   }
+}
+
+String _getLastDateOfMonthFormatted(String inputDate) {
+  DateTime parsedDate = DateTime.parse(inputDate);
+  int year = parsedDate.year;
+  int month = parsedDate.month;
+
+  DateTime lastDate = DateTime(year, month + 1, 0);
+
+  // Format hasil
+  return "${lastDate.year}-${lastDate.month.toString().padLeft(2, '0')}-${lastDate.day.toString().padLeft(2, '0')} ${lastDate.hour.toString().padLeft(2, '0')}:${lastDate.minute.toString().padLeft(2, '0')}:${lastDate.second.toString().padLeft(2, '0')}.${lastDate.millisecond.toString().padLeft(3, '0')}";
+}
+
+String _getFirstDateOfMonthFormatted(String inputDate) {
+  DateTime parsedDate = DateTime.parse(inputDate);
+  int year = parsedDate.year;
+  int month = parsedDate.month;
+
+  // Tanggal pertama bulan tersebut
+  DateTime firstDate = DateTime(year, month, 1);
+
+  // Format hasil
+  return "${firstDate.year}-${firstDate.month.toString().padLeft(2, '0')}-${firstDate.day.toString().padLeft(2, '0')} ${firstDate.hour.toString().padLeft(2, '0')}:${firstDate.minute.toString().padLeft(2, '0')}:${firstDate.second.toString().padLeft(2, '0')}.${firstDate.millisecond.toString().padLeft(3, '0')}";
 }
