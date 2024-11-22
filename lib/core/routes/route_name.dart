@@ -12,4 +12,6 @@ class RouteName {
   final absent = "absent";
   final present = "present";
   final late = "late";
+  final editProfileInformation = "editProfileInformation";
+  final changeProfilePictureScreen = "changeProfilePictureScreen";
 }

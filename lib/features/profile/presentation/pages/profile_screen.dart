@@ -45,15 +45,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const PageBackground(),
             Column(
               children: [
-                const PageHeader(isAdmin: true,),
+                const PageHeader(
+                  isAdmin: true,
+                ),
                 Gap(32.h),
                 const ProfileInformationHeader(),
                 Gap(32.h),
-                Expanded(
-                  child: ProfileInformationBody(
-                    onTap: BlocFunction().logoutButton(context),
-                  ),
-                ),
+                const Expanded(child: ProfileInformationBody()),
               ],
             ),
             BlocBuilder<AuthBloc, AuthState>(
@@ -63,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 }
                 return const SizedBox();
               },
-            )
+            ),
           ],
         ),
       ),

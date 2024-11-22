@@ -50,9 +50,9 @@ class WidgetButtonAttendance extends StatelessWidget {
     if (isActive == true) {
       return BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
-        color: PaletteColor().blue1,
+        color: PaletteColor().softBlack,
         border: Border.all(
-          color: PaletteColor().blue1,
+          color: PaletteColor().softBlack,
         ),
       );
     } else {

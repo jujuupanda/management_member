@@ -17,7 +17,7 @@ class WidgetShimmerAttendance {
             width: 210.w,
             decoration: BoxDecoration(
               border: Border.all(
-                color: PaletteColor().blue1,
+                color: PaletteColor().softBlack,
               ),
               shape: BoxShape.circle,
               color: PaletteColor().white,
@@ -88,7 +88,7 @@ class WidgetAttendanceTimerForShimmer extends StatelessWidget {
         height: 45.h,
         width: 120.w,
         decoration: BoxDecoration(
-          border: Border.all(color: PaletteColor().blue1),
+          border: Border.all(color: PaletteColor().softBlack),
           borderRadius: BorderRadius.circular(12.r),
           color: PaletteColor().white,
         ),
@@ -109,7 +109,7 @@ class WidgetAttendanceButtonForShimmer extends StatelessWidget {
       width: 150.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
-        color: PaletteColor().blue1,
+        color: PaletteColor().softBlack,
       ),
     );
   }

@@ -67,7 +67,7 @@ class WidgetDialogEdit {
                             borderRadius: BorderRadius.circular(12.r),
                             border: Border.all(
                               width: 1.w,
-                              color: PaletteColor().blue1,
+                              color: PaletteColor().softBlack,
                             ),
                           ),
                           child: Material(
@@ -95,9 +95,9 @@ class WidgetDialogEdit {
                             borderRadius: BorderRadius.circular(12.r),
                             border: Border.all(
                               width: 1.w,
-                              color: PaletteColor().blue1,
+                              color: PaletteColor().softBlack,
                             ),
-                            color: PaletteColor().blue1,
+                            color: PaletteColor().softBlack,
                           ),
                           child: Material(
                             color: PaletteColor().transparent,

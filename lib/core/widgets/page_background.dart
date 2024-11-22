@@ -5,7 +5,10 @@ import '../utils/utils.dart';
 class PageBackground extends StatelessWidget {
   const PageBackground({
     super.key,
+    this.isWhite = false,
   });
+
+  final bool? isWhite;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,7 @@ class PageBackground extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: PaletteColor().blue1,
+        color: isWhite == true ? PaletteColor().white : PaletteColor().softBlack,
       ),
     );
   }

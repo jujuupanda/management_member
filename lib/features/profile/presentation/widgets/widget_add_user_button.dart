@@ -18,7 +18,7 @@ class WidgetAddUserButton extends StatelessWidget {
       width: 150.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.r),
-        color: PaletteColor().blue1,
+        color: PaletteColor().softBlack,
       ),
       child: Material(
         color: PaletteColor().transparent,
