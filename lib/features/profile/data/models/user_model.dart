@@ -43,4 +43,19 @@ class UserModel extends UserEntity {
       "division": division,
     };
   }
+
+  UserModel copyWith(Map<String, dynamic> updates) {
+    return UserModel(
+      username: updates["username"] ?? username,
+      fullName: updates["fullName"] ?? fullName,
+      status: updates["status"] ?? status,
+      email: updates["email"] ?? email,
+      phone: updates["phone"] ?? phone,
+      address: updates["address"] ?? address,
+      salary: updates["salary"] ?? salary,
+      image: updates["image"] ?? image,
+      activeWork: updates["activeWork"] ?? activeWork,
+      division: updates["division"] ?? division,
+    );
+  }
 }

@@ -10,12 +10,14 @@ class WidgetInformationBody extends StatelessWidget {
     required this.name,
     required this.value,
     required this.onTap,
+    this.isEdit = true,
   });
 
   final IconData iconData;
   final String name;
   final String value;
   final VoidCallback onTap;
+  final bool? isEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +46,20 @@ class WidgetInformationBody extends StatelessWidget {
                 Text(
                   value,
                   style: StyleText().openSansNormalBlack,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
           ),
-          IconButton(
-            onPressed: onTap,
-            icon: const Icon(
-              Icons.arrow_forward_ios_rounded,
-            ),
-          )
+          isEdit == true
+              ? IconButton(
+                  onPressed: onTap,
+                  icon: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                  ),
+                )
+              : const SizedBox(),
         ],
       ),
     );

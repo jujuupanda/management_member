@@ -33,7 +33,7 @@ class AttendanceInformationAttend extends StatelessWidget {
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
-          vertical: 12.h,
+          vertical: 20.h,
           horizontal: 12.w,
         ),
         child: BlocBuilder<AttendanceBloc, AttendanceState>(
@@ -47,7 +47,6 @@ class AttendanceInformationAttend extends StatelessWidget {
                 return const WidgetInformationInitial();
               }
               return WidgetInformationWithData(
-                  key: ValueKey(state.attendToday),
                   attendance: state.attendToday!);
             }
             return WidgetShimmerAttendance()
