@@ -7,6 +7,7 @@ import '../../../login/data/models/auth_model.dart';
 import '../../data/models/user_model.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/use_cases/add_user_use_case.dart';
+import '../../domain/use_cases/edit_profile_use_case.dart';
 import '../../domain/use_cases/get_profile_use_case.dart';
 
 part 'profile_event.dart';
@@ -16,14 +17,17 @@ part 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final GetProfileUseCase getProfileUseCase;
   final AddUserUseCase addUserUseCase;
+  final EditProfileUseCase editProfileUseCase;
 
   ProfileBloc({
     required this.getProfileUseCase,
     required this.addUserUseCase,
+    required this.editProfileUseCase,
   }) : super(ProfileInitial()) {
     on<ProfileEvent>((event, emit) {});
     on<GetProfile>(getProfile);
     on<AddUser>(addUser);
+    on<EditProfile>(editProfile);
     on<InitialProfile>(initialProfile);
   }
 
@@ -84,6 +88,41 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       },
       (r) {
         emit(currentState.copyWith(isLoading: false, messageFailed: ""));
+      },
+    );
+  }
+
+  editProfile(EditProfile event, Emitter<ProfileState> emit) async {
+    final currentState = state is ProfileSuccessState
+        ? state as ProfileSuccessState
+        : const ProfileSuccessState().copyWith();
+    emit(currentState.copyWith(isLoading: true));
+    final userModel = UserModel(
+      username: event.user.username,
+      fullName: event.user.fullName,
+      status: event.user.status,
+      email: event.user.email,
+      phone: event.user.phone,
+      address: event.user.address,
+      salary: event.user.salary,
+      image: event.user.image,
+      activeWork: event.user.activeWork,
+      division: event.user.division,
+    );
+    final toUpdate = userModel.copyWith(event.object);
+    final userUpdated =
+        await editProfileUseCase.call(EditProfileParam(toUpdate));
+    userUpdated.fold(
+      (l) {
+        if (l is ServerFailure) {
+          emit(currentState.copyWith(
+            isLoading: false,
+            messageFailed: l.message,
+          ));
+        }
+      },
+      (r) {
+        emit(currentState.copyWith(isLoading: false, dataUser: r));
       },
     );
   }

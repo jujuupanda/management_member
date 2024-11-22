@@ -4,6 +4,7 @@ import '../../../../core/services/token_service.dart';
 import '../../../../core/shared/model/blank_model.dart';
 import '../../../../core/shared/param/no_param.dart';
 import '../../domain/use_cases/add_user_use_case.dart';
+import '../../domain/use_cases/edit_profile_use_case.dart';
 import '../models/user_model.dart';
 import 'package:dartz/dartz.dart';
 
@@ -48,6 +49,30 @@ class ProfileRemoteDataSource extends ProfileDataSource {
       return Right(BlankModel());
     } catch (e) {
       return Left(ServerFailure("Terjadi kesalahan saat menambahkan data"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserModel>> editProfile(
+      EditProfileParam params) async {
+    try {
+      final payloadUsername = await TokenService().jwtPayloadUsername();
+      return await firebaseDB
+          .collection("users")
+          .where("username", isEqualTo: payloadUsername.toLowerCase())
+          .get()
+          .then(
+        (value) async {
+          final docRef = firebaseDB.collection("users").doc(
+                value.docs.first.id,
+              );
+          await docRef.update(params.user.toJson());
+          final userEdited = await docRef.get();
+          return Right(UserModel.fromJson(userEdited.data()!));
+        },
+      );
+    } catch (e) {
+      return Left(ServerFailure("Terjadi kesalahan saat mengubah profil"));
     }
   }
 }

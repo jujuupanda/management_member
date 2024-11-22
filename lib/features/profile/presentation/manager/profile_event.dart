@@ -40,6 +40,19 @@ final class AddUser extends ProfileEvent {
       ];
 }
 
+final class EditProfile extends ProfileEvent {
+  final UserEntity user;
+  final Map<String, dynamic> object;
+
+  const EditProfile(
+    this.user,
+    this.object,
+  );
+
+  @override
+  List<Object?> get props => [user, object];
+}
+
 final class InitialProfile extends ProfileEvent {
   @override
   List<Object?> get props => [];
