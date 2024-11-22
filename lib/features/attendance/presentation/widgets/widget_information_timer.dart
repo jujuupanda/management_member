@@ -46,7 +46,7 @@ class _WidgetInformationTimerState extends State<WidgetInformationTimer> {
         height: 45.h,
         width: 110.w,
         decoration: BoxDecoration(
-          border: Border.all(color: PaletteColor().blue1),
+          border: Border.all(color: PaletteColor().softBlack),
           borderRadius: BorderRadius.circular(12.r),
         ),
         child: Center(

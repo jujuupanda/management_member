@@ -34,7 +34,7 @@ class PopUpDialog {
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: selectedOption == 1
-                              ? PaletteColor().blue1
+                              ? PaletteColor().softBlack
                               : PaletteColor().gray,
                         ),
                         borderRadius: BorderRadius.circular(8),
@@ -69,7 +69,7 @@ class PopUpDialog {
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: selectedOption == 2
-                              ? PaletteColor().blue1
+                              ? PaletteColor().softBlack
                               : PaletteColor().gray,
                         ),
                         borderRadius: BorderRadius.circular(8),

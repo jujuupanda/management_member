@@ -1,11 +1,15 @@
 part of 'utils.dart';
 
 class PaletteColor {
+  // Color white = const Color(0xFFffffff);
   Color white = const Color(0xFFf5f5f5);
+  Color softGray = const Color(0xFFcccccc);
   Color black = const Color(0xFF050505);
   Color grayToWhite = const Color(0xFFeaeaea);
   Color gray = const Color(0xFF808080);
-  Color blue1 = const Color(0xFF4d8afa);
+  Color softBlack = const Color(0xFF414a4c);
+
+  // Color blue1 = const Color(0xFF4d8afa);
   Color blue2 = const Color(0xFF29449e);
   Color softBlue1 = const Color(0xFF92b6f0);
   Color softBlue2 = const Color(0xFFa0bff0);

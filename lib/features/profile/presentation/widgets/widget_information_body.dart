@@ -11,6 +11,7 @@ class WidgetInformationBody extends StatelessWidget {
     required this.value,
     required this.onTap,
     this.isEdit = true,
+    this.goDetail = false,
   });
 
   final IconData iconData;
@@ -18,6 +19,7 @@ class WidgetInformationBody extends StatelessWidget {
   final String value;
   final VoidCallback onTap;
   final bool? isEdit;
+  final bool? goDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -52,15 +54,27 @@ class WidgetInformationBody extends StatelessWidget {
               ],
             ),
           ),
-          isEdit == true
-              ? IconButton(
-                  onPressed: onTap,
-                  icon: const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                  ),
-                )
-              : const SizedBox(),
+          suffixIcon(),
         ],
+      ),
+    );
+  }
+  suffixIcon(){
+    if(isEdit == false){
+      return const SizedBox();
+    }
+    if(goDetail == true){
+      return IconButton(
+        onPressed: onTap,
+        icon: const Icon(
+          Icons.arrow_forward_ios_rounded,
+        ),
+      );
+    }
+    return IconButton(
+      onPressed: onTap,
+      icon: const Icon(
+        Icons.edit,
       ),
     );
   }

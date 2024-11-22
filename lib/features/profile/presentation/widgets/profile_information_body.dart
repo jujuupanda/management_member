@@ -13,12 +13,7 @@ import 'widget_logout.dart';
 import 'widget_shimmer_profile.dart';
 
 class ProfileInformationBody extends StatelessWidget {
-  const ProfileInformationBody({
-    super.key,
-    required this.onTap,
-  });
-
-  final VoidCallback onTap;
+  const ProfileInformationBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +133,7 @@ class ProfileInformationBody extends StatelessWidget {
                   WidgetInformationBody(
                     iconData: Icons.money,
                     name: "Gaji",
+                    goDetail: true,
                     value:
                         "Rp. ${ParsingString().formatCurrency(dataUser.salary)}",
                     onTap: () {},
@@ -147,10 +143,11 @@ class ProfileInformationBody extends StatelessWidget {
                     iconData: Icons.lock_outline,
                     name: "Kata Sandi",
                     value: "Ubah Kata Sandi",
+                    goDetail: true,
                     onTap: () {},
                   ),
                   Gap(30.h),
-                  WidgetLogout(onTap: onTap),
+                  WidgetLogout(onTap: BlocFunction().logoutButton(context)),
                 ],
               ),
             );

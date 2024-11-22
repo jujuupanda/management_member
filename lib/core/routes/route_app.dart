@@ -12,6 +12,8 @@ import '../../features/message/presentation/pages/message_screen.dart';
 import '../../features/navigation_bar/presentation/pages/bottom_navigation_bar.dart';
 import '../../features/news/presentation/pages/news_screen.dart';
 import '../../features/profile/presentation/pages/add_user_screen.dart';
+import '../../features/profile/presentation/pages/change_profile_picture_screen.dart';
+import '../../features/profile/presentation/pages/edit_profile_information_screen.dart';
 import '../../features/profile/presentation/pages/profile_screen.dart';
 import '../../features/splash/presentation/pages/splash_screen.dart';
 
@@ -73,6 +75,20 @@ final GoRouter routerApp = GoRouter(
         return LateScreen(
           attendance: state.extra as List<AttendanceEntity>,
         );
+      },
+    ),
+    GoRoute(
+      path: '/editProfileInformation',
+      name: RouteName().editProfileInformation,
+      builder: (context, state) {
+        return const EditProfileInformationScreen();
+      },
+    ),
+    GoRoute(
+      path: '/changeProfilePictureScreen',
+      name: RouteName().changeProfilePictureScreen,
+      builder: (context, state) {
+        return const ChangeProfilePictureScreen();
       },
     ),
 

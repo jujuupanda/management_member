@@ -11,10 +11,12 @@ class PageHeader extends StatefulWidget {
     super.key,
     this.isDetail = false,
     this.isAdmin = false,
+    this.changeProfilePicture = false,
   });
 
   final bool? isDetail;
   final bool? isAdmin;
+  final bool? changeProfilePicture;
 
   @override
   State<PageHeader> createState() => _PageHeaderState();
@@ -47,45 +49,81 @@ class _PageHeaderState extends State<PageHeader> {
                 )
               : const SizedBox(),
           const Spacer(),
-          widget.isAdmin == true
-              ? FutureBuilder(
-                  future: getRole(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const SizedBox();
-                    } else if (snapshot.hasError) {
-                      return const SizedBox();
-                    } else if (snapshot.hasData) {
-                      final role = snapshot.data!;
-                      if (role == "admin") {
-                        return IconButton(
-                          onPressed: () {
-                            context.pushNamed(RouteName().addUser);
-                          },
-                          icon: Icon(
-                            Icons.person_add,
-                            color: PaletteColor().white,
-                          ),
-                        );
-                      }
-                      return const SizedBox();
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                )
-              : const SizedBox(),
-          widget.isDetail == true
-              ? const SizedBox()
-              : IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.notifications,
-                    color: PaletteColor().white,
-                  ),
-                ),
+          isAdmin(),
+          changeProfilePicture(),
+          isDetail(),
         ],
       ),
     );
+  }
+
+  isDetail() {
+    if (widget.isDetail == true) {
+      return const SizedBox();
+    }
+
+    return IconButton(
+      onPressed: () {},
+      icon: Icon(
+        Icons.notifications,
+        color: PaletteColor().white,
+      ),
+    );
+  }
+
+  isAdmin() {
+    if (widget.isAdmin == true) {
+      return FutureBuilder(
+        future: getRole(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SizedBox();
+          } else if (snapshot.hasError) {
+            return const SizedBox();
+          } else if (snapshot.hasData) {
+            final role = snapshot.data!;
+            if (role == "admin") {
+              return IconButton(
+                onPressed: () {
+                  context.pushNamed(RouteName().addUser);
+                },
+                icon: Icon(
+                  Icons.person_add,
+                  color: PaletteColor().white,
+                ),
+              );
+            }
+            return const SizedBox();
+          } else {
+            return const SizedBox();
+          }
+        },
+      );
+    }
+    return const SizedBox();
+  }
+
+  changeProfilePicture() {
+    if (widget.changeProfilePicture == true) {
+      return Row(
+        children: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.edit,
+              color: PaletteColor().white,
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.delete,
+              color: PaletteColor().white,
+            ),
+          ),
+        ],
+      );
+    }
+    return const SizedBox();
   }
 }

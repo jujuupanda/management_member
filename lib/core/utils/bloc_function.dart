@@ -74,10 +74,7 @@ class BlocFunction {
     Map<String, dynamic> object,
   ) {
     context.read<ProfileBloc>().add(
-          EditProfile(
-            user,
-            object,
-          ),
+          EditProfile(user, object),
         );
   }
 
