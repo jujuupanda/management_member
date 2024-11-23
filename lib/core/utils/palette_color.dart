@@ -1,5 +1,6 @@
 part of 'utils.dart';
 
+
 class PaletteColor {
   // Color white = const Color(0xFFffffff);
   Color white = const Color(0xFFf5f5f5);

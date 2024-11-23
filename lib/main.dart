@@ -2,7 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'core/services/firebase_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'core/services/database_service.dart';
 import 'core/services/geo_location_service.dart';
 import 'features/attendance/presentation/manager/attendance_bloc.dart';
 import 'features/login/presentation/manager/auth_bloc.dart';
@@ -17,9 +18,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseService().initialFirebaseMessaging();
+  await Supabase.initialize(
+    url: 'https://npbfyuftzsgsrmxdfuph.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wYmZ5dWZ0enNnc3JteGRmdXBoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzE0MDUxMzIsImV4cCI6MjA0Njk4MTEzMn0.l0gLUev3x01pKTdKAUX_Y21_Y_XBI61dAxeGBVUu9Tc',
+  );
+  await DatabaseService().initialFirebaseMessaging();
   GeoLocationService().getCurrentLocation();
   await initializeDateFormatting('id_ID', null);
+
   runApp(const MyApp());
 
   serviceLocator();

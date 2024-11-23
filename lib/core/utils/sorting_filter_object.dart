@@ -1,4 +1,4 @@
-import '../../features/attendance/domain/entities/attendance_entity.dart';
+part of 'utils.dart';
 
 class SortingFilterObject {
   //bisa buat filter

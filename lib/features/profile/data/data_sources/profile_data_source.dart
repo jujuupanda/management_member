@@ -14,5 +14,4 @@ abstract class ProfileDataSource {
 
   Future<Either<Failure, UserModel>> editProfile(EditProfileParam params);
 
-  Future<Either<Failure, String>> uploadImage(NoParam params);
 }

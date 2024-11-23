@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/utils/bloc_function.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/page_background.dart';
 import '../../../../core/widgets/page_header.dart';

@@ -1,14 +1,14 @@
 import '../../../../core/error/failure.dart';
-import '../../../../core/services/firebase_service.dart';
+import '../../../../core/services/database_service.dart';
 import '../../../../core/services/token_service.dart';
-import '../../../../core/utils/parsing_string.dart';
+import '../../../../core/utils/utils.dart';
 import '../models/attendance_model.dart';
 import 'package:dartz/dartz.dart';
 
 import 'attendance_data_source.dart';
 
 class AttendanceRemoteDataSource extends AttendanceDataSource {
-  final firebaseDB = FirebaseService().firebaseFirestore;
+  final firebaseDB = DatabaseService().firebaseFirestore;
 
   @override
   Future<Either<Failure, AttendanceModel>> checkIn(params) async {
