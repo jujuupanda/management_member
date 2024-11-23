@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
+import '../../../../core/utils/pick_image.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/page_background.dart';
 import '../../../../core/widgets/page_header.dart';
@@ -46,20 +48,22 @@ class ChangeProfilePictureScreen extends StatelessWidget {
                 final dataUser = state.dataUser!;
                 return Stack(
                   children: [
-                    const PageHeader(
+                    PageHeader(
                       isDetail: true,
                       changeProfilePicture: true,
+                      editProfilePicture: () {
+                        PickImage().pickImage(ImageSource.gallery);
+                      },
+                      deleteProfilePicture: () {},
                     ),
-                    Expanded(
-                      child: Center(
-                        child: Hero(
-                          tag: "profilePicture",
-                          child: Container(
-                            height: MediaQuery.of(context).size.width,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              color: PaletteColor().white,
-                            ),
+                    Center(
+                      child: Hero(
+                        tag: "profilePicture",
+                        child: Container(
+                          height: MediaQuery.of(context).size.width,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: PaletteColor().white,
                           ),
                         ),
                       ),

@@ -75,4 +75,19 @@ class ProfileRemoteDataSource extends ProfileDataSource {
       return Left(ServerFailure("Terjadi kesalahan saat mengubah profil"));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> uploadImage(NoParam params) async {
+    try {
+      // Reference ref = _storageFirebase.ref(folderName).child(childName);
+      // UploadTask uploadTask = ref.putData(file);
+      // TaskSnapshot snapshot = await uploadTask;
+      // String downloadedUrl = await snapshot.ref.getDownloadURL();
+      // return downloadedUrl;
+      return Left(ServerFailure("Terjadi kesalahan saat mengunggah gambar"));
+
+    } catch (e) {
+      return Left(ServerFailure("Terjadi kesalahan saat mengunggah gambar"));
+    }
+  }
 }

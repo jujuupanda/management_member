@@ -216,11 +216,11 @@ class EditProfileWidget extends StatelessWidget {
                     children: [
                       Text(
                         name,
-                        style: StyleText().openSansNormalWhite,
+                        style: StyleText().openSansSmallWhite,
                       ),
                       Text(
                         value,
-                        style: StyleText().openSansTitleWhite,
+                        style: StyleText().openSansNormalWhite,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

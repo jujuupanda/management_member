@@ -12,11 +12,15 @@ class PageHeader extends StatefulWidget {
     this.isDetail = false,
     this.isAdmin = false,
     this.changeProfilePicture = false,
+    this.editProfilePicture,
+    this.deleteProfilePicture,
   });
 
   final bool? isDetail;
   final bool? isAdmin;
   final bool? changeProfilePicture;
+  final VoidCallback? editProfilePicture;
+  final VoidCallback? deleteProfilePicture;
 
   @override
   State<PageHeader> createState() => _PageHeaderState();
@@ -108,14 +112,14 @@ class _PageHeaderState extends State<PageHeader> {
       return Row(
         children: [
           IconButton(
-            onPressed: () {},
+            onPressed: widget.editProfilePicture,
             icon: Icon(
               Icons.edit,
               color: PaletteColor().white,
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: widget.deleteProfilePicture,
             icon: Icon(
               Icons.delete,
               color: PaletteColor().white,
