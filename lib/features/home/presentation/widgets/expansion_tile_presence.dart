@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/utils/parsing_string.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../attendance/domain/entities/attendance_entity.dart';
 import 'widget_expansion_tile_info.dart';

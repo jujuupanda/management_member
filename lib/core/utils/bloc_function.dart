@@ -1,10 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+part of 'utils.dart';
 
-import '../../features/attendance/presentation/manager/attendance_bloc.dart';
-import '../../features/login/presentation/manager/auth_bloc.dart';
-import '../../features/profile/domain/entities/user_entity.dart';
-import '../../features/profile/presentation/manager/profile_bloc.dart';
 
 class BlocFunction {
   //get user profile data

@@ -41,13 +41,4 @@ class ProfileRepositoryImpl extends ProfileRepository {
       (r) => Right(r),
     );
   }
-
-  @override
-  Future<Either<Failure, String>> uploadImage(NoParam params) async {
-    final imageUploaded = await remoteDataSource.uploadImage(params);
-    return imageUploaded.fold(
-      (l) => Left(l),
-      (r) => Right(r),
-    );
-  }
 }

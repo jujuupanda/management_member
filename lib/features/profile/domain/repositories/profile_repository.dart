@@ -14,5 +14,4 @@ abstract class ProfileRepository {
 
   Future<Either<Failure, UserEntity>> editProfile(EditProfileParam params);
 
-  Future<Either<Failure, String>> uploadImage(NoParam params);
 }

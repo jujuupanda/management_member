@@ -1,22 +1,17 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
+part of 'utils.dart';
 
-import 'utils.dart';
 
 class PickImage {
   final ImagePicker imagePicker = ImagePicker();
 
   pickImage(ImageSource source) async {
     try {
-      // Pilih gambar
       final XFile? pickedFile = await imagePicker.pickImage(
         source: source,
         imageQuality: 80,
       );
 
-      if (pickedFile == null) return;
+      if (pickedFile == null) return null;
 
       final croppedFile = await ImageCropper().cropImage(
         sourcePath: pickedFile.path,
@@ -34,20 +29,21 @@ class PickImage {
         ],
       );
       if (croppedFile != null) {
-        return croppedFile.readAsBytes();
+        return File(croppedFile.path);
       }
+      return null;
     } catch (e) {
       throw Exception(e);
     }
   }
 
-// upload image ke storage firebase
-// uploadImageToStorage(
-//     String folderName, String childName, Uint8List file) async {
-//   Reference ref = _storageFirebase.ref(folderName).child(childName);
-//   UploadTask uploadTask = ref.putData(file);
-//   TaskSnapshot snapshot = await uploadTask;
-//   String downloadedUrl = await snapshot.ref.getDownloadURL();
-//   return downloadedUrl;
-// }
+  pickImageAndUpload(String folderName) async {
+    final file = await PickImage().pickImage(ImageSource.gallery);
+    if (file != null) {
+      final stringUrlImage =
+          DatabaseService().uploadImageToStorage(folderName, file);
+      return stringUrlImage;
+    }
+    return null;
+  }
 }

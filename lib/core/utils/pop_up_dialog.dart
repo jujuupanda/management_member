@@ -1,10 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
+part of 'utils.dart';
 
-import '../services/geo_location_service.dart';
-import 'bloc_function.dart';
-import 'utils.dart';
 
 class PopUpDialog {
   void attendanceCheckInDialog(BuildContext context) {

@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/route_app.dart';
-import '../../../../core/utils/bloc_function.dart';
+import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/custom_circle_loading.dart';
 import '../../../../core/widgets/page_header.dart';
 import '../../../login/presentation/manager/auth_bloc.dart';
