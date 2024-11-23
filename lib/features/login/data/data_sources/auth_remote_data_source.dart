@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
-import '../../../../core/services/firebase_service.dart';
+import '../../../../core/services/database_service.dart';
 import '../../../../core/services/secure_storage_service.dart';
 import '../../../../core/services/token_service.dart';
 import '../../../../core/shared/model/blank_model.dart';
@@ -11,7 +11,7 @@ import '../models/auth_model.dart';
 import 'auth_data_source.dart';
 
 class AuthRemoteDataSource extends AuthDataSource {
-  final firebaseDB = FirebaseService().firebaseFirestore;
+  final firebaseDB = DatabaseService().firebaseFirestore;
 
   @override
   Future<Either<Failure, AuthModel>> login(params) async {

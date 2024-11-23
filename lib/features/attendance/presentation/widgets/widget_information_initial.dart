@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import '../../../../core/utils/pop_up_dialog.dart';
+import '../../../../core/utils/utils.dart';
 import 'widget_information_attend.dart';
 import 'widget_information_timer.dart';
 
-import '../../../../core/utils/bloc_function.dart';
 import 'widget_button_attendance.dart';
 
 class WidgetInformationInitial extends StatelessWidget {

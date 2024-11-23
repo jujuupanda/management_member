@@ -1,5 +1,5 @@
 import '../../../../core/error/failure.dart';
-import '../../../../core/services/firebase_service.dart';
+import '../../../../core/services/database_service.dart';
 import '../../../../core/services/token_service.dart';
 import '../../../../core/shared/model/blank_model.dart';
 import '../../../../core/shared/param/no_param.dart';
@@ -11,7 +11,8 @@ import 'package:dartz/dartz.dart';
 import 'profile_data_source.dart';
 
 class ProfileRemoteDataSource extends ProfileDataSource {
-  final firebaseDB = FirebaseService().firebaseFirestore;
+  final firebaseDB = DatabaseService().firebaseFirestore;
+  final supabaseStorage = DatabaseService().supabaseStorage;
 
   @override
   Future<Either<Failure, UserModel>> getProfile(NoParam params) async {
@@ -73,21 +74,6 @@ class ProfileRemoteDataSource extends ProfileDataSource {
       );
     } catch (e) {
       return Left(ServerFailure("Terjadi kesalahan saat mengubah profil"));
-    }
-  }
-
-  @override
-  Future<Either<Failure, String>> uploadImage(NoParam params) async {
-    try {
-      // Reference ref = _storageFirebase.ref(folderName).child(childName);
-      // UploadTask uploadTask = ref.putData(file);
-      // TaskSnapshot snapshot = await uploadTask;
-      // String downloadedUrl = await snapshot.ref.getDownloadURL();
-      // return downloadedUrl;
-      return Left(ServerFailure("Terjadi kesalahan saat mengunggah gambar"));
-
-    } catch (e) {
-      return Left(ServerFailure("Terjadi kesalahan saat mengunggah gambar"));
     }
   }
 }

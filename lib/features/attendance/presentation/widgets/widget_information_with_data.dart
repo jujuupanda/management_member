@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/utils/bloc_function.dart';
-import '../../../../core/utils/parsing_string.dart';
-import '../../../../core/utils/pop_up_dialog.dart';
+import '../../../../core/utils/utils.dart';
 import '../../domain/entities/attendance_entity.dart';
 import 'widget_button_attendance.dart';
 import 'widget_information_attend.dart';

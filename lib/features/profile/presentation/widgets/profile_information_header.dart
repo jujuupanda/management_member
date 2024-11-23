@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +7,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/route_app.dart';
 import '../../../../core/utils/utils.dart';
+import '../../../../core/widgets/custom_circle_loading.dart';
+import '../../domain/entities/user_entity.dart';
 import '../manager/profile_bloc.dart';
 import 'widget_shimmer_profile.dart';
 
@@ -35,12 +38,13 @@ class ProfileInformationHeader extends StatelessWidget {
                 Hero(
                   tag: "profilePicture",
                   child: Container(
-                    height: 120.h,
-                    width: 120.w,
+                    height: 190.h,
+                    width: 190.w,
                     decoration: BoxDecoration(
                       color: PaletteColor().white,
                       shape: BoxShape.circle,
                     ),
+                    child: imageLoader(dataUser),
                   ),
                 ),
                 Gap(12.h),
@@ -64,6 +68,30 @@ class ProfileInformationHeader extends StatelessWidget {
           );
         }
         return WidgetShimmerProfile().profileInformationHeaderShimmer();
+      },
+    );
+  }
+
+  CachedNetworkImage imageLoader(UserEntity dataUser) {
+    return CachedNetworkImage(
+      imageUrl: dataUser.image,
+      fit: BoxFit.cover,
+      imageBuilder: (context, imageProvider) {
+        return CircleAvatar(
+          backgroundImage: NetworkImage(
+            dataUser.image,
+          ),
+        );
+      },
+      placeholder: (context, url) {
+        return const CustomCircleLoading();
+      },
+      errorWidget: (context, url, error) {
+        return CircleAvatar(
+          backgroundImage: AssetImage(
+            NamedString().noProfilePicture,
+          ),
+        );
       },
     );
   }

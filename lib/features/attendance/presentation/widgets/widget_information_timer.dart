@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/utils/parsing_string.dart';
 import '../../../../core/utils/utils.dart';
 
 class WidgetInformationTimer extends StatefulWidget {
