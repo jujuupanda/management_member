@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/utils.dart';
-import '../../../../core/widgets/custom_circle_loading.dart';
 import '../../../../core/widgets/page_background.dart';
 import '../../../../core/widgets/page_header.dart';
 import '../../domain/entities/user_entity.dart';
@@ -68,7 +66,7 @@ class _ChangeProfilePictureScreenState
                             decoration: BoxDecoration(
                               color: PaletteColor().white,
                             ),
-                            child: imageLoader(dataUser),
+                            child: ImageLoader().imageLoaderSquare(dataUser),
                           ),
                         ),
                       ),
@@ -93,7 +91,7 @@ class _ChangeProfilePictureScreenState
                           decoration: BoxDecoration(
                             color: PaletteColor().white,
                           ),
-                          child: imageLoader(dataUser),
+                          child: ImageLoader().imageLoaderSquare(dataUser),
                         ),
                       ),
                     ),
@@ -105,28 +103,6 @@ class _ChangeProfilePictureScreenState
           ),
         ],
       ),
-    );
-  }
-
-  CachedNetworkImage imageLoader(UserEntity dataUser) {
-    return CachedNetworkImage(
-      imageUrl: dataUser.image,
-      fit: BoxFit.cover,
-      imageBuilder: (context, imageProvider) {
-        return Image.network(
-          dataUser.image,
-          fit: BoxFit.cover,
-        );
-      },
-      placeholder: (context, url) {
-        return const CustomCircleLoading();
-      },
-      errorWidget: (context, url, error) {
-        return Image.asset(
-          NamedString().noProfilePicture,
-          fit: BoxFit.cover,
-        );
-      },
     );
   }
 }

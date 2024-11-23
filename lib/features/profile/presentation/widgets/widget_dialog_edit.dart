@@ -77,7 +77,7 @@ class WidgetDialogEdit {
                               onTap: () {
                                 context.pop();
                               },
-                              splashColor: PaletteColor().softBlue1,
+                              splashColor: PaletteColor().lightGray,
                               child: Center(
                                 child: Text(
                                   "Batal",
@@ -109,7 +109,7 @@ class WidgetDialogEdit {
                                   context.pop();
                                 }
                               },
-                              splashColor: PaletteColor().softBlue1,
+                              splashColor: PaletteColor().lightGray,
                               child: Center(
                                 child: Text(
                                   "Simpan",

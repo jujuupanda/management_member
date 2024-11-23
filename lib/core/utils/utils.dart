@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,6 +17,7 @@ import '../../features/profile/domain/entities/user_entity.dart';
 import '../../features/profile/presentation/manager/profile_bloc.dart';
 import '../services/database_service.dart';
 import '../services/geo_location_service.dart';
+import '../widgets/custom_circle_loading.dart';
 
 part 'palette_color.dart';
 
@@ -32,3 +34,5 @@ part 'pop_up_dialog.dart';
 part 'sorting_filter_object.dart';
 
 part 'named_string.dart';
+
+part 'image_loader.dart';

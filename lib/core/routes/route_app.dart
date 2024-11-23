@@ -12,6 +12,7 @@ import '../../features/message/presentation/pages/message_screen.dart';
 import '../../features/navigation_bar/presentation/pages/bottom_navigation_bar.dart';
 import '../../features/news/presentation/pages/news_screen.dart';
 import '../../features/profile/presentation/pages/add_user_screen.dart';
+import '../../features/profile/presentation/pages/change_password_screen.dart';
 import '../../features/profile/presentation/pages/change_profile_picture_screen.dart';
 import '../../features/profile/presentation/pages/edit_profile_information_screen.dart';
 import '../../features/profile/presentation/pages/profile_screen.dart';
@@ -24,6 +25,20 @@ final _navigatorNews = GlobalKey<NavigatorState>();
 final _navigatorAttendance = GlobalKey<NavigatorState>();
 final _navigatorMessage = GlobalKey<NavigatorState>();
 final _navigatorProfile = GlobalKey<NavigatorState>();
+
+CustomTransitionPage buildPageWithDefaultTransition<T>({
+  required BuildContext context,
+  required GoRouterState state,
+  required Widget child,
+}) {
+  return CustomTransitionPage<T>(
+    key: state.pageKey,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(opacity: animation, child: child);
+    },
+  );
+}
 
 final GoRouter routerApp = GoRouter(
   routes: <RouteBase>[
@@ -46,50 +61,71 @@ final GoRouter routerApp = GoRouter(
     GoRoute(
       path: '/addUser',
       name: RouteName().addUser,
-      builder: (context, state) {
-        return const AddUserScreen();
-      },
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        context: context,
+        state: state,
+        child: const AddUserScreen(),
+      ),
     ),
     GoRoute(
       path: '/present',
       name: RouteName().present,
-      builder: (context, state) {
-        return PresentScreen(
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        context: context,
+        state: state,
+        child: PresentScreen(
           attendance: state.extra as List<AttendanceEntity>,
-        );
-      },
+        ),
+      ),
     ),
     GoRoute(
       path: '/absent',
       name: RouteName().absent,
-      builder: (context, state) {
-        return AbsentScreen(
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        context: context,
+        state: state,
+        child: AbsentScreen(
           attendance: state.extra as List<DateTime>,
-        );
-      },
+        ),
+      ),
     ),
     GoRoute(
       path: '/late',
       name: RouteName().late,
-      builder: (context, state) {
-        return LateScreen(
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        context: context,
+        state: state,
+        child: LateScreen(
           attendance: state.extra as List<AttendanceEntity>,
-        );
-      },
+        ),
+      ),
     ),
     GoRoute(
       path: '/editProfileInformation',
       name: RouteName().editProfileInformation,
-      builder: (context, state) {
-        return const EditProfileInformationScreen();
-      },
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        context: context,
+        state: state,
+        child: const EditProfileInformationScreen(),
+      ),
     ),
     GoRoute(
       path: '/changeProfilePictureScreen',
       name: RouteName().changeProfilePictureScreen,
-      builder: (context, state) {
-        return const ChangeProfilePictureScreen();
-      },
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        context: context,
+        state: state,
+        child: const ChangeProfilePictureScreen(),
+      ),
+    ),
+    GoRoute(
+      path: '/changePassword',
+      name: RouteName().changePassword,
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        context: context,
+        state: state,
+        child: const ChangePasswordScreen(),
+      ),
     ),
 
     /// Route with parent

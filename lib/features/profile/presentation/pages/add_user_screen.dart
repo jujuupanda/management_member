@@ -174,7 +174,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                               Gap(12.h),
                               loadingWidget(),
                               Gap(12.h),
-                              WidgetAddUserButton(
+                              WidgetActionProfileButton(
+                                name: "Tambah",
                                 onTap: addUserButton(),
                               ),
                             ],

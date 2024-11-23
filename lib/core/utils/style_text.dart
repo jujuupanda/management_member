@@ -16,7 +16,7 @@ class StyleText {
   TextStyle openSansTitleSoftBlue1 = GoogleFonts.openSans(
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,
-    color: PaletteColor().softBlue1,
+    color: PaletteColor().lightGray,
   );
   TextStyle openSansTitleBlack = GoogleFonts.openSans(
     fontSize: 18.sp,

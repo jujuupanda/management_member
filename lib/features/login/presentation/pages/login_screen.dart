@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/routes/route_app.dart';
+import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/custom_circle_loading.dart';
+import '../../../../core/widgets/page_background.dart';
 import '../../domain/use_cases/login_use_case.dart';
 import '../manager/auth_bloc.dart';
 import '../widgets/login_button.dart';
@@ -62,50 +65,108 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       },
       child: Scaffold(
-        body: Form(
-          key: formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                LoginFormField(
-                  controller: usernameC,
-                  label: "Nama pengguna",
-                  hint: "Masukkan nama pengguna anda",
-                  identifiedAs: "username",
-                ),
-                const Gap(15),
-                LoginFormField(
-                  controller: passwordC,
-                  label: "Kata sandi",
-                  hint: "Masukkan kata sandi anda",
-                  identifiedAs: "password",
-                ),
-                const Gap(20),
-                BlocBuilder<AuthBloc, AuthState>(
-                  builder: (context, state) {
-                    if (state is AuthLoading) {
-                      return const CustomCircleLoading();
-                    }
-                    if (state is LoginFailed) {
-                      return LoginErrorWidget(
-                        text: state.message,
-                      );
-                    }
-                    return const SizedBox();
-                  },
-                ),
-                const Gap(20),
-                LoginButton(
-                  buttonName: "Masuk",
-                  onTap: loginButton(),
-                ),
-              ],
+        resizeToAvoidBottomInset: true,
+        body: Stack(
+          children: [
+            const PageBackground(),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints:
+                        BoxConstraints(minHeight: constraints.maxHeight),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            height: 250,
+                            width: 250,
+                            decoration: BoxDecoration(
+                              color: PaletteColor().white,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          Gap(30.h),
+                          Container(
+                            height: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: PaletteColor().white,
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(32.r),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 12.w,
+                                vertical: 30.h,
+                              ),
+                              child: Form(
+                                key: formKey,
+                                child: Column(
+                                  children: [
+                                    Gap(10.h),
+                                    Text(
+                                      "Masuk",
+                                      style: StyleText().openSansBigValueBlack,
+                                    ),
+                                    Gap(30.h),
+                                    LoginFormField(
+                                      controller: usernameC,
+                                      label: "Nama pengguna",
+                                      hint: "Masukkan nama pengguna anda",
+                                      identifiedAs: "username",
+                                    ),
+                                    const Gap(15),
+                                    LoginFormField(
+                                      controller: passwordC,
+                                      label: "Kata sandi",
+                                      hint: "Masukkan kata sandi anda",
+                                      identifiedAs: "password",
+                                    ),
+                                    const Gap(10),
+                                    loadingWidget(),
+                                    const Gap(10),
+                                    LoginButton(
+                                      buttonName: "Masuk",
+                                      onTap: loginButton(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
-          ),
+          ],
         ),
       ),
     );
+  }
+
+  SizedBox loadingWidget() {
+    return SizedBox(
+                                    height: 40.h,
+                                    child: Center(
+                                      child: BlocBuilder<AuthBloc, AuthState>(
+                                        builder: (context, state) {
+                                          if (state is AuthLoading) {
+                                            return const CustomCircleLoading();
+                                          }
+                                          if (state is LoginFailed) {
+                                            return LoginErrorWidget(
+                                              text: state.message,
+                                            );
+                                          }
+                                          return const SizedBox();
+                                        },
+                                      ),
+                                    ),
+                                  );
   }
 }

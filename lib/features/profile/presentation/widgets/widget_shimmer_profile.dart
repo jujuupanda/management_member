@@ -12,8 +12,8 @@ class WidgetShimmerProfile {
       children: [
         ShimmerWidget(
           child: Container(
-            height: 120.h,
-            width: 120.w,
+            height: 190.h,
+            width: 190.w,
             decoration: BoxDecoration(
               color: PaletteColor().white,
               shape: BoxShape.circle,

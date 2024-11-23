@@ -4,14 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/utils.dart';
 
-class WidgetTextFormFieldAddUser extends StatefulWidget {
-  const WidgetTextFormFieldAddUser({
+class WidgetTextFormFieldEditPassword extends StatefulWidget {
+  const WidgetTextFormFieldEditPassword({
     super.key,
     required this.controller,
     required this.labelText,
     required this.hintText,
     required this.identifiedAs,
     required this.iconData,
+    this.anotherController,
   });
 
   final String labelText;
@@ -19,14 +20,15 @@ class WidgetTextFormFieldAddUser extends StatefulWidget {
   final String identifiedAs;
   final IconData iconData;
   final TextEditingController controller;
+  final TextEditingController? anotherController;
 
   @override
-  State<WidgetTextFormFieldAddUser> createState() =>
-      _WidgetTextFormFieldAddUserState();
+  State<WidgetTextFormFieldEditPassword> createState() =>
+      _WidgetTextFormFieldEditPasswordState();
 }
 
-class _WidgetTextFormFieldAddUserState
-    extends State<WidgetTextFormFieldAddUser> {
+class _WidgetTextFormFieldEditPasswordState
+    extends State<WidgetTextFormFieldEditPassword> {
   bool obscureTextValue = true;
 
   @override
@@ -37,7 +39,6 @@ class _WidgetTextFormFieldAddUserState
         controller: widget.controller,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         obscureText: obscureText(),
-        keyboardType: keyboardType(),
         inputFormatters: inputFormatter(),
         validator: validator(),
         decoration: InputDecoration(
@@ -54,27 +55,11 @@ class _WidgetTextFormFieldAddUserState
   }
 
   List<TextInputFormatter> inputFormatter() {
-    if (widget.identifiedAs == "username") {
-      return [
-        FilteringTextInputFormatter.deny(
-          RegExp(r'\s'),
-        ),
-        FilteringTextInputFormatter.allow(
-          RegExp(r'[a-zA-Z0-9]'),
-        )
-      ];
-    }
-    if (widget.identifiedAs == "password") {
+    if (widget.identifiedAs == "newPassword" ||
+        widget.identifiedAs == "confirmNewPassword") {
       return [
         FilteringTextInputFormatter.allow(
           RegExp(r'[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{\};:,<>./?\\|~ ]'),
-        )
-      ];
-    }
-    if (widget.identifiedAs == "phone") {
-      return [
-        FilteringTextInputFormatter.allow(
-          RegExp(r'[0-9]'),
         )
       ];
     }
@@ -98,48 +83,8 @@ class _WidgetTextFormFieldAddUserState
     ];
   }
 
-  keyboardType() {
-    if (widget.identifiedAs == "phone") {
-      return TextInputType.number;
-    }
-  }
-
-  obscureText() {
-    if (widget.identifiedAs == "password") {
-      return obscureTextValue;
-    }
-    return false;
-  }
-
-  suffixIcon() {
-    if (widget.identifiedAs == "password") {
-      return IconButton(
-        onPressed: () {
-          setState(() {
-            obscureTextValue = !obscureTextValue;
-          });
-        },
-        icon: Icon(
-          obscureTextValue ? Icons.visibility : Icons.visibility_off,
-        ),
-      );
-    }
-    return null;
-  }
-
   validator() {
-    if (widget.identifiedAs == "username") {
-      return (value) {
-        if (value == null || value.isEmpty) {
-          return 'Harus diisi, tidak boleh kosong!';
-        }
-        if (value.length < 4) {
-          return 'Masukkan nama pengguna yang valid';
-        }
-        return null;
-      };
-    }
-    if (widget.identifiedAs == "password") {
+    if (widget.identifiedAs == "newPassword") {
       return (value) {
         if (value == null || value.isEmpty) {
           return 'Harus diisi, tidak boleh kosong!';
@@ -156,13 +101,43 @@ class _WidgetTextFormFieldAddUserState
         return null;
       };
     }
-    if(widget.identifiedAs == "onlyText"){
-      return (value){
+    if (widget.identifiedAs == "confirmNewPassword") {
+      return (value) {
         if (value == null || value.isEmpty) {
           return 'Harus diisi, tidak boleh kosong!';
         }
+        // Validasi minimal 1 huruf besar dan kombinasi huruf dan angka
+        if (!RegExp(
+                r'^(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+\-=\[\]{\};:,<>./?\\|`~\s]+$')
+            .hasMatch(value)) {
+          return 'Password setidaknya mengandung huruf besar dan angka!';
+        }
+        if (value.length < 6) {
+          return 'Masukkan kata sandi yang valid';
+        }
+        if (value != widget.anotherController!.text) {
+          return 'Kata sandi baru tidak cocok';
+        }
+        return null;
       };
     }
     return null;
+  }
+
+  obscureText() {
+    return obscureTextValue;
+  }
+
+  suffixIcon() {
+    return IconButton(
+      onPressed: () {
+        setState(() {
+          obscureTextValue = !obscureTextValue;
+        });
+      },
+      icon: Icon(
+        obscureTextValue ? Icons.visibility : Icons.visibility_off,
+      ),
+    );
   }
 }
