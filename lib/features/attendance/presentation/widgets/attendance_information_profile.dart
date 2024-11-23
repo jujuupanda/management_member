@@ -26,10 +26,10 @@ class AttendanceInformationProfile extends StatelessWidget {
           borderRadius: BorderRadius.circular(32.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.4),
-              spreadRadius: 3,
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 2,
               blurRadius: 2,
-              offset: const Offset(2, 0), // changes position of shadow
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -55,6 +55,7 @@ class AttendanceInformationProfile extends StatelessWidget {
                       shape: BoxShape.circle,
                       color: PaletteColor().white,
                     ),
+                    child: ImageLoader().imageLoaderCircle(dataUser),
                   ),
                   Gap(14.h),
                   Text(

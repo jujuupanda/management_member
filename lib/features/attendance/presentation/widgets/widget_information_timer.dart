@@ -45,13 +45,22 @@ class _WidgetInformationTimerState extends State<WidgetInformationTimer> {
         height: 45.h,
         width: 110.w,
         decoration: BoxDecoration(
-          border: Border.all(color: PaletteColor().softBlack),
+          border: Border.all(color: PaletteColor().lightGray),
           borderRadius: BorderRadius.circular(12.r),
+          color: PaletteColor().lightGray,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 2,
+              blurRadius: 2,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         child: Center(
           child: Text(
             ParsingString().formatDateTimeHHmm(currentTime.toString()),
-            style: StyleText().openSansBigValueBlack,
+            style: StyleText().openSansBigValueWhite,
           ),
         ),
       ),

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/routes/route_app.dart';
 import '../../../../core/utils/utils.dart';
+import '../../domain/entities/user_entity.dart';
 import '../manager/profile_bloc.dart';
 import 'widget_dialog_edit.dart';
 import 'widget_information_body.dart';
@@ -12,6 +15,72 @@ import 'widget_shimmer_profile.dart';
 
 class ProfileInformationBody extends StatelessWidget {
   const ProfileInformationBody({super.key});
+
+  changeEmail(BuildContext context, UserEntity dataUser) {
+    return () {
+      WidgetDialogEdit().showFormDialog(
+        context,
+        "Email",
+        dataUser.email,
+        "Masukkan email",
+        "email",
+        Icons.email_outlined,
+        (valueChanged) {
+          BlocFunction().editProfile(
+            context,
+            dataUser,
+            {
+              "email": valueChanged,
+            },
+          );
+        },
+      );
+    };
+  }
+
+  changeAddress(BuildContext context, UserEntity dataUser) {
+    return () {
+      WidgetDialogEdit().showFormDialog(
+        context,
+        "Alamat",
+        dataUser.address,
+        "Masukkan alamat",
+        "onlyText",
+        Icons.location_on_outlined,
+        (valueChanged) {
+          BlocFunction().editProfile(
+            context,
+            dataUser,
+            {
+              "address": valueChanged,
+            },
+          );
+        },
+      );
+    };
+  }
+
+  changePhone(BuildContext context, UserEntity dataUser) {
+    return () {
+      WidgetDialogEdit().showFormDialog(
+        context,
+        "Telepon",
+        dataUser.phone,
+        "Masukkan nomor telepon",
+        "phone",
+        Icons.phone_outlined,
+        (valueChanged) {
+          BlocFunction().editProfile(
+            context,
+            dataUser,
+            {
+              "phone": valueChanged,
+            },
+          );
+        },
+      );
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,75 +126,21 @@ class ProfileInformationBody extends StatelessWidget {
                     iconData: Icons.email_outlined,
                     name: "Email",
                     value: dataUser.email,
-                    onTap: () {
-                      WidgetDialogEdit().showFormDialog(
-                        context,
-                        "Email",
-                        dataUser.email,
-                        "Masukkan email",
-                        "email",
-                        Icons.email_outlined,
-                        (valueChanged) {
-                          BlocFunction().editProfile(
-                            context,
-                            dataUser,
-                            {
-                              "email": valueChanged,
-                            },
-                          );
-                        },
-                      );
-                    },
+                    onTap: changeEmail(context, dataUser),
                   ),
                   Gap(10.h),
                   WidgetInformationBody(
                     iconData: Icons.phone_outlined,
                     name: "Telepon",
                     value: dataUser.phone,
-                    onTap: () {
-                      WidgetDialogEdit().showFormDialog(
-                        context,
-                        "Telepon",
-                        dataUser.phone,
-                        "Masukkan nomor telepon",
-                        "phone",
-                        Icons.phone_outlined,
-                        (valueChanged) {
-                          BlocFunction().editProfile(
-                            context,
-                            dataUser,
-                            {
-                              "phone": valueChanged,
-                            },
-                          );
-                        },
-                      );
-                    },
+                    onTap: changePhone(context, dataUser),
                   ),
                   Gap(10.h),
                   WidgetInformationBody(
                     iconData: Icons.location_on_outlined,
                     name: "Alamat",
                     value: dataUser.address,
-                    onTap: () {
-                      WidgetDialogEdit().showFormDialog(
-                        context,
-                        "Alamat",
-                        dataUser.address,
-                        "Masukkan alamat",
-                        "onlyText",
-                        Icons.location_on_outlined,
-                        (valueChanged) {
-                          BlocFunction().editProfile(
-                            context,
-                            dataUser,
-                            {
-                              "address": valueChanged,
-                            },
-                          );
-                        },
-                      );
-                    },
+                    onTap: changeAddress(context, dataUser),
                   ),
                   Gap(10.h),
                   WidgetInformationBody(
@@ -142,7 +157,9 @@ class ProfileInformationBody extends StatelessWidget {
                     name: "Kata Sandi",
                     value: "Ubah Kata Sandi",
                     goDetail: true,
-                    onTap: () {},
+                    onTap: () {
+                      context.pushNamed(RouteName().changePassword);
+                    },
                   ),
                   Gap(30.h),
                   WidgetLogout(onTap: BlocFunction().logoutButton(context)),

@@ -23,7 +23,7 @@ class WidgetAttendanceRecap extends StatelessWidget {
       width: 120.w,
       decoration: BoxDecoration(
         color: PaletteColor().white,
-        border: Border.all(color: PaletteColor().softBlue1),
+        border: Border.all(color: PaletteColor().lightGray),
         borderRadius: BorderRadius.circular(8.r),
         boxShadow: [
           BoxShadow(

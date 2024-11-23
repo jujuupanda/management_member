@@ -3,13 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/utils.dart';
 
-class WidgetAddUserButton extends StatelessWidget {
-  const WidgetAddUserButton({
+class WidgetActionProfileButton extends StatelessWidget {
+  const WidgetActionProfileButton({
     super.key,
     required this.onTap,
+    required this.name,
   });
 
   final VoidCallback onTap;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +26,11 @@ class WidgetAddUserButton extends StatelessWidget {
         color: PaletteColor().transparent,
         child: InkWell(
           onTap: onTap,
-          splashColor: PaletteColor().softBlue1,
+          splashColor: PaletteColor().lightGray,
           borderRadius: BorderRadius.circular(16.r),
           child: Center(
             child: Text(
-              "Tambah",
+              name,
               style: StyleText().openSansTitleWhite,
             ),
           ),

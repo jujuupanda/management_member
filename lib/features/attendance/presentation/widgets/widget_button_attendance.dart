@@ -60,7 +60,7 @@ class WidgetButtonAttendance extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         color: PaletteColor().white,
         border: Border.all(
-          color: PaletteColor().softBlue1,
+          color: PaletteColor().lightGray,
         ),
       );
     }
