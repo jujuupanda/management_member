@@ -1,7 +1,7 @@
 part of 'utils.dart';
 
 class ImageLoader {
-  CachedNetworkImage imageLoaderSquare(UserEntity dataUser) {
+  CachedNetworkImage profileSquare(UserEntity dataUser) {
     return CachedNetworkImage(
       imageUrl: dataUser.image,
       fit: BoxFit.cover,
@@ -23,7 +23,7 @@ class ImageLoader {
     );
   }
 
-  CachedNetworkImage imageLoaderCircle(UserEntity dataUser) {
+  CachedNetworkImage profileCircle(UserEntity dataUser) {
     return CachedNetworkImage(
       imageUrl: dataUser.image,
       fit: BoxFit.cover,
@@ -31,6 +31,30 @@ class ImageLoader {
         return CircleAvatar(
           backgroundImage: NetworkImage(
             dataUser.image,
+          ),
+        );
+      },
+      placeholder: (context, url) {
+        return const CustomCircleLoading();
+      },
+      errorWidget: (context, url, error) {
+        return CircleAvatar(
+          backgroundImage: AssetImage(
+            NamedString().noProfilePicture,
+          ),
+        );
+      },
+    );
+  }
+
+  CachedNetworkImage attendanceCircle(AttendanceEntity attendToday) {
+    return CachedNetworkImage(
+      imageUrl: attendToday.attendToday.photoUrl,
+      fit: BoxFit.cover,
+      imageBuilder: (context, imageProvider) {
+        return CircleAvatar(
+          backgroundImage: NetworkImage(
+            attendToday.attendToday.photoUrl,
           ),
         );
       },

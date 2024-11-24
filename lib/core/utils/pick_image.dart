@@ -1,6 +1,5 @@
 part of 'utils.dart';
 
-
 class PickImage {
   final ImagePicker imagePicker = ImagePicker();
 
@@ -45,5 +44,11 @@ class PickImage {
       return stringUrlImage;
     }
     return null;
+  }
+
+  uploadImage(File file, String folderName) {
+    final stringUrlImage =
+        DatabaseService().uploadImageToStorage(folderName, file);
+    return stringUrlImage;
   }
 }

@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../core/utils/utils.dart';
 import 'widget_information_attend.dart';
 import 'widget_information_timer.dart';
@@ -10,7 +13,35 @@ import 'widget_button_attendance.dart';
 class WidgetInformationInitial extends StatelessWidget {
   const WidgetInformationInitial({
     super.key,
+    required this.onPhotoCaptured,
+    this.isCaptured,
   });
+
+  final Function(File) onPhotoCaptured;
+  final File? isCaptured;
+
+  capturedPhoto() async {
+    final capturedPhoto = await PickImage().pickImage(ImageSource.camera);
+    if (capturedPhoto != null) {
+      onPhotoCaptured(capturedPhoto);
+    }
+  }
+
+  checkIn(BuildContext context) {
+    return isCaptured != null
+        ? () {
+            PopUpDialog().attendanceCheckInDialog(context, isCaptured!);
+          }
+        : () {
+            capturedPhoto();
+          };
+  }
+
+  checkOut(BuildContext context) {
+    return () {
+      BlocFunction().checkOutButton(context);
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +78,12 @@ class WidgetInformationInitial extends StatelessWidget {
           children: [
             WidgetButtonAttendance(
               name: "Masuk",
-              onTap: () {
-                PopUpDialog().attendanceCheckInDialog(context);
-              },
-              isActive: true,
+              onTap: checkIn(context),
+              isActive: DateTime.now().hour < 17 ? true : false,
             ),
             WidgetButtonAttendance(
               name: "Keluar",
-              onTap: () {
-                BlocFunction().checkOutButton(context);
-              },
+              onTap: checkOut(context),
               isActive: false,
             ),
           ],

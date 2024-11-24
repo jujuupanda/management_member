@@ -41,7 +41,7 @@ class ProfileInformationHeader extends StatelessWidget {
                       color: PaletteColor().white,
                       shape: BoxShape.circle,
                     ),
-                    child: ImageLoader().imageLoaderCircle(dataUser),
+                    child: ImageLoader().profileCircle(dataUser),
                   ),
                 ),
                 Gap(12.h),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +13,12 @@ import 'widget_shimmer_attendance.dart';
 class AttendanceInformationAttend extends StatelessWidget {
   const AttendanceInformationAttend({
     super.key,
+    required this.onPhotoCaptured,
+    required this.isCaptured,
   });
+
+  final Function(File) onPhotoCaptured;
+  final File? isCaptured;
 
   @override
   Widget build(BuildContext context) {
@@ -40,22 +47,21 @@ class AttendanceInformationAttend extends StatelessWidget {
           builder: (context, state) {
             if (state is GetAttendanceSuccess) {
               if (state.isLoading == true) {
-                return WidgetShimmerAttendance()
-                    .attendanceInformationAttendShimmer();
+                return WidgetShimmerAttendance().informationAttendShimmer();
               }
-              if (state.isLoading == false && state.attendToday != null) {
-
+              if (state.attendToday != null) {
                 return WidgetInformationWithData(
-                    attendance: state.attendToday!);
+                  attendance: state.attendToday!,
+                  onPhotoCaptured: onPhotoCaptured,
+                  isCaptured: isCaptured,
+                );
               }
-              if (state.isLoading == false && state.attendToday == null) {
-
-                return const WidgetInformationInitial();
-
-              }
+              return WidgetInformationInitial(
+                onPhotoCaptured: onPhotoCaptured,
+                isCaptured: isCaptured,
+              );
             }
-            return WidgetShimmerAttendance()
-                .attendanceInformationAttendShimmer();
+            return WidgetShimmerAttendance().informationAttendShimmer();
           },
         ),
       ),
