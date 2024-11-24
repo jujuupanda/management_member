@@ -68,7 +68,7 @@ class AttendanceRemoteDataSource extends AttendanceDataSource {
         .doc(docId);
     final responseAttend = docRef.snapshots();
     yield* responseAttend.map(
-      (snapshot) {
+          (snapshot) {
         try {
           final attendance = AttendanceModel.fromJson(snapshot.data()!);
           return Right(attendance);

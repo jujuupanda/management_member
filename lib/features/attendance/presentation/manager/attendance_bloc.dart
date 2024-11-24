@@ -6,6 +6,7 @@ import '../../../../core/services/device_service.dart';
 import '../../../../core/services/secure_storage_service.dart';
 import '../../../../core/services/token_service.dart';
 import '../../../../core/shared/param/no_param.dart';
+import '../../../../core/utils/utils.dart';
 import '../../data/models/attend_today_model.dart';
 import '../../data/models/attendance_model.dart';
 import '../../data/models/device_model.dart';
@@ -121,22 +122,22 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         : const GetAttendanceSuccess();
 
     emit(currentState.copyWith(isLoading: true));
-    final attendedChecker = attendCheckerUseCase.call(NoParam());
+    final attendedChecker = await attendCheckerUseCase.call(NoParam());
     await attendedChecker.forEach(
-      (element) => element.fold(
-        (l) {
-          emit(currentState.copyWith(
-            removeAttendToday: true,
-            isLoading: false,
-          ));
-        },
-        (r) {
-          emit(currentState.copyWith(
-            attendToday: r,
-            isLoading: false,
-          ));
-        },
-      ),
+        (element) => element.fold(
+              (l) {
+            emit(currentState.copyWith(
+              removeAttendToday: true,
+              isLoading: false,
+            ));
+          },
+              (r) {
+            emit(currentState.copyWith(
+              attendToday: r,
+              isLoading: false,
+            ));
+          },
+        )
     );
   }
 
@@ -159,8 +160,17 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
           ));
         },
         (r) {
+          List<AttendanceEntity> attendToday = r
+              .where(
+                (element) =>
+                    ParsingString()
+                        .parsingTimeToYMD(element.attendToday.timeStamp) ==
+                    ParsingString().parsingTimeToYMD(DateTime.now().toString()),
+              )
+              .toList();
           emit(currentState.copyWith(
             attendances: r,
+            attendToday: attendToday.isNotEmpty ? attendToday.first : null,
             isLoading: false,
             activeWork: activeWork,
           ));

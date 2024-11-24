@@ -17,27 +17,31 @@ class ChangeProfilePictureScreen extends StatefulWidget {
 
 class _ChangeProfilePictureScreenState
     extends State<ChangeProfilePictureScreen> {
-
   changeImage(UserEntity user) {
     return () async {
       final stringUrl = await PickImage().pickImageAndUpload("profile_picture");
       if (mounted) {
-        context.read<ProfileBloc>().add(
-              EditProfile(user, {
-                "image": stringUrl,
-              }),
-            );
+        BlocFunction().editProfile(
+          context,
+          user,
+          {"image": stringUrl},
+        );
       }
     };
   }
 
   removeImage(UserEntity user) {
-    return () async {
-      context.read<ProfileBloc>().add(
-            EditProfile(user, const {
-              "image": "",
-            }),
-          );
+    return () {
+      PopUpDialog().caution(
+        context,
+        Icons.delete_forever_rounded,
+        "Ingin menghapus foto profile?",
+        BlocFunction().editProfile(
+          context,
+          user,
+          {"image": ""},
+        ),
+      );
     };
   }
 

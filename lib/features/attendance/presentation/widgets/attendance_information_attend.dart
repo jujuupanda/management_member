@@ -43,14 +43,16 @@ class AttendanceInformationAttend extends StatelessWidget {
                 return WidgetShimmerAttendance()
                     .attendanceInformationAttendShimmer();
               }
-              if (state.attendToday != null) {
-                print("ini keprint 1");
+              if (state.isLoading == false && state.attendToday != null) {
 
                 return WidgetInformationWithData(
                     attendance: state.attendToday!);
               }
-              print("ini keprint 2");
-              return const WidgetInformationInitial();
+              if (state.isLoading == false && state.attendToday == null) {
+
+                return const WidgetInformationInitial();
+
+              }
             }
             return WidgetShimmerAttendance()
                 .attendanceInformationAttendShimmer();

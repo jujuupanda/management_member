@@ -94,17 +94,22 @@ class ProfileRemoteDataSource extends ProfileDataSource {
           .get();
       if (responseLogin.docs.isNotEmpty) {
         final dataLogin = AuthModel.fromJson(responseLogin.docs.first.data());
-        final isMatch = PasswordService().passwordMatcher(
+        final oldPasswordMatch = PasswordService().oldPasswordMatcher(
           dataLogin.password,
           params.oldPassword,
         );
-        if (isMatch) {
+        if (oldPasswordMatch) {
           final newPasswordHashed =
               PasswordService().hashPassword(params.newPassword);
-          await docRef
-              .doc(responseLogin.docs.first.id)
-              .update({"password": newPasswordHashed});
-          return Right(BlankModel());
+          final newPasswordMatch = PasswordService()
+              .newPasswordMatcher(params.oldPassword, params.newPassword);
+          if (!newPasswordMatch) {
+            await docRef
+                .doc(responseLogin.docs.first.id)
+                .update({"password": newPasswordHashed});
+            return Right(BlankModel());
+          }
+          return Left(ServerFailure("Kata sandi baru tidak boleh sama dengan yang lama"));
         }
         return Left(ServerFailure("Kata sandi lama tidak cocok"));
       }

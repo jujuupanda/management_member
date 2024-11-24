@@ -58,7 +58,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return BlocListener<ProfileBloc, ProfileState>(
       listener: (context, state) {
         if (state is ProfileSuccessState) {
-          if (state.isLoading == false && state.messageFailed == "") {
+          if (state.isLoading == false &&
+              state.messageFailed == "") {
+
             PopUpDialog()
                 .successUpdateProfile(context, "Kata sandi berhasil diubah");
           }

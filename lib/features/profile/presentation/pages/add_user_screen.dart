@@ -72,6 +72,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
     return BlocListener<ProfileBloc, ProfileState>(
       listener: (context, state) {
         if (state is ProfileSuccessState) {
+
           if (state.isLoading == false && state.messageFailed == "") {
             PopUpDialog().successUpdateProfile(context, "Berhasil menambahkan pengguna baru");
 

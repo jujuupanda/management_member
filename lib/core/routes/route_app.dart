@@ -17,6 +17,7 @@ import '../../features/profile/presentation/pages/change_profile_picture_screen.
 import '../../features/profile/presentation/pages/edit_profile_information_screen.dart';
 import '../../features/profile/presentation/pages/profile_screen.dart';
 import '../../features/splash/presentation/pages/splash_screen.dart';
+import '../utils/utils.dart';
 
 part 'route_name.dart';
 
@@ -66,6 +67,10 @@ final GoRouter routerApp = GoRouter(
         state: state,
         child: const AddUserScreen(),
       ),
+      onExit: (context, state) {
+        BlocFunction().initialProfile(context);
+        return true;
+      },
     ),
     GoRoute(
       path: '/present',
@@ -126,6 +131,10 @@ final GoRouter routerApp = GoRouter(
         state: state,
         child: const ChangePasswordScreen(),
       ),
+      onExit: (context, state) {
+        BlocFunction().initialProfile(context);
+        return true;
+      },
     ),
 
     /// Route with parent

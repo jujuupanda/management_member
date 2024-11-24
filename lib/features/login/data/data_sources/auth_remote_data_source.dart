@@ -25,7 +25,7 @@ class AuthRemoteDataSource extends AuthDataSource {
       if (responseLogin.docs.isNotEmpty) {
         final resultLogin = AuthModel.fromJson(responseLogin.docs.first.data());
         final isMatch = PasswordService()
-            .passwordMatcher(resultLogin.password, params.password);
+            .oldPasswordMatcher(resultLogin.password, params.password);
 
         if (isMatch) {
           final jwtToken = await TokenService().jwtWithExpiration(

@@ -7,8 +7,8 @@ class ParsingString {
     return formatter.format(number);
   }
 
-  parsingTimeToYMD(String date) {
-    final dateTime = DateTime.parse(date);
+  parsingTimeToYMD(String dateTimeString) {
+    final dateTime = DateTime.parse(dateTimeString);
     final format = DateFormat('y-M-d');
     final clockString = format.format(dateTime);
     return clockString;

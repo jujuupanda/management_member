@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../../core/services/password_service.dart';
 import '../../../../core/shared/param/no_param.dart';
 import '../../../login/data/models/auth_model.dart';
 import '../../data/models/user_model.dart';
@@ -39,7 +40,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final currentState = state is ProfileSuccessState
         ? state as ProfileSuccessState
         : const ProfileSuccessState().copyWith();
-    emit(currentState.copyWith(isLoading: true));
+    emit(currentState.copyWith( isLoading: true));
     final userData = await getProfileUseCase.call(NoParam());
     userData.fold(
       (l) {
@@ -60,10 +61,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final currentState = state is ProfileSuccessState
         ? state as ProfileSuccessState
         : const ProfileSuccessState().copyWith();
-    emit(currentState.copyWith(isLoading: true, messageFailed: ""));
+    emit(currentState.copyWith( isLoading: true, messageFailed: ""));
+
+    final hashedPassword = PasswordService().hashPassword(event.password);
+
     final auth = AuthModel(
       username: event.username.toLowerCase(),
-      password: event.password,
+      password: hashedPassword,
       role: event.role,
       jwtToken: "",
       fcmToken: "",
@@ -100,7 +104,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final currentState = state is ProfileSuccessState
         ? state as ProfileSuccessState
         : const ProfileSuccessState().copyWith();
-    emit(currentState.copyWith(isLoading: true));
+    emit(currentState.copyWith( isLoading: true));
     final userModel = UserModel(
       username: event.user.username,
       fullName: event.user.fullName,
@@ -135,7 +139,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final currentState = state is ProfileSuccessState
         ? state as ProfileSuccessState
         : const ProfileSuccessState().copyWith();
-    emit(currentState.copyWith(isLoading: true, messageFailed: ""));
+    emit(currentState.copyWith( isLoading: true, messageFailed: ""));
     final userUpdated = await changePasswordUseCase
         .call(ChangePasswordParam(event.oldPassword, event.newPassword));
     userUpdated.fold(
@@ -148,7 +152,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         }
       },
       (r) {
-        emit(currentState.copyWith(isLoading: false, messageFailed: ""));
+        emit(currentState.copyWith( isLoading: false, messageFailed: ""));
       },
     );
   }
