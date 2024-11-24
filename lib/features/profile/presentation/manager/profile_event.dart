@@ -53,6 +53,19 @@ final class EditProfile extends ProfileEvent {
   List<Object?> get props => [user, object];
 }
 
+final class ChangePassword extends ProfileEvent {
+  final String oldPassword;
+  final String newPassword;
+
+  const ChangePassword(
+    this.oldPassword,
+    this.newPassword,
+  );
+
+  @override
+  List<Object?> get props => [oldPassword, newPassword];
+}
+
 final class InitialProfile extends ProfileEvent {
   @override
   List<Object?> get props => [];

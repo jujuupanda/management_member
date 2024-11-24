@@ -1,9 +1,12 @@
 import '../../../../core/error/failure.dart';
 import '../../../../core/services/database_service.dart';
+import '../../../../core/services/password_service.dart';
 import '../../../../core/services/token_service.dart';
 import '../../../../core/shared/model/blank_model.dart';
 import '../../../../core/shared/param/no_param.dart';
+import '../../../login/data/models/auth_model.dart';
 import '../../domain/use_cases/add_user_use_case.dart';
+import '../../domain/use_cases/change_password_use_case.dart';
 import '../../domain/use_cases/edit_profile_use_case.dart';
 import '../models/user_model.dart';
 import 'package:dartz/dartz.dart';
@@ -18,15 +21,15 @@ class ProfileRemoteDataSource extends ProfileDataSource {
   Future<Either<Failure, UserModel>> getProfile(NoParam params) async {
     try {
       final payloadUsername = await TokenService().jwtPayloadUsername();
-      final responseUser = await firebaseDB
+      final docRef = await firebaseDB
           .collection("users")
           .where(
             "username",
             isEqualTo: payloadUsername.toLowerCase(),
           )
           .get();
-      if (responseUser.docs.isNotEmpty) {
-        final resultUser = UserModel.fromJson(responseUser.docs.first.data());
+      if (docRef.docs.isNotEmpty) {
+        final resultUser = UserModel.fromJson(docRef.docs.first.data());
         return Right(resultUser);
       }
       return Left(ServerFailure("Data pengguna tidak ditemukan"));
@@ -72,6 +75,40 @@ class ProfileRemoteDataSource extends ProfileDataSource {
           return Right(UserModel.fromJson(userEdited.data()!));
         },
       );
+    } catch (e) {
+      return Left(ServerFailure("Terjadi kesalahan saat mengubah profil"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BlankModel>> changePassword(
+      ChangePasswordParam params) async {
+    try {
+      final payloadUsername = await TokenService().jwtPayloadUsername();
+      final docRef = firebaseDB.collection("logins");
+      final responseLogin = await docRef
+          .where(
+            "username",
+            isEqualTo: payloadUsername.toLowerCase(),
+          )
+          .get();
+      if (responseLogin.docs.isNotEmpty) {
+        final dataLogin = AuthModel.fromJson(responseLogin.docs.first.data());
+        final isMatch = PasswordService().passwordMatcher(
+          dataLogin.password,
+          params.oldPassword,
+        );
+        if (isMatch) {
+          final newPasswordHashed =
+              PasswordService().hashPassword(params.newPassword);
+          await docRef
+              .doc(responseLogin.docs.first.id)
+              .update({"password": newPasswordHashed});
+          return Right(BlankModel());
+        }
+        return Left(ServerFailure("Kata sandi lama tidak cocok"));
+      }
+      return Left(ServerFailure("Pengguna tidak ditemukan"));
     } catch (e) {
       return Left(ServerFailure("Terjadi kesalahan saat mengubah profil"));
     }

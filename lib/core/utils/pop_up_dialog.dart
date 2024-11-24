@@ -1,6 +1,5 @@
 part of 'utils.dart';
 
-
 class PopUpDialog {
   void attendanceCheckInDialog(BuildContext context) {
     showDialog(
@@ -101,7 +100,7 @@ class PopUpDialog {
                   onPressed: () async {
                     if (selectedOption == 0) {
                     } else {
-                      if(selectedOption == 1){
+                      if (selectedOption == 1) {
                         attendType = "Luring/WFO";
                       } else {
                         attendType = "Daring/WFH";
@@ -127,6 +126,65 @@ class PopUpDialog {
               ],
             );
           },
+        );
+      },
+    );
+  }
+
+  void successUpdateProfile(BuildContext context, String text) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 10.w,
+            vertical: 10.h,
+          ),
+          title: Text(
+            "Berhasil",
+            style: StyleText().openSansBigValueBlack,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Gap(20.h),
+              Icon(
+                Icons.check_circle_outline_rounded,
+                size: 90,
+                color: PaletteColor().softDarkGrey,
+              ),
+              Gap(10.h),
+              Text(
+                text,
+                style: StyleText().openSansNormalBlack,
+              ),
+              Gap(20.h),
+            ],
+          ),
+          actions: [
+            Container(
+              height: 30,
+              width: 80,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.r),
+                color: PaletteColor().softDarkGrey,
+              ),
+              child: Material(
+                color: PaletteColor().transparent,
+                child: InkWell(
+                  onTap: () => context.goNamed(RouteName().profile),
+                  splashColor: PaletteColor().lightGray,
+                  borderRadius: BorderRadius.circular(10.r),
+                  child: Center(
+                    child: Text(
+                      "Baik",
+                      style: StyleText().openSansNormalWhite,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         );
       },
     );

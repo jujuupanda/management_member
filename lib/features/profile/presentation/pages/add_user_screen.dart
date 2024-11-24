@@ -73,12 +73,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
       listener: (context, state) {
         if (state is ProfileSuccessState) {
           if (state.isLoading == false && state.messageFailed == "") {
-            fullNameC.clear();
-            usernameC.clear();
-            divisionC.clear();
-            phoneC.clear();
-            passwordC.clear();
-            confirmPasswordC.clear();
+            PopUpDialog().successUpdateProfile(context, "Berhasil menambahkan pengguna baru");
+
           }
         }
       },

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/services/database_service.dart';
+import '../../../../core/services/password_service.dart';
 import '../../../../core/services/secure_storage_service.dart';
 import '../../../../core/services/token_service.dart';
 import '../../../../core/shared/model/blank_model.dart';
@@ -23,7 +24,10 @@ class AuthRemoteDataSource extends AuthDataSource {
 
       if (responseLogin.docs.isNotEmpty) {
         final resultLogin = AuthModel.fromJson(responseLogin.docs.first.data());
-        if (resultLogin.password == params.password) {
+        final isMatch = PasswordService()
+            .passwordMatcher(resultLogin.password, params.password);
+
+        if (isMatch) {
           final jwtToken = await TokenService().jwtWithExpiration(
             resultLogin.username,
             resultLogin.role,

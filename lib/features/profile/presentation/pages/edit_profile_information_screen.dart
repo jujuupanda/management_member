@@ -8,6 +8,7 @@ import '../../../../core/routes/route_app.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/page_background.dart';
 import '../../../../core/widgets/page_header.dart';
+import '../../domain/entities/user_entity.dart';
 import '../manager/profile_bloc.dart';
 import '../widgets/widget_dialog_edit.dart';
 
@@ -21,6 +22,51 @@ class EditProfileInformationScreen extends StatefulWidget {
 
 class _EditProfileInformationScreenState
     extends State<EditProfileInformationScreen> {
+
+  changeFullName(UserEntity dataUser) {
+    return () {
+      WidgetDialogEdit().showFormDialog(
+        context,
+        "Nama Lengkap",
+        dataUser.fullName,
+        "Masukkan nama lengkap",
+        "onlyText",
+        Icons.contact_mail_outlined,
+        (valueChanged) {
+          BlocFunction().editProfile(
+            context,
+            dataUser,
+            {
+              "full_name": valueChanged,
+            },
+          );
+        },
+      );
+    };
+  }
+
+  changeDivision(UserEntity dataUser){
+    return () {
+      WidgetDialogEdit().showFormDialog(
+        context,
+        "Divisi",
+        dataUser.division,
+        "Masukkan divisi",
+        "onlyText",
+        Icons.corporate_fare_outlined,
+            (valueChanged) {
+          BlocFunction().editProfile(
+            context,
+            dataUser,
+            {
+              "division": valueChanged,
+            },
+          );
+        },
+      );
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,50 +149,14 @@ class _EditProfileInformationScreenState
                       name: "Nama Lengkap",
                       value: dataUser.fullName,
                       iconData: Icons.contact_mail_outlined,
-                      onTap: () {
-                        WidgetDialogEdit().showFormDialog(
-                          context,
-                          "Nama Lengkap",
-                          dataUser.fullName,
-                          "Masukkan nama lengkap",
-                          "onlyText",
-                          Icons.contact_mail_outlined,
-                          (valueChanged) {
-                            BlocFunction().editProfile(
-                              context,
-                              dataUser,
-                              {
-                                "full_name": valueChanged,
-                              },
-                            );
-                          },
-                        );
-                      },
+                      onTap: changeFullName(dataUser),
                     ),
                     customDivider(),
                     EditProfileWidget(
                       name: "Divisi",
                       value: dataUser.division,
                       iconData: Icons.corporate_fare_outlined,
-                      onTap: () {
-                        WidgetDialogEdit().showFormDialog(
-                          context,
-                          "Divisi",
-                          dataUser.division,
-                          "Masukkan divisi",
-                          "onlyText",
-                          Icons.corporate_fare_outlined,
-                          (valueChanged) {
-                            BlocFunction().editProfile(
-                              context,
-                              dataUser,
-                              {
-                                "division": valueChanged,
-                              },
-                            );
-                          },
-                        );
-                      },
+                      onTap: changeDivision(dataUser),
                     ),
                   ],
                 );
@@ -158,7 +168,6 @@ class _EditProfileInformationScreenState
       ),
     );
   }
-
 
   Row customDivider() {
     return Row(

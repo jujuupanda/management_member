@@ -27,6 +27,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   void initState() {
     super.initState();
+    BlocFunction().initialProfile(context);
     oldPasswordC = TextEditingController();
     newPasswordC = TextEditingController();
     confirmNewPasswordC = TextEditingController();
@@ -43,98 +44,113 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   changePassword() {
     return () {
       if (formKey.currentState!.validate()) {
+        BlocFunction().changePassword(
+          context,
+          oldPasswordC.text,
+          newPasswordC.text,
+        );
       }
     };
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: Stack(
-        children: [
-          const PageBackground(),
-          Column(
-            children: [
-              const PageHeader(
-                isDetail: true,
-              ),
-              Gap(18.h),
-              Expanded(
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: PaletteColor().white,
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(32.r),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.4),
-                        spreadRadius: 3,
-                        blurRadius: 2,
-                        offset:
-                            const Offset(2, 0), // changes position of shadow
+    return BlocListener<ProfileBloc, ProfileState>(
+      listener: (context, state) {
+        if (state is ProfileSuccessState) {
+          if (state.isLoading == false && state.messageFailed == "") {
+            PopUpDialog()
+                .successUpdateProfile(context, "Kata sandi berhasil diubah");
+          }
+        }
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Stack(
+          children: [
+            const PageBackground(),
+            Column(
+              children: [
+                const PageHeader(
+                  isDetail: true,
+                ),
+                Gap(18.h),
+                Expanded(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: PaletteColor().white,
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(32.r),
                       ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 32.h,
-                      horizontal: 24.w,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.4),
+                          spreadRadius: 3,
+                          blurRadius: 2,
+                          offset:
+                              const Offset(2, 0), // changes position of shadow
+                        ),
+                      ],
                     ),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Form(
-                        key: formKey,
-                        child: Column(
-                          children: [
-                            Gap(12.h),
-                            Text(
-                              "Ubah Kata Sandi",
-                              style: StyleText().openSansTitleBlack,
-                            ),
-                            Gap(18.h),
-                            WidgetTextFormFieldEditPassword(
-                              controller: oldPasswordC,
-                              labelText: "Kata Sandi Lama",
-                              hintText: "Masukkan kata sandi lama",
-                              identifiedAs: "oldPassword",
-                              iconData: Icons.lock,
-                            ),
-                            WidgetTextFormFieldEditPassword(
-                              controller: newPasswordC,
-                              labelText: "Kata Sandi Baru",
-                              hintText: "Masukkan kata sandi baru",
-                              identifiedAs: "newPassword",
-                              iconData: Icons.lock,
-                            ),
-                            WidgetTextFormFieldEditPassword(
-                              controller: confirmNewPasswordC,
-                              anotherController: newPasswordC,
-                              labelText: "Konfirmasi Kata Sandi Baru",
-                              hintText: "Masukkan kata sandi baru",
-                              identifiedAs: "confirmNewPassword",
-                              iconData: Icons.lock,
-                            ),
-                            Gap(12.h),
-                            loadingWidget(),
-                            Gap(12.h),
-                            WidgetActionProfileButton(
-                              name: "Simpan",
-                              onTap: changePassword(),
-                            ),
-                          ],
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 32.h,
+                        horizontal: 24.w,
+                      ),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        child: Form(
+                          key: formKey,
+                          child: Column(
+                            children: [
+                              Gap(12.h),
+                              Text(
+                                "Ubah Kata Sandi",
+                                style: StyleText().openSansTitleBlack,
+                              ),
+                              Gap(18.h),
+                              WidgetTextFormFieldEditPassword(
+                                controller: oldPasswordC,
+                                labelText: "Kata Sandi Lama",
+                                hintText: "Masukkan kata sandi lama",
+                                identifiedAs: "oldPassword",
+                                iconData: Icons.lock,
+                              ),
+                              WidgetTextFormFieldEditPassword(
+                                controller: newPasswordC,
+                                labelText: "Kata Sandi Baru",
+                                hintText: "Masukkan kata sandi baru",
+                                identifiedAs: "newPassword",
+                                iconData: Icons.lock,
+                              ),
+                              WidgetTextFormFieldEditPassword(
+                                controller: confirmNewPasswordC,
+                                anotherController: newPasswordC,
+                                labelText: "Konfirmasi Kata Sandi Baru",
+                                hintText: "Masukkan kata sandi baru",
+                                identifiedAs: "confirmNewPassword",
+                                iconData: Icons.lock,
+                              ),
+                              Gap(12.h),
+                              loadingWidget(),
+                              Gap(12.h),
+                              WidgetActionProfileButton(
+                                name: "Simpan",
+                                onTap: changePassword(),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

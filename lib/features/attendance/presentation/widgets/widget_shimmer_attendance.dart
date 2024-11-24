@@ -17,7 +17,7 @@ class WidgetShimmerAttendance {
             width: 210.w,
             decoration: BoxDecoration(
               border: Border.all(
-                color: PaletteColor().softBlack,
+                color: PaletteColor().lightGray,
               ),
               shape: BoxShape.circle,
               color: PaletteColor().white,

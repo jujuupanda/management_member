@@ -7,6 +7,7 @@ import '../../../login/data/models/auth_model.dart';
 import '../../data/models/user_model.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/use_cases/add_user_use_case.dart';
+import '../../domain/use_cases/change_password_use_case.dart';
 import '../../domain/use_cases/edit_profile_use_case.dart';
 import '../../domain/use_cases/get_profile_use_case.dart';
 
@@ -18,16 +19,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final GetProfileUseCase getProfileUseCase;
   final AddUserUseCase addUserUseCase;
   final EditProfileUseCase editProfileUseCase;
+  final ChangePasswordUseCase changePasswordUseCase;
 
   ProfileBloc({
     required this.getProfileUseCase,
     required this.addUserUseCase,
     required this.editProfileUseCase,
+    required this.changePasswordUseCase,
   }) : super(ProfileInitial()) {
     on<ProfileEvent>((event, emit) {});
     on<GetProfile>(getProfile);
     on<AddUser>(addUser);
     on<EditProfile>(editProfile);
+    on<ChangePassword>(changePassword);
     on<InitialProfile>(initialProfile);
   }
 
@@ -123,6 +127,28 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       },
       (r) {
         emit(currentState.copyWith(isLoading: false, dataUser: r));
+      },
+    );
+  }
+
+  changePassword(ChangePassword event, Emitter<ProfileState> emit) async {
+    final currentState = state is ProfileSuccessState
+        ? state as ProfileSuccessState
+        : const ProfileSuccessState().copyWith();
+    emit(currentState.copyWith(isLoading: true, messageFailed: ""));
+    final userUpdated = await changePasswordUseCase
+        .call(ChangePasswordParam(event.oldPassword, event.newPassword));
+    userUpdated.fold(
+      (l) {
+        if (l is ServerFailure) {
+          emit(currentState.copyWith(
+            isLoading: false,
+            messageFailed: l.message,
+          ));
+        }
+      },
+      (r) {
+        emit(currentState.copyWith(isLoading: false, messageFailed: ""));
       },
     );
   }
