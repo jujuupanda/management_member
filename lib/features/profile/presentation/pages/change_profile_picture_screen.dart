@@ -17,6 +17,7 @@ class ChangeProfilePictureScreen extends StatefulWidget {
 
 class _ChangeProfilePictureScreenState
     extends State<ChangeProfilePictureScreen> {
+
   changeImage(UserEntity user) {
     return () async {
       final stringUrl = await PickImage().pickImageAndUpload("profile_picture");

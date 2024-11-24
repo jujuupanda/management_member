@@ -1,6 +1,5 @@
 part of 'utils.dart';
 
-
 class BlocFunction {
   //get user profile data
   getProfile(BuildContext context) {
@@ -19,13 +18,11 @@ class BlocFunction {
     String imagePath,
     String location,
   ) {
-    context.read<AttendanceBloc>().add(
-          CheckInEvent(
-            attendType,
-            imagePath,
-            location,
-          ),
-        );
+    context.read<AttendanceBloc>().add(CheckInEvent(
+          attendType,
+          imagePath,
+          location,
+        ));
   }
 
   checkOutButton(BuildContext context) {
@@ -50,17 +47,15 @@ class BlocFunction {
     String phone,
     String activeWork,
   ) {
-    context.read<ProfileBloc>().add(
-          AddUser(
-            username,
-            password,
-            role,
-            fullName,
-            division,
-            phone,
-            activeWork,
-          ),
-        );
+    context.read<ProfileBloc>().add(AddUser(
+          username,
+          password,
+          role,
+          fullName,
+          division,
+          phone,
+          activeWork,
+        ));
   }
 
   editProfile(
@@ -68,9 +63,15 @@ class BlocFunction {
     UserEntity user,
     Map<String, dynamic> object,
   ) {
-    context.read<ProfileBloc>().add(
-          EditProfile(user, object),
-        );
+    context.read<ProfileBloc>().add(EditProfile(user, object));
+  }
+
+  changePassword(
+    BuildContext context,
+    String oldPassword,
+    String newPassword,
+  ) {
+    context.read<ProfileBloc>().add(ChangePassword(oldPassword, newPassword));
   }
 
   initialProfile(BuildContext context) {

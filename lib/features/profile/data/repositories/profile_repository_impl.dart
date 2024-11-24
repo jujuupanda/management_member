@@ -6,6 +6,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../domain/repositories/profile_repository.dart';
 import '../../domain/use_cases/add_user_use_case.dart';
+import '../../domain/use_cases/change_password_use_case.dart';
 import '../../domain/use_cases/edit_profile_use_case.dart';
 import '../data_sources/profile_remote_data_source.dart';
 
@@ -37,6 +38,16 @@ class ProfileRepositoryImpl extends ProfileRepository {
       EditProfileParam params) async {
     final editedProfile = await remoteDataSource.editProfile(params);
     return editedProfile.fold(
+      (l) => Left(l),
+      (r) => Right(r),
+    );
+  }
+
+  @override
+  Future<Either<Failure, BlankEntity>> changePassword(
+      ChangePasswordParam params) async {
+    final passwordEdited = await remoteDataSource.changePassword(params);
+    return passwordEdited.fold(
       (l) => Left(l),
       (r) => Right(r),
     );

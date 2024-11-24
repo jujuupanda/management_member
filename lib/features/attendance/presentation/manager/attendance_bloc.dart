@@ -127,6 +127,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         (l) {
           emit(currentState.copyWith(
             removeAttendToday: true,
+            isLoading: false,
           ));
         },
         (r) {
