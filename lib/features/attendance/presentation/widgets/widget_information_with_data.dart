@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/utils/utils.dart';
 import '../../domain/entities/attendance_entity.dart';
@@ -12,9 +15,34 @@ class WidgetInformationWithData extends StatelessWidget {
   const WidgetInformationWithData({
     super.key,
     required this.attendance,
+    required this.onPhotoCaptured,
+    required this.isCaptured,
   });
 
   final AttendanceEntity attendance;
+  final Function(File) onPhotoCaptured;
+  final bool isCaptured;
+
+  capturedPhoto() async {
+    File capturedPhoto = await PickImage().pickImage(ImageSource.camera);
+    onPhotoCaptured(capturedPhoto);
+  }
+
+  checkIn(BuildContext context) {
+    return isCaptured == true
+        ? () {
+            PopUpDialog().attendanceCheckInDialog(context);
+          }
+        : () {
+            capturedPhoto();
+          };
+  }
+
+  checkOut(BuildContext context) {
+    return () {
+      BlocFunction().checkOutButton(context);
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,16 +91,15 @@ class WidgetInformationWithData extends StatelessWidget {
           children: [
             WidgetButtonAttendance(
               name: "Masuk",
-              onTap: () {
-                PopUpDialog().attendanceCheckInDialog(context);
-              },
-              isActive: attendance.attendToday.checkIn == "" ? true : false,
+              onTap: checkIn(context),
+              isActive: attendance.attendToday.checkIn == "" &&
+                      DateTime.now().hour < 17
+                  ? true
+                  : false,
             ),
             WidgetButtonAttendance(
               name: "Keluar",
-              onTap: () {
-                BlocFunction().checkOutButton(context);
-              },
+              onTap: checkOut(context),
               isActive: attendance.attendToday.checkIn != "" &&
                       attendance.attendToday.checkOut == ""
                   ? true

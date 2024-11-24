@@ -6,52 +6,21 @@ import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/shimmer_widget.dart';
 
 class WidgetShimmerAttendance {
-  Column attendanceInformationProfileShimmer() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Gap(24.h),
-        ShimmerWidget(
-          child: Container(
-            height: 210.h,
-            width: 210.w,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: PaletteColor().lightGray,
-              ),
-              shape: BoxShape.circle,
-              color: PaletteColor().white,
-            ),
+  ShimmerWidget informationPhotoShimmer() {
+    return ShimmerWidget(
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: PaletteColor().lightGray,
           ),
+          shape: BoxShape.circle,
+          color: PaletteColor().white,
         ),
-        Gap(14.h),
-        ShimmerWidget(
-          child: Container(
-            height: 25.h,
-            width: 250.w,
-            decoration: BoxDecoration(
-              color: PaletteColor().white,
-              borderRadius: BorderRadius.circular(15.r),
-            ),
-          ),
-        ),
-        Gap(8.h),
-        ShimmerWidget(
-          child: Container(
-            height: 15.h,
-            width: 250.w,
-            decoration: BoxDecoration(
-              color: PaletteColor().white,
-              borderRadius: BorderRadius.circular(15.r),
-            ),
-          ),
-        ),
-        Gap(24.h),
-      ],
+      ),
     );
   }
 
-  Column attendanceInformationAttendShimmer() {
+  Column informationAttendShimmer() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
