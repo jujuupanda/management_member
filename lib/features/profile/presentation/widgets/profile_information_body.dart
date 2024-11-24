@@ -82,6 +82,15 @@ class ProfileInformationBody extends StatelessWidget {
     };
   }
 
+  logout(BuildContext context) {
+    return () {
+      PopUpDialog().exitPopUp(
+        context,
+        BlocFunction().logoutButton(context),
+      );
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -162,7 +171,10 @@ class ProfileInformationBody extends StatelessWidget {
                     },
                   ),
                   Gap(30.h),
-                  WidgetLogout(onTap: BlocFunction().logoutButton(context)),
+                  WidgetLogout(
+                    onTap: logout(context),
+                  ),
+                  Gap(20.h),
                 ],
               ),
             );

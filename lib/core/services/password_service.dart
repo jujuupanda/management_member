@@ -9,9 +9,19 @@ class PasswordService {
     return hashedPassword.toString();
   }
 
-  bool passwordMatcher(String storedPassword, String enteredPassword) {
+  bool oldPasswordMatcher(String storedPassword, String enteredPassword) {
     final hashedEnteredPassword = hashPassword(enteredPassword);
     if (hashedEnteredPassword == storedPassword) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool newPasswordMatcher(String oldPassword, String newPassword) {
+    final hashedOldPassword = hashPassword(oldPassword);
+    final hashedNewPassword = hashPassword(newPassword);
+    if (hashedOldPassword == hashedNewPassword) {
       return true;
     } else {
       return false;

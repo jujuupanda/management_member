@@ -12,7 +12,7 @@ class AttendCheckerUseCase extends StreamUseCase<AttendanceEntity, NoParam> {
   AttendCheckerUseCase(this.repository);
 
   @override
-  Stream<Either<Failure, AttendanceEntity>> call(params) {
-    return repository.attendChecker(params);
+  Stream<Either<Failure, AttendanceEntity>> call(params)  {
+    return  repository.attendChecker(params);
   }
 }

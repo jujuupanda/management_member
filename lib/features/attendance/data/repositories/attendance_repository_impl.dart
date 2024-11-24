@@ -29,8 +29,8 @@ class AttendanceRepositoryImpl extends AttendanceRepository {
   }
 
   @override
-  Stream<Either<Failure, AttendanceEntity>> attendChecker(params) {
-    final attendedChecker = remoteDataSource.attendChecker(params);
+  Stream<Either<Failure, AttendanceEntity>> attendChecker(params)  {
+    final attendedChecker =  remoteDataSource.attendChecker(params);
     return attendedChecker;
   }
 

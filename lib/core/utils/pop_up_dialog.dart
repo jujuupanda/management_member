@@ -89,39 +89,76 @@ class PopUpDialog {
                 ],
               ),
               actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text(
-                    "Batal",
-                    style: StyleText().openSansNormalBlack,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () async {
-                    if (selectedOption == 0) {
-                    } else {
-                      if (selectedOption == 1) {
-                        attendType = "Luring/WFO";
-                      } else {
-                        attendType = "Daring/WFH";
-                      }
-                      final locationInfo =
-                          await GeoLocationService().getCurrentLocation();
-                      if (context.mounted) {
-                        BlocFunction().checkInButton(
-                          context,
-                          attendType,
-                          "imagePath",
-                          "${locationInfo.latitude}, ${locationInfo.longitude}",
-                        );
-                      }
-                      if (context.mounted) Navigator.of(context).pop();
-                    }
-                  },
-                  child: Text(
-                    "Pilih",
-                    style: StyleText().openSansNormalBlack,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      height: 35.h,
+                      width: 80.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(
+                            color: PaletteColor().softDarkGrey, width: 1),
+                        color: PaletteColor().white,
+                      ),
+                      child: Material(
+                        color: PaletteColor().transparent,
+                        child: InkWell(
+                          onTap: () => context.pop(),
+                          splashColor: PaletteColor().lightGray,
+                          borderRadius: BorderRadius.circular(10.r),
+                          child: Center(
+                            child: Text(
+                              "Batal",
+                              style: StyleText().openSansNormalBlack,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 35.h,
+                      width: 80.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.r),
+                        color: PaletteColor().softDarkGrey,
+                      ),
+                      child: Material(
+                        color: PaletteColor().transparent,
+                        child: InkWell(
+                          onTap: () async {
+                            if (selectedOption == 0) {
+                            } else {
+                              if (selectedOption == 1) {
+                                attendType = "Luring/WFO";
+                              } else {
+                                attendType = "Daring/WFH";
+                              }
+                              final locationInfo = await GeoLocationService()
+                                  .getCurrentLocation();
+                              if (context.mounted) {
+                                BlocFunction().checkInButton(
+                                  context,
+                                  attendType,
+                                  "imagePath",
+                                  "${locationInfo.latitude}, ${locationInfo.longitude}",
+                                );
+                              }
+                              if (context.mounted) Navigator.of(context).pop();
+                            }
+                          },
+                          splashColor: PaletteColor().lightGray,
+                          borderRadius: BorderRadius.circular(10.r),
+                          child: Center(
+                            child: Text(
+                              "Pilih",
+                              style: StyleText().openSansNormalWhite,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             );
@@ -163,8 +200,8 @@ class PopUpDialog {
           ),
           actions: [
             Container(
-              height: 30,
-              width: 80,
+              height: 35.h,
+              width: 80.w,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.r),
                 color: PaletteColor().softDarkGrey,
@@ -183,6 +220,189 @@ class PopUpDialog {
                   ),
                 ),
               ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  exitPopUp(BuildContext context, VoidCallback onTap) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 10.w,
+            vertical: 10.h,
+          ),
+          title: Text(
+            "Keluar",
+            style: StyleText().openSansBigValueBlack,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Gap(20.h),
+              Icon(
+                Icons.logout,
+                size: 90,
+                color: PaletteColor().softDarkGrey,
+              ),
+              Gap(10.h),
+              Text(
+                "Ingin keluar aplikasi?",
+                style: StyleText().openSansNormalBlack,
+              ),
+              Gap(20.h),
+            ],
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: 35.h,
+                  width: 80.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.r),
+                    border: Border.all(
+                        color: PaletteColor().softDarkGrey, width: 1),
+                    color: PaletteColor().white,
+                  ),
+                  child: Material(
+                    color: PaletteColor().transparent,
+                    child: InkWell(
+                      onTap: () => context.pop(),
+                      splashColor: PaletteColor().lightGray,
+                      borderRadius: BorderRadius.circular(10.r),
+                      child: Center(
+                        child: Text(
+                          "Batal",
+                          style: StyleText().openSansNormalBlack,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 35.h,
+                  width: 80.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.r),
+                    color: PaletteColor().softDarkGrey,
+                  ),
+                  child: Material(
+                    color: PaletteColor().transparent,
+                    child: InkWell(
+                      onTap: () {
+                        onTap();
+                        context.pop();
+                      },
+                      splashColor: PaletteColor().lightGray,
+                      borderRadius: BorderRadius.circular(10.r),
+                      child: Center(
+                        child: Text(
+                          "Keluar",
+                          style: StyleText().openSansNormalWhite,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  caution(BuildContext context, IconData iconData, String message,
+      VoidCallback onTap) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 10.w,
+            vertical: 10.h,
+          ),
+          title: Text(
+            "Perhatian",
+            style: StyleText().openSansBigValueBlack,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Gap(20.h),
+              Icon(
+                iconData,
+                size: 90,
+                color: PaletteColor().softDarkGrey,
+              ),
+              Gap(10.h),
+              Text(
+                message,
+                style: StyleText().openSansNormalBlack,
+              ),
+              Gap(20.h),
+            ],
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: 35.h,
+                  width: 80.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.r),
+                    border: Border.all(
+                        color: PaletteColor().softDarkGrey, width: 1),
+                    color: PaletteColor().white,
+                  ),
+                  child: Material(
+                    color: PaletteColor().transparent,
+                    child: InkWell(
+                      onTap: () => context.pop(),
+                      splashColor: PaletteColor().lightGray,
+                      borderRadius: BorderRadius.circular(10.r),
+                      child: Center(
+                        child: Text(
+                          "Tidak",
+                          style: StyleText().openSansNormalBlack,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 35.h,
+                  width: 80.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.r),
+                    color: PaletteColor().softDarkGrey,
+                  ),
+                  child: Material(
+                    color: PaletteColor().transparent,
+                    child: InkWell(
+                      onTap: () {
+                        onTap();
+                        context.pop();
+                      },
+                      splashColor: PaletteColor().lightGray,
+                      borderRadius: BorderRadius.circular(10.r),
+                      child: Center(
+                        child: Text(
+                          "Ya",
+                          style: StyleText().openSansNormalWhite,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         );

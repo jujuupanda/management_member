@@ -17,8 +17,8 @@ class AttendanceScreen extends StatefulWidget {
 
 class _AttendanceScreenState extends State<AttendanceScreen> {
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
     BlocFunction().getProfile(context);
     BlocFunction().attendChecker(context);
   }
