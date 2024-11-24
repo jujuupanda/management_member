@@ -33,7 +33,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     });
   }
 
-  bool get isCaptured => capturedPhoto != null;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +59,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                         Gap(12.h),
                         AttendanceInformationAttend(
                           onPhotoCaptured: updatePhoto,
-                          isCaptured: isCaptured,
+                          isCaptured: capturedPhoto,
                         )
                       ],
                     ),

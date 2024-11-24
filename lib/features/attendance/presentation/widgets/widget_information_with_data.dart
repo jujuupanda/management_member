@@ -16,12 +16,12 @@ class WidgetInformationWithData extends StatelessWidget {
     super.key,
     required this.attendance,
     required this.onPhotoCaptured,
-    required this.isCaptured,
+    this.isCaptured,
   });
 
   final AttendanceEntity attendance;
   final Function(File) onPhotoCaptured;
-  final bool isCaptured;
+  final File? isCaptured;
 
   capturedPhoto() async {
     File capturedPhoto = await PickImage().pickImage(ImageSource.camera);
@@ -29,9 +29,9 @@ class WidgetInformationWithData extends StatelessWidget {
   }
 
   checkIn(BuildContext context) {
-    return isCaptured == true
+    return isCaptured != null
         ? () {
-            PopUpDialog().attendanceCheckInDialog(context);
+            PopUpDialog().attendanceCheckInDialog(context, isCaptured!);
           }
         : () {
             capturedPhoto();

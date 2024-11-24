@@ -1,7 +1,7 @@
 part of 'utils.dart';
 
 class PopUpDialog {
-  void attendanceCheckInDialog(BuildContext context) {
+  void attendanceCheckInDialog(BuildContext context, File file) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -136,15 +136,17 @@ class PopUpDialog {
                               }
                               final locationInfo = await GeoLocationService()
                                   .getCurrentLocation();
+                              final photoUrl = await PickImage()
+                                  .uploadImage(file, "attendance");
                               if (context.mounted) {
                                 BlocFunction().checkInButton(
                                   context,
                                   attendType,
-                                  "imagePath",
+                                  photoUrl,
                                   "${locationInfo.latitude}, ${locationInfo.longitude}",
                                 );
+                                Navigator.of(context).pop();
                               }
-                              if (context.mounted) Navigator.of(context).pop();
                             }
                           },
                           splashColor: PaletteColor().lightGray,

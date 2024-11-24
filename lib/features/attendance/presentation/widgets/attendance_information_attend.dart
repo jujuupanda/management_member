@@ -18,7 +18,7 @@ class AttendanceInformationAttend extends StatelessWidget {
   });
 
   final Function(File) onPhotoCaptured;
-  final bool isCaptured;
+  final File? isCaptured;
 
   @override
   Widget build(BuildContext context) {
