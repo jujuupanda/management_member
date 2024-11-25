@@ -67,7 +67,7 @@ class SortingFilterObject {
       if ((startDateSelectedInMonth.isBefore(activeWorkDate) ||
           startDateSelectedInMonth.day == activeWorkDate.day) &&
           startDateSelectedInMonth.month == activeWorkDate.month &&
-          startDateSelectedInMonth.month == DateTime.now().month) {
+          startDateSelectedInMonth.month == endDateNow.month) {
         final allDates = List.generate(
           endDateNow.difference(activeWorkDate).inDays + 1,
           (index) => activeWorkDate.add(Duration(days: index)),
