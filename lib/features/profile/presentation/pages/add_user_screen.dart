@@ -131,14 +131,14 @@ class _AddUserScreenState extends State<AddUserScreen> {
                                 labelText: "Nama Lengkap",
                                 hintText: "Masukkan nama lengkap",
                                 identifiedAs: "onlyText",
-                                iconData: Icons.contact_mail,
+                                iconData: Icons.person,
                               ),
                               WidgetTextFormFieldAddUser(
                                 controller: usernameC,
                                 labelText: "Nama Pengguna",
                                 hintText: "Masukkan nama pengguna",
                                 identifiedAs: "username",
-                                iconData: Icons.person,
+                                iconData: Icons.perm_contact_cal_outlined,
                               ),
                               WidgetTextFormFieldAddUser(
                                 controller: divisionC,
