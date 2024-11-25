@@ -47,6 +47,28 @@ class ImageLoader {
     );
   }
 
+  CachedNetworkImage attendanceSquare(AttendanceEntity attendToday) {
+    return CachedNetworkImage(
+      imageUrl: attendToday.attendToday.photoUrl,
+      fit: BoxFit.cover,
+      imageBuilder: (context, imageProvider) {
+        return Image.network(
+          attendToday.attendToday.photoUrl,
+          fit: BoxFit.cover,
+        );
+      },
+      placeholder: (context, url) {
+        return const CustomCircleLoading();
+      },
+      errorWidget: (context, url, error) {
+        return Image.asset(
+          NamedString().noProfilePicture,
+          fit: BoxFit.cover,
+        );
+      },
+    );
+  }
+
   CachedNetworkImage attendanceCircle(AttendanceEntity attendToday) {
     return CachedNetworkImage(
       imageUrl: attendToday.attendToday.photoUrl,

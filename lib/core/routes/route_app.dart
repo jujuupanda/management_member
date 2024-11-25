@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/attendance/domain/entities/attendance_entity.dart';
+import '../../features/attendance/presentation/pages/attendance_image_full_screen.dart';
 import '../../features/attendance/presentation/pages/attendance_screen.dart';
 import '../../features/home/presentation/pages/absent_screen.dart';
 import '../../features/home/presentation/pages/home_screen.dart';
@@ -130,6 +133,19 @@ final GoRouter routerApp = GoRouter(
         context: context,
         state: state,
         child: const ChangePasswordScreen(),
+      ),
+      onExit: (context, state) {
+        BlocFunction().initialProfile(context);
+        return true;
+      },
+    ),
+    GoRoute(
+      path: '/attendancePictureScreen',
+      name: RouteName().attendancePictureScreen,
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        context: context,
+        state: state,
+        child: AttendanceImageFullScreen(photo: state.extra as File?),
       ),
       onExit: (context, state) {
         BlocFunction().initialProfile(context);

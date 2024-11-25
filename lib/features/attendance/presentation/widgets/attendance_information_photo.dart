@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/routes/route_app.dart';
 import 'widget_shimmer_attendance.dart';
 
 import '../../../../core/utils/utils.dart';
@@ -43,20 +45,30 @@ class AttendanceInformationPhoto extends StatelessWidget {
             horizontal: 20.w,
             vertical: 20.h,
           ),
-          child: BlocBuilder<AttendanceBloc, AttendanceState>(
-            builder: (context, state) {
-              if (state is GetAttendanceSuccess) {
-                if (state.isLoading == true) {
+          child: GestureDetector(
+            onTap: () => context.pushNamed(
+              RouteName().attendancePictureScreen,
+              extra: photo,
+            ),
+            child: Hero(
+              tag: "attendancePicture",
+              child: BlocBuilder<AttendanceBloc, AttendanceState>(
+                builder: (context, state) {
+                  if (state is GetAttendanceSuccess) {
+                    if (state.isLoading == true) {
+                      return WidgetShimmerAttendance()
+                          .informationPhotoShimmer();
+                    }
+                    if (state.attendToday != null) {
+                      return withImage(
+                          ImageLoader().attendanceCircle(state.attendToday!));
+                    }
+                    return noImage();
+                  }
                   return WidgetShimmerAttendance().informationPhotoShimmer();
-                }
-                if (state.attendToday != null) {
-                  return withImage(
-                      ImageLoader().attendanceCircle(state.attendToday!));
-                }
-                return noImage();
-              }
-              return WidgetShimmerAttendance().informationPhotoShimmer();
-            },
+                },
+              ),
+            ),
           ),
         ),
       ),

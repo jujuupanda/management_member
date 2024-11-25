@@ -15,4 +15,5 @@ class RouteName {
   final editProfileInformation = "editProfileInformation";
   final changeProfilePictureScreen = "changeProfilePictureScreen";
   final changePassword = "changePassword";
+  final attendancePictureScreen = "attendancePictureScreen";
 }
