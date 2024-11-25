@@ -28,43 +28,28 @@ class SortingFilterObject {
     if (startDate != null) {
       final stringStartDate = startDate.toString();
 
-      final startSelectedDateInMonth = DateTime.parse(_getFirstDateOfMonthFormatted(stringStartDate));
-      final endSelectedDateInMonth =
+      final startDateSelectedInMonth =
+          DateTime.parse(_getFirstDateOfMonthFormatted(stringStartDate));
+      final endDateSelectedInMonth =
           DateTime.parse(_getLastDateOfMonthFormatted(stringStartDate));
 
       //pengecekan tanggal yang tidak sesuai dengan active work
-      if (startSelectedDateInMonth.isBefore(activeWorkDate) &&
-          startSelectedDateInMonth.month == activeWorkDate.month) {
-        // Buat daftar semua tanggal antara startDate dan endDate
-        final allDates = List.generate(
-          endSelectedDateInMonth.difference(activeWorkDate).inDays + 1,
-          (index) => activeWorkDate.add(Duration(days: index)),
-        );
-        // Filter tanggal yang tidak ada di attendanceList
-        final absentDates = allDates.where((date) {
-          return !attendanceList.any((entity) {
-            final attendanceDate = DateTime.parse(entity.attendToday.timeStamp);
-            return attendanceDate.year == date.year &&
-                attendanceDate.month == date.month &&
-                attendanceDate.day == date.day;
-          });
-        }).toList();
 
-        absentDates.sort((a, b) => b.compareTo(a)); // Descending filter
-        return absentDates;
-      }
-      if (startSelectedDateInMonth.isBefore(activeWorkDate) &&
-          startSelectedDateInMonth.month != activeWorkDate.month) {
+      // SEBELUM ACTIVE WORK DAN BULAN TIDAK SAMA
+      if (startDateSelectedInMonth.isBefore(activeWorkDate) &&
+          startDateSelectedInMonth.month != activeWorkDate.month) {
         return [];
       }
-      if (startSelectedDateInMonth.isAfter(activeWorkDate) &&
-          endDateNow.isAfter(startSelectedDateInMonth)) {
-        // Buat daftar semua tanggal antara startDate dan endDate
+      // ACTIVE WORK DI BULAN YANG SAMA TAPI TIDAK DENGAN BULAN SEKARANG
+      if ((startDateSelectedInMonth.isBefore(activeWorkDate) ||
+              startDateSelectedInMonth.day == activeWorkDate.day) &&
+          startDateSelectedInMonth.month == activeWorkDate.month &&
+          startDateSelectedInMonth.month != DateTime.now().month) {
         final allDates = List.generate(
-          endDateNow.difference(startSelectedDateInMonth).inDays + 1,
-          (index) => startSelectedDateInMonth.add(Duration(days: index)),
+          endDateSelectedInMonth.difference(activeWorkDate).inDays + 1,
+          (index) => activeWorkDate.add(Duration(days: index)),
         );
-        // Filter tanggal yang tidak ada di attendanceList
+
         final absentDates = allDates.where((date) {
           return !attendanceList.any((entity) {
             final attendanceDate = DateTime.parse(entity.attendToday.timeStamp);
@@ -77,11 +62,60 @@ class SortingFilterObject {
         absentDates.sort((a, b) => b.compareTo(a)); // Descending filter
         return absentDates;
       }
-      if (startSelectedDateInMonth.isAfter(activeWorkDate) &&
-          endDateNow.isBefore(startSelectedDateInMonth)) {
+
+      // ACTIVE WORK DI BULAN YANG SAMA DENGAN BULAN SEKARANG
+      if ((startDateSelectedInMonth.isBefore(activeWorkDate) ||
+          startDateSelectedInMonth.day == activeWorkDate.day) &&
+          startDateSelectedInMonth.month == activeWorkDate.month &&
+          startDateSelectedInMonth.month == DateTime.now().month) {
+        final allDates = List.generate(
+          endDateNow.difference(activeWorkDate).inDays + 1,
+          (index) => activeWorkDate.add(Duration(days: index)),
+        );
+
+        final absentDates = allDates.where((date) {
+          return !attendanceList.any((entity) {
+            final attendanceDate = DateTime.parse(entity.attendToday.timeStamp);
+            return attendanceDate.year == date.year &&
+                attendanceDate.month == date.month &&
+                attendanceDate.day == date.day;
+          });
+        }).toList();
+
+        absentDates.sort((a, b) => b.compareTo(a)); // Descending filter
+        return absentDates;
+      }
+
+      // BULAN SAAT INI
+      if ((startDateSelectedInMonth.isAfter(activeWorkDate) ||
+          startDateSelectedInMonth.day == activeWorkDate.day) &&
+          startDateSelectedInMonth.month == DateTime.now().month){
+        final allDates = List.generate(
+          endDateNow.difference(startDateSelectedInMonth).inDays + 1,
+              (index) => startDateSelectedInMonth.add(Duration(days: index)),
+        );
+
+        final absentDates = allDates.where((date) {
+          return !attendanceList.any((entity) {
+            final attendanceDate = DateTime.parse(entity.attendToday.timeStamp);
+            return attendanceDate.year == date.year &&
+                attendanceDate.month == date.month &&
+                attendanceDate.day == date.day;
+          });
+        }).toList();
+
+        absentDates.sort((a, b) => b.compareTo(a)); // Descending filter
+        return absentDates;
+      }
+
+      // LEBIH DARI BULAN SEKARANG WORK DAN BEDA BULAN
+      if (startDateSelectedInMonth.isAfter(endDateNow) &&
+          endDateNow.month != startDateSelectedInMonth.month) {
         return [];
       }
     }
+
+    // SEMUA TANGGAL
 
     // Buat daftar semua tanggal antara startDate dan endDate
     final allDates = List.generate(
