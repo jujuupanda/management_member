@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:widget_zoom/widget_zoom.dart';
@@ -5,49 +7,20 @@ import 'package:widget_zoom/widget_zoom.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/page_background.dart';
 import '../../../../core/widgets/page_header.dart';
-import '../../domain/entities/user_entity.dart';
-import '../manager/profile_bloc.dart';
+import '../manager/attendance_bloc.dart';
 
-class ChangeProfilePictureScreen extends StatefulWidget {
-  const ChangeProfilePictureScreen({super.key});
+class AttendanceImageFullScreen extends StatefulWidget {
+  const AttendanceImageFullScreen({super.key, this.photo});
+
+  final File? photo;
 
   @override
-  State<ChangeProfilePictureScreen> createState() =>
-      _ChangeProfilePictureScreenState();
+  State<AttendanceImageFullScreen> createState() =>
+      _AttendanceImageFullScreenState();
 }
 
-class _ChangeProfilePictureScreenState extends State<ChangeProfilePictureScreen>
+class _AttendanceImageFullScreenState extends State<AttendanceImageFullScreen>
     with SingleTickerProviderStateMixin {
-  changeImage(UserEntity user) {
-    return () async {
-      final stringUrl = await PickImage().pickImageAndUpload("profile_picture");
-      if (mounted) {
-        BlocFunction().editProfile(
-          context,
-          user,
-          {"image": stringUrl},
-        );
-      }
-    };
-  }
-
-  removeImage(UserEntity user) {
-    return () {
-      PopUpDialog().caution(
-        context,
-        Icons.delete_forever_rounded,
-        "Ingin menghapus foto profile?",
-        () {
-          BlocFunction().editProfile(
-            context,
-            user,
-            {"image": ""},
-          );
-        },
-      );
-    };
-  }
-
   late AnimationController animationC;
   double verticalDragOffset = 0.0;
   bool isDragging = false;
@@ -100,45 +73,68 @@ class _ChangeProfilePictureScreenState extends State<ChangeProfilePictureScreen>
         body: Stack(
           children: [
             const PageBackground(),
-            BlocBuilder<ProfileBloc, ProfileState>(
+            BlocBuilder<AttendanceBloc, AttendanceState>(
               builder: (context, state) {
-                if (state is ProfileSuccessState) {
+                if (state is GetAttendanceSuccess) {
                   if (state.isLoading == true) {
-                    final dataUser = state.dataUser!;
+                    final attendToday = state.attendToday!;
                     return Stack(
                       children: [
                         const PageHeader(
                           isDetail: true,
-                          changeProfilePicture: true,
                         ),
                         Center(
                           child: WidgetZoom(
-                            heroAnimationTag: "profilePicture",
+                            heroAnimationTag: "attendancePicture",
                             zoomWidget: Container(
                               height: MediaQuery.of(context).size.width,
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
                                 color: PaletteColor().white,
                               ),
-                              child: ImageLoader().profileSquare(dataUser),
+                              child:
+                                  ImageLoader().attendanceSquare(attendToday),
                             ),
                           ),
                         ),
                       ],
                     );
                   }
-                  final dataUser = state.dataUser!;
+                  if (state.attendToday != null) {
+                    final attendToday = state.attendToday!;
+                    return Stack(
+                      children: [
+                        const PageHeader(
+                          isDetail: true,
+                        ),
+                        Center(
+                          child: WidgetZoom(
+                            heroAnimationTag: "attendancePicture",
+                            zoomWidget: SizedBox(
+                              height: MediaQuery.of(context).size.width,
+                              width: MediaQuery.of(context).size.width,
+                              child: Transform.scale(
+                                scale: scale.clamp(0.7, 1.0),
+                                child: Opacity(
+                                  opacity: opacity.clamp(0.0, 1.0),
+                                  child: ImageLoader()
+                                      .attendanceSquare(attendToday),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
                   return Stack(
                     children: [
-                      PageHeader(
+                      const PageHeader(
                         isDetail: true,
-                        changeProfilePicture: true,
-                        editProfilePicture: changeImage(dataUser),
-                        deleteProfilePicture: removeImage(dataUser),
                       ),
                       Center(
                         child: WidgetZoom(
-                          heroAnimationTag: "profilePicture",
+                          heroAnimationTag: "attendancePicture",
                           zoomWidget: SizedBox(
                             height: MediaQuery.of(context).size.width,
                             width: MediaQuery.of(context).size.width,
@@ -146,8 +142,10 @@ class _ChangeProfilePictureScreenState extends State<ChangeProfilePictureScreen>
                               scale: scale.clamp(0.7, 1.0),
                               child: Opacity(
                                 opacity: opacity.clamp(0.0, 1.0),
-                                child:
-                                    ImageLoader().profileSquare(dataUser),
+                                child: widget.photo != null
+                                    ? Image.file(widget.photo!)
+                                    : Image.asset(
+                                        NamedString().noProfilePicture),
                               ),
                             ),
                           ),
