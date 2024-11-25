@@ -8,7 +8,7 @@ import '../../domain/repositories/profile_repository.dart';
 import '../../domain/use_cases/add_user_use_case.dart';
 import '../../domain/use_cases/change_password_use_case.dart';
 import '../../domain/use_cases/edit_profile_use_case.dart';
-import '../data_sources/profile_remote_data_source.dart';
+import '../data_sources/profile_data_source.dart';
 
 class ProfileRepositoryImpl extends ProfileRepository {
   ProfileRemoteDataSource remoteDataSource;

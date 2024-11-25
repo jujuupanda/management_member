@@ -112,6 +112,71 @@ class ProfileInformationBody extends StatelessWidget {
       child: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           if (state is ProfileSuccessState) {
+            if (state.isLoading == true && state.dataUser != null) {
+              final dataUser = state.dataUser!;
+              return SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
+                child: Column(
+                  children: [
+                    Gap(24.h),
+                    WidgetInformationBody(
+                      iconData: Icons.perm_contact_cal_outlined,
+                      name: "Nama Pengguna",
+                      value: dataUser.username,
+                      onTap: () {},
+                      isEdit: false,
+                    ),
+                    Gap(10.h),
+                    WidgetInformationBody(
+                      iconData: Icons.email_outlined,
+                      name: "Email",
+                      value: dataUser.email,
+                      onTap: changeEmail(context, dataUser),
+                    ),
+                    Gap(10.h),
+                    WidgetInformationBody(
+                      iconData: Icons.phone_outlined,
+                      name: "Telepon",
+                      value: dataUser.phone,
+                      onTap: changePhone(context, dataUser),
+                    ),
+                    Gap(10.h),
+                    WidgetInformationBody(
+                      iconData: Icons.location_on_outlined,
+                      name: "Alamat",
+                      value: dataUser.address,
+                      onTap: changeAddress(context, dataUser),
+                    ),
+                    Gap(10.h),
+                    WidgetInformationBody(
+                      iconData: Icons.money,
+                      name: "Gaji",
+                      goDetail: true,
+                      value:
+                          "Rp. ${ParsingString().formatCurrency(dataUser.salary)}",
+                      onTap: () {},
+                    ),
+                    Gap(10.h),
+                    WidgetInformationBody(
+                      iconData: Icons.lock_outline,
+                      name: "Kata Sandi",
+                      value: "Ubah Kata Sandi",
+                      goDetail: true,
+                      onTap: () {
+                        context.pushNamed(RouteName().changePassword);
+                      },
+                    ),
+                    Gap(30.h),
+                    WidgetLogout(
+                      onTap: logout(context),
+                    ),
+                    Gap(20.h),
+                  ],
+                ),
+              );
+            }
             if (state.isLoading == true) {
               return WidgetShimmerProfile().profileInformationBodyShimmer();
             }

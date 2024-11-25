@@ -19,7 +19,50 @@ class ProfileInformationHeader extends StatelessWidget {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
         if (state is ProfileSuccessState) {
-          if (state.isLoading == true) {
+          if (state.isLoading == true && state.dataUser != null) {
+            final dataUser = state.dataUser!;
+            return GestureDetector(
+              onTap: () {
+                context.pushNamed(
+                  RouteName().editProfileInformation,
+                  extra: dataUser,
+                );
+              },
+              child: Column(
+                children: [
+                  Hero(
+                    tag: "profilePicture",
+                    child: Container(
+                      height: 190.h,
+                      width: 190.w,
+                      decoration: BoxDecoration(
+                        color: PaletteColor().white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: ImageLoader().profileCircle(dataUser),
+                    ),
+                  ),
+                  Gap(12.h),
+                  Container(
+                    color: PaletteColor().transparent,
+                    child: Column(
+                      children: [
+                        Text(
+                          dataUser.fullName,
+                          style: StyleText().openSansBigValueWhite,
+                        ),
+                        Text(
+                          dataUser.division,
+                          style: StyleText().openSansNormalWhite,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+          if(state.isLoading == true){
             return WidgetShimmerProfile().profileInformationHeaderShimmer();
           }
           final dataUser = state.dataUser!;

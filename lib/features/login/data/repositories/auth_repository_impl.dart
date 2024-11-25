@@ -4,7 +4,7 @@ import '../../domain/entities/auth_entity.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../domain/repositories/auth_repository.dart';
-import '../data_sources/auth_remote_data_source.dart';
+import '../data_sources/auth_data_source.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   AuthRemoteDataSource remoteDataSource;

@@ -1,15 +1,6 @@
-import 'package:dartz/dartz.dart';
 
-import '../../../../core/error/failure.dart';
-import '../../../../core/services/database_service.dart';
-import '../../../../core/services/password_service.dart';
-import '../../../../core/services/secure_storage_service.dart';
-import '../../../../core/services/token_service.dart';
-import '../../../../core/shared/model/blank_model.dart';
-import '../../../profile/data/models/user_model.dart';
-import '../models/auth_model.dart';
 
-import 'auth_data_source.dart';
+part of 'auth_data_source.dart';
 
 class AuthRemoteDataSource extends AuthDataSource {
   final firebaseDB = DatabaseService().firebaseFirestore;

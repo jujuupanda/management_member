@@ -44,6 +44,36 @@ class UserModel extends UserEntity {
     };
   }
 
+  UserEntity toEntity() {
+    return UserEntity(
+      username: username,
+      fullName: fullName,
+      status: status,
+      email: email,
+      phone: phone,
+      address: address,
+      salary: salary,
+      image: image,
+      activeWork: activeWork,
+      division: division,
+    );
+  }
+
+  static UserModel fromEntity(UserEntity entity) {
+    return UserModel(
+      username: entity.username,
+      fullName: entity.fullName,
+      status: entity.status,
+      email: entity.email,
+      phone: entity.phone,
+      address: entity.address,
+      salary: entity.salary,
+      image: entity.image,
+      activeWork: entity.activeWork,
+      division: entity.division,
+    );
+  }
+
   UserModel copyWith(Map<String, dynamic> updates) {
     return UserModel(
       username: updates["username"] ?? username,

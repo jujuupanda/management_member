@@ -1,11 +1,6 @@
-import '../../../../core/error/failure.dart';
-import '../../../../core/services/database_service.dart';
-import '../../../../core/services/token_service.dart';
-import '../../../../core/utils/utils.dart';
-import '../models/attendance_model.dart';
-import 'package:dartz/dartz.dart';
 
-import 'attendance_data_source.dart';
+
+part of 'attendance_data_source.dart';
 
 class AttendanceRemoteDataSource extends AttendanceDataSource {
   final firebaseDB = DatabaseService().firebaseFirestore;
