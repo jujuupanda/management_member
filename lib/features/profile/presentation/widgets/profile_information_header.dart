@@ -25,7 +25,6 @@ class ProfileInformationHeader extends StatelessWidget {
               onTap: () {
                 context.pushNamed(
                   RouteName().editProfileInformation,
-                  extra: dataUser,
                 );
               },
               child: Column(
@@ -70,7 +69,6 @@ class ProfileInformationHeader extends StatelessWidget {
             onTap: () {
               context.pushNamed(
                 RouteName().editProfileInformation,
-                extra: dataUser,
               );
             },
             child: Column(

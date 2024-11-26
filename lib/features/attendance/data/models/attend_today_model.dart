@@ -14,12 +14,12 @@ class AttendTodayModel extends AttendTodayEntity {
 
   factory AttendTodayModel.fromJson(Map<String, dynamic> json) {
     return AttendTodayModel(
-      timeStamp: json["time_stamp"],
-      checkIn: json["check_in"],
-      checkOut: json["check_out"],
-      location: json["location"],
-      typeAttend: json["type_attend"],
-      photoUrl: json["photo_url"],
+      timeStamp: json["time_stamp"] ?? "",
+      checkIn: json["check_in"] ?? "",
+      checkOut: json["check_out"] ?? "",
+      location: json["location"] ?? "",
+      typeAttend: json["type_attend"] ?? "",
+      photoUrl: json["photo_url"] ?? "",
       device: DeviceModel.fromJson(json["device"]),
     );
   }

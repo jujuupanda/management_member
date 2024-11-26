@@ -40,9 +40,9 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   }
 
   checkIn(event, emit) async {
-    final currentState = state is GetAttendanceSuccess
-        ? state as GetAttendanceSuccess
-        : const GetAttendanceSuccess();
+    final currentState = state is AttendancesLoaded
+        ? state as AttendancesLoaded
+        : const AttendancesLoaded();
     emit(currentState.copyWith(isLoading: true));
     // get info
     final deviceInfo = await DeviceService().getDeviceInfo();
@@ -93,9 +93,9 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   }
 
   checkOut(event, emit) async {
-    final currentState = state is GetAttendanceSuccess
-        ? state as GetAttendanceSuccess
-        : const GetAttendanceSuccess();
+    final currentState = state is AttendancesLoaded
+        ? state as AttendancesLoaded
+        : const AttendancesLoaded();
 
     emit(currentState.copyWith(isLoading: true));
     final checkOutParam = CheckOutParam(DateTime.now().toString());
@@ -117,34 +117,32 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
   }
 
   attendChecker(event, emit) async {
-    final currentState = state is GetAttendanceSuccess
-        ? state as GetAttendanceSuccess
-        : const GetAttendanceSuccess();
+    final currentState = state is AttendancesLoaded
+        ? state as AttendancesLoaded
+        : const AttendancesLoaded();
 
     emit(currentState.copyWith(isLoading: true));
-    final attendedChecker = await attendCheckerUseCase.call(NoParam());
-    await attendedChecker.forEach(
-        (element) => element.fold(
-              (l) {
+    final attendedChecker = attendCheckerUseCase.call(NoParam());
+    await attendedChecker.forEach((element) => element.fold(
+          (l) {
             emit(currentState.copyWith(
               removeAttendToday: true,
               isLoading: false,
             ));
           },
-              (r) {
+          (r) {
             emit(currentState.copyWith(
               attendToday: r,
               isLoading: false,
             ));
           },
-        )
-    );
+        ));
   }
 
   getAttendance(event, emit) async {
-    final currentState = state is GetAttendanceSuccess
-        ? state as GetAttendanceSuccess
-        : const GetAttendanceSuccess();
+    final currentState = state is AttendancesLoaded
+        ? state as AttendancesLoaded
+        : const AttendancesLoaded();
     final activeWork =
         await SecureStorageService().retrieveString("activeWork");
 

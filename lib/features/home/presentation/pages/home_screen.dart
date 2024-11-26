@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             child: BlocBuilder<AttendanceBloc, AttendanceState>(
               builder: (context, state) {
-                if (state is GetAttendanceSuccess) {
+                if (state is AttendancesLoaded) {
                   if (state.isLoading == true) {
                     return WidgetShimmerHome().homeScreenShimmer(context);
                   }

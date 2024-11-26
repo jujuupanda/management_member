@@ -75,7 +75,7 @@ class _AttendanceImageFullScreenState extends State<AttendanceImageFullScreen>
             const PageBackground(),
             BlocBuilder<AttendanceBloc, AttendanceState>(
               builder: (context, state) {
-                if (state is GetAttendanceSuccess) {
+                if (state is AttendancesLoaded) {
                   if (state.isLoading == true) {
                     final attendToday = state.attendToday!;
                     return Stack(

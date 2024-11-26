@@ -82,8 +82,8 @@ class AttendanceRemoteDataSource extends AttendanceDataSource {
         .collection("attendances")
         .doc(payloadUsername)
         .collection("attendance");
-    final responseAttend = docRef.snapshots();
-    yield* responseAttend.map(
+    final attendSnapshot = docRef.snapshots();
+    yield* attendSnapshot.map(
       (snapshot) {
         try {
           final listAttendance = snapshot.docs

@@ -47,6 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 const PageHeader(
                   isAdmin: true,
+                  page: "profile",
                 ),
                 Gap(32.h),
                 const ProfileInformationHeader(),

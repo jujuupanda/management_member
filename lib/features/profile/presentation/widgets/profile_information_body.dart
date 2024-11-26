@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/route_app.dart';
 import '../../../../core/utils/utils.dart';
+import '../../../../core/widgets/container_body.dart';
 import '../../domain/entities/user_entity.dart';
 import '../manager/profile_bloc.dart';
 import 'widget_dialog_edit.dart';
@@ -93,22 +94,7 @@ class ProfileInformationBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: PaletteColor().white,
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(32.r),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.4),
-            spreadRadius: 3,
-            blurRadius: 2,
-            offset: const Offset(2, 0), // changes position of shadow
-          ),
-        ],
-      ),
+    return ContainerBody(
       child: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           if (state is ProfileSuccessState) {

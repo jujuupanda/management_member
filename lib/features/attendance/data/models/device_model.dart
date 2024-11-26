@@ -9,9 +9,9 @@ class DeviceModel extends DeviceEntity {
 
   factory DeviceModel.fromJson(Map<String, dynamic> json) {
     return DeviceModel(
-      deviceName: json["device_name"],
-      serialNumber: json["serial_number"],
-      connectionType: json["connection_type"],
+      deviceName: json["device_name"] ?? "",
+      serialNumber: json["serial_number"] ?? "",
+      connectionType: json["connection_type"] ?? "",
     );
   }
 

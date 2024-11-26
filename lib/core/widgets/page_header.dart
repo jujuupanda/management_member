@@ -12,6 +12,7 @@ class PageHeader extends StatefulWidget {
     this.isDetail = false,
     this.isAdmin = false,
     this.changeProfilePicture = false,
+    this.page,
     this.editProfilePicture,
     this.deleteProfilePicture,
   });
@@ -19,6 +20,7 @@ class PageHeader extends StatefulWidget {
   final bool? isDetail;
   final bool? isAdmin;
   final bool? changeProfilePicture;
+  final String? page;
   final VoidCallback? editProfilePicture;
   final VoidCallback? deleteProfilePicture;
 
@@ -76,35 +78,67 @@ class _PageHeaderState extends State<PageHeader> {
   }
 
   isAdmin() {
-    if (widget.isAdmin == true) {
-      return FutureBuilder(
-        future: getRole(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SizedBox();
-          } else if (snapshot.hasError) {
-            return const SizedBox();
-          } else if (snapshot.hasData) {
-            final role = snapshot.data!;
-            if (role == "admin") {
-              return IconButton(
-                onPressed: () {
-                  context.pushNamed(RouteName().addUser);
-                },
-                icon: Icon(
-                  Icons.person_add,
-                  color: PaletteColor().white,
-                ),
-              );
+    if(widget.isAdmin == true){
+      if (widget.page == "profile") {
+        return FutureBuilder(
+          future: getRole(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const SizedBox();
+            } else if (snapshot.hasError) {
+              return const SizedBox();
+            } else if (snapshot.hasData) {
+              final role = snapshot.data!;
+              if (role == "admin") {
+                return IconButton(
+                  onPressed: () {
+                    context.pushNamed(RouteName().addUser);
+                  },
+                  icon: Icon(
+                    Icons.person_add,
+                    color: PaletteColor().white,
+                  ),
+                );
+              }
+              return const SizedBox();
+            } else {
+              return const SizedBox();
             }
-            return const SizedBox();
-          } else {
-            return const SizedBox();
-          }
-        },
-      );
+          },
+        );
+      }
+      if (widget.page == "news") {
+        return FutureBuilder(
+          future: getRole(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const SizedBox();
+            } else if (snapshot.hasError) {
+              return const SizedBox();
+            } else if (snapshot.hasData) {
+              final role = snapshot.data!;
+              if (role == "admin") {
+                return IconButton(
+                  onPressed: () {
+                    context.pushNamed(RouteName().createNews);
+                  },
+                  icon: Icon(
+                    Icons.newspaper_outlined,
+                    color: PaletteColor().white,
+                  ),
+                );
+              }
+              return const SizedBox();
+            } else {
+              return const SizedBox();
+            }
+          },
+        );
+      }
+      return const SizedBox();
     }
     return const SizedBox();
+
   }
 
   changeProfilePicture() {

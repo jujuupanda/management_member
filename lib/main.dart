@@ -7,6 +7,7 @@ import 'core/services/database_service.dart';
 import 'core/services/geo_location_service.dart';
 import 'features/attendance/presentation/manager/attendance_bloc.dart';
 import 'features/login/presentation/manager/auth_bloc.dart';
+import 'features/news/presentation/manager/news_bloc.dart';
 import 'features/profile/presentation/manager/profile_bloc.dart';
 import 'firebase_options.dart';
 import 'service_locator.dart';
@@ -46,6 +47,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => getIt<AttendanceBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<NewsBloc>(),
         ),
       ],
       child: GestureDetector(

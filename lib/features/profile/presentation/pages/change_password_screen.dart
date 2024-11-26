@@ -4,11 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
 import '../../../../core/utils/utils.dart';
+import '../../../../core/widgets/container_body.dart';
 import '../../../../core/widgets/page_background.dart';
 import '../../../../core/widgets/page_header.dart';
 import '../../../../core/widgets/shimmer_widget.dart';
+import '../../../../core/widgets/widget_action_button.dart';
 import '../manager/profile_bloc.dart';
-import '../widgets/widget_add_user_button.dart';
 import '../widgets/widget_text_form_field_edit_password.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -76,25 +77,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 const PageHeader(
                   isDetail: true,
                 ),
-                Gap(18.h),
+                Gap(10.h),
                 Expanded(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: PaletteColor().white,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(32.r),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.4),
-                          spreadRadius: 3,
-                          blurRadius: 2,
-                          offset:
-                              const Offset(2, 0), // changes position of shadow
-                        ),
-                      ],
-                    ),
+                  child: ContainerBody(
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 32.h,
@@ -138,10 +123,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               Gap(12.h),
                               loadingWidget(),
                               Gap(12.h),
-                              WidgetActionProfileButton(
+                              WidgetActionButton(
                                 name: "Simpan",
                                 onTap: changePassword(),
                               ),
+                              Gap(30.h),
                             ],
                           ),
                         ),

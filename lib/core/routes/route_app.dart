@@ -13,6 +13,7 @@ import '../../features/home/presentation/pages/present_screen.dart';
 import '../../features/login/presentation/pages/login_screen.dart';
 import '../../features/message/presentation/pages/message_screen.dart';
 import '../../features/navigation_bar/presentation/pages/bottom_navigation_bar.dart';
+import '../../features/news/presentation/pages/create_news_screen.dart';
 import '../../features/news/presentation/pages/news_screen.dart';
 import '../../features/profile/presentation/pages/add_user_screen.dart';
 import '../../features/profile/presentation/pages/change_password_screen.dart';
@@ -151,6 +152,15 @@ final GoRouter routerApp = GoRouter(
         BlocFunction().initialProfile(context);
         return true;
       },
+    ),
+    GoRoute(
+      path: '/createNews',
+      name: RouteName().createNews,
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        context: context,
+        state: state,
+        child: const CreateNewsScreen(),
+      ),
     ),
 
     /// Route with parent
