@@ -50,6 +50,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         },
         (r) {
           emit(currentState.copyWith(isLoading: false));
+          add(GetNews());
         },
       );
     } catch (e) {

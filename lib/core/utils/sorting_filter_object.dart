@@ -166,7 +166,20 @@ class SortingFilterObject {
         return dateTimeB.compareTo(dateTimeA); // Descending order
       });
   }
+
+  List<NewsEntity> newsSortingFilter({
+    required List<NewsEntity> news,
+  }) {
+    return news
+      ..sort((a, b) {
+        final dateTimeA = DateTime.parse(a.publishedAt);
+        final dateTimeB = DateTime.parse(b.publishedAt);
+        return dateTimeB.compareTo(dateTimeA); // Descending order
+      });
+  }
 }
+
+
 
 String _getLastDateOfMonthFormatted(String inputDate) {
   DateTime parsedDate = DateTime.parse(inputDate);

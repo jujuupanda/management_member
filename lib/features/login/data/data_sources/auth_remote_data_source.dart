@@ -50,6 +50,8 @@ class AuthRemoteDataSource extends AuthDataSource {
                       UserModel.fromJson(value.docs.first.data());
                   await SecureStorageService()
                       .saveString("activeWork", responseUser.activeWork);
+                  await SecureStorageService()
+                      .saveString("fullName", responseUser.fullName);
                 },
               );
             },

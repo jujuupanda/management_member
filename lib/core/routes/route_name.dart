@@ -17,4 +17,5 @@ class RouteName {
   final changePassword = "changePassword";
   final attendancePictureScreen = "attendancePictureScreen";
   final createNews = "createNews";
+  final newsFullContent = "newsFullContent";
 }

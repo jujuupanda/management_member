@@ -11,11 +11,11 @@ class AuthModel extends AuthEntity {
 
   factory AuthModel.fromJson(Map<String, dynamic> json) {
     return AuthModel(
-      username: json["username"],
-      password: json["password"],
-      role: json["role"],
-      jwtToken: json["jwt_token"],
-      fcmToken: json["fcm_token"],
+      username: json["username"] ?? "",
+      password: json["password"] ?? "",
+      role: json["role"] ?? "",
+      jwtToken: json["jwt_token"] ?? "",
+      fcmToken: json["fcm_token"] ?? "",
     );
   }
 

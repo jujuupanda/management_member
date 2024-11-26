@@ -6,13 +6,13 @@ class NewsRemoteDataSource extends NewsDataSource {
   @override
   Future<Either<Failure, BlankModel>> createNews(CreateNewsParam params) async {
     try {
-      final usernamePayload = await TokenService().jwtPayloadUsername();
+      final fullName = await SecureStorageService().retrieveString("fullName");
       final docRef = firebaseDB.collection("news").doc();
       final docId = docRef.id;
       await docRef.set({
         ...params.news.toJson(),
         "id": docId,
-        "author": usernamePayload,
+        "author": fullName,
         "published_at": DateTime.now().toString(),
       });
       return Right(BlankModel());

@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/services/database_service.dart';
-import '../../../../core/services/token_service.dart';
+import '../../../../core/services/secure_storage_service.dart';
 import '../../../../core/shared/model/blank_model.dart';
 import '../../domain/use_cases/create_news_use_case.dart';
 import '../../domain/use_cases/get_news_use_case.dart';

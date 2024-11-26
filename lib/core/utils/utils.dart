@@ -15,6 +15,7 @@ import '../../features/attendance/domain/entities/attendance_entity.dart';
 import '../../features/attendance/presentation/manager/attendance_bloc.dart';
 import '../../features/login/presentation/manager/auth_bloc.dart';
 import '../../features/news/data/models/news_model.dart';
+import '../../features/news/domain/entities/news_entity.dart';
 import '../../features/news/presentation/manager/news_bloc.dart';
 import '../../features/profile/domain/entities/user_entity.dart';
 import '../../features/profile/presentation/manager/profile_bloc.dart';
