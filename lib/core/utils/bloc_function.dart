@@ -74,6 +74,32 @@ class BlocFunction {
     context.read<ProfileBloc>().add(ChangePassword(oldPassword, newPassword));
   }
 
+  createNews(
+    BuildContext context,
+    String title,
+    String content,
+    List<String> image,
+    String category,
+  ) {
+    context.read<NewsBloc>().add(
+          CreateNews(
+            NewsModel(
+              id: "",
+              title: title,
+              content: content,
+              image: image,
+              author: "",
+              publishedAt: "",
+              category: category,
+            ),
+          ),
+        );
+  }
+
+  getNews(BuildContext context) {
+    context.read<NewsBloc>().add(GetNews());
+  }
+
   initialProfile(BuildContext context) {
     context.read<ProfileBloc>().add(InitialProfile());
   }

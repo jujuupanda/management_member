@@ -16,16 +16,16 @@ class UserModel extends UserEntity {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      username: json["username"],
-      fullName: json["full_name"],
-      status: json["status"],
-      email: json["email"],
-      phone: json["phone"],
-      address: json["address"],
-      salary: json["salary"],
-      image: json["image"],
-      activeWork: json["active_work"],
-      division: json["division"],
+      username: json["username"] ?? "",
+      fullName: json["full_name"] ?? "",
+      status: json["status"] ?? "",
+      email: json["email"] ?? "",
+      phone: json["phone"] ?? "",
+      address: json["address"] ?? "",
+      salary: json["salary"] ?? 0,
+      image: json["image"] ?? "",
+      activeWork: json["active_work"] ?? DateTime.now().toString(),
+      division: json["division"] ?? "",
     );
   }
 
@@ -42,6 +42,36 @@ class UserModel extends UserEntity {
       "active_work": activeWork,
       "division": division,
     };
+  }
+
+  UserEntity toEntity() {
+    return UserEntity(
+      username: username,
+      fullName: fullName,
+      status: status,
+      email: email,
+      phone: phone,
+      address: address,
+      salary: salary,
+      image: image,
+      activeWork: activeWork,
+      division: division,
+    );
+  }
+
+  static UserModel fromEntity(UserEntity entity) {
+    return UserModel(
+      username: entity.username,
+      fullName: entity.fullName,
+      status: entity.status,
+      email: entity.email,
+      phone: entity.phone,
+      address: entity.address,
+      salary: entity.salary,
+      image: entity.image,
+      activeWork: entity.activeWork,
+      division: entity.division,
+    );
   }
 
   UserModel copyWith(Map<String, dynamic> updates) {

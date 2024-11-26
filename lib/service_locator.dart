@@ -1,19 +1,24 @@
 import 'package:get_it/get_it.dart';
 
-import 'features/attendance/data/data_sources/attendance_remote_data_source.dart';
+import 'features/attendance/data/data_sources/attendance_data_source.dart';
 import 'features/attendance/data/repositories/attendance_repository_impl.dart';
 import 'features/attendance/domain/use_cases/attend_checker_use_case.dart';
 import 'features/attendance/domain/use_cases/check_in_use_case.dart';
 import 'features/attendance/domain/use_cases/check_out_use_case.dart';
 import 'features/attendance/domain/use_cases/get_attendance_use_case.dart';
 import 'features/attendance/presentation/manager/attendance_bloc.dart';
-import 'features/login/data/data_sources/auth_remote_data_source.dart';
+import 'features/login/data/data_sources/auth_data_source.dart';
 import 'features/login/data/repositories/auth_repository_impl.dart';
 import 'features/login/domain/use_cases/login_checker_use_case.dart';
 import 'features/login/domain/use_cases/login_use_case.dart';
 import 'features/login/domain/use_cases/logout_use_case.dart';
 import 'features/login/presentation/manager/auth_bloc.dart';
-import 'features/profile/data/data_sources/profile_remote_data_source.dart';
+import 'features/news/data/data_sources/news_data_source.dart';
+import 'features/news/data/repositories/news_repository_impl.dart';
+import 'features/news/domain/use_cases/create_news_use_case.dart';
+import 'features/news/domain/use_cases/get_news_use_case.dart';
+import 'features/news/presentation/manager/news_bloc.dart';
+import 'features/profile/data/data_sources/profile_data_source.dart';
 import 'features/profile/data/repositories/profile_repository_impl.dart';
 import 'features/profile/domain/use_cases/add_user_use_case.dart';
 import 'features/profile/domain/use_cases/change_password_use_case.dart';
@@ -24,7 +29,7 @@ import 'features/profile/presentation/manager/profile_bloc.dart';
 final getIt = GetIt.instance;
 
 void serviceLocator() async {
-  /// Data Sources
+  /// Data Sources (bisa local atau remote)
   // Auth
   getIt.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSource());
@@ -34,6 +39,9 @@ void serviceLocator() async {
   //Attendance
   getIt.registerLazySingleton<AttendanceRemoteDataSource>(
       () => AttendanceRemoteDataSource());
+  //News
+  getIt.registerLazySingleton<NewsRemoteDataSource>(
+      () => NewsRemoteDataSource());
 
   /// Repositories
   // Auth
@@ -54,8 +62,14 @@ void serviceLocator() async {
       remoteDataSource: getIt<AttendanceRemoteDataSource>(),
     ),
   );
+  //News
+  getIt.registerLazySingleton<NewsRepositoryImpl>(
+    () => NewsRepositoryImpl(
+      remoteDataSource: getIt<NewsRemoteDataSource>(),
+    ),
+  );
 
-  /// Use Cases
+  /// Use Cases (semua use case dimasukkan)
   //Auth
   getIt.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(getIt<AuthRepositoryImpl>()),
@@ -71,13 +85,13 @@ void serviceLocator() async {
     () => GetProfileUseCase(getIt<ProfileRepositoryImpl>()),
   );
   getIt.registerLazySingleton<AddUserUseCase>(
-        () => AddUserUseCase(getIt<ProfileRepositoryImpl>()),
+    () => AddUserUseCase(getIt<ProfileRepositoryImpl>()),
   );
   getIt.registerLazySingleton<EditProfileUseCase>(
-        () => EditProfileUseCase(getIt<ProfileRepositoryImpl>()),
+    () => EditProfileUseCase(getIt<ProfileRepositoryImpl>()),
   );
   getIt.registerLazySingleton<ChangePasswordUseCase>(
-        () => ChangePasswordUseCase(getIt<ProfileRepositoryImpl>()),
+    () => ChangePasswordUseCase(getIt<ProfileRepositoryImpl>()),
   );
   //Attendance
   getIt.registerLazySingleton<CheckInUseCase>(
@@ -100,6 +114,17 @@ void serviceLocator() async {
       getIt<AttendanceRepositoryImpl>(),
     ),
   );
+  //News
+  getIt.registerLazySingleton<CreateNewsUseCase>(
+    () => CreateNewsUseCase(
+      getIt<NewsRepositoryImpl>(),
+    ),
+  );
+  getIt.registerLazySingleton<GetNewsUseCase>(
+    () => GetNewsUseCase(
+      getIt<NewsRepositoryImpl>(),
+    ),
+  );
 
   /// Bloc
   // Auth
@@ -114,7 +139,7 @@ void serviceLocator() async {
   getIt.registerFactory<ProfileBloc>(
     () => ProfileBloc(
       getProfileUseCase: getIt<GetProfileUseCase>(),
-      addUserUseCase:  getIt<AddUserUseCase>(),
+      addUserUseCase: getIt<AddUserUseCase>(),
       editProfileUseCase: getIt<EditProfileUseCase>(),
       changePasswordUseCase: getIt<ChangePasswordUseCase>(),
     ),
@@ -126,6 +151,13 @@ void serviceLocator() async {
       checkOutUseCase: getIt<CheckOutUseCase>(),
       attendCheckerUseCase: getIt<AttendCheckerUseCase>(),
       getAttendanceUseCase: getIt<GetAttendanceUseCase>(),
+    ),
+  );
+  //News
+  getIt.registerFactory<NewsBloc>(
+    () => NewsBloc(
+      createNewsUseCase: getIt<CreateNewsUseCase>(),
+      getNewsUseCase: getIt<GetNewsUseCase>(),
     ),
   );
 

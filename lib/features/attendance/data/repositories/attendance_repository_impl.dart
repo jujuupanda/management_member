@@ -3,7 +3,7 @@ import '../../domain/entities/attendance_entity.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../domain/repositories/attendance_repository.dart';
-import '../data_sources/attendance_remote_data_source.dart';
+import '../data_sources/attendance_data_source.dart';
 
 class AttendanceRepositoryImpl extends AttendanceRepository {
   AttendanceRemoteDataSource remoteDataSource;

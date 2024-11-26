@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/routes/route_app.dart';
+import '../../../../core/widgets/container_body.dart';
 import 'widget_shimmer_attendance.dart';
 
 import '../../../../core/utils/utils.dart';
@@ -25,21 +26,9 @@ class AttendanceInformationPhoto extends StatelessWidget {
         vertical: 12.h,
         horizontal: 24.w,
       ),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 320.h,
-        decoration: BoxDecoration(
-          color: PaletteColor().white,
-          borderRadius: BorderRadius.circular(32.r),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 2,
-              blurRadius: 2,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
+      child: ContainerBody(
+        height: 320,
+        roundedAll: true,
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: 20.w,
@@ -54,7 +43,7 @@ class AttendanceInformationPhoto extends StatelessWidget {
               tag: "attendancePicture",
               child: BlocBuilder<AttendanceBloc, AttendanceState>(
                 builder: (context, state) {
-                  if (state is GetAttendanceSuccess) {
+                  if (state is AttendancesLoaded) {
                     if (state.isLoading == true) {
                       return WidgetShimmerAttendance()
                           .informationPhotoShimmer();

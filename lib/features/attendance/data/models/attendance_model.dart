@@ -9,7 +9,7 @@ class AttendanceModel extends AttendanceEntity {
 
   factory AttendanceModel.fromJson(Map<String, dynamic> json) {
     return AttendanceModel(
-      username: json["username"],
+      username: json["username"] ?? "",
       attendToday: AttendTodayModel.fromJson(json["attend_today"]),
     );
   }

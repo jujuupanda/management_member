@@ -40,7 +40,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final currentState = state is ProfileSuccessState
         ? state as ProfileSuccessState
         : const ProfileSuccessState().copyWith();
-    emit(currentState.copyWith( isLoading: true));
+    emit(currentState.copyWith(isLoading: true));
     final userData = await getProfileUseCase.call(NoParam());
     userData.fold(
       (l) {
@@ -61,7 +61,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final currentState = state is ProfileSuccessState
         ? state as ProfileSuccessState
         : const ProfileSuccessState().copyWith();
-    emit(currentState.copyWith( isLoading: true, messageFailed: ""));
+    emit(currentState.copyWith(isLoading: true, messageFailed: ""));
 
     final hashedPassword = PasswordService().hashPassword(event.password);
 
@@ -104,20 +104,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final currentState = state is ProfileSuccessState
         ? state as ProfileSuccessState
         : const ProfileSuccessState().copyWith();
-    emit(currentState.copyWith( isLoading: true));
-    final userModel = UserModel(
-      username: event.user.username,
-      fullName: event.user.fullName,
-      status: event.user.status,
-      email: event.user.email,
-      phone: event.user.phone,
-      address: event.user.address,
-      salary: event.user.salary,
-      image: event.user.image,
-      activeWork: event.user.activeWork,
-      division: event.user.division,
-    );
-    final toUpdate = userModel.copyWith(event.object);
+    emit(currentState.copyWith(isLoading: true));
+    final fromEntity = UserModel.fromEntity(event.user);
+    final toUpdate = fromEntity.copyWith(event.object);
     final userUpdated =
         await editProfileUseCase.call(EditProfileParam(toUpdate));
     userUpdated.fold(
@@ -139,7 +128,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final currentState = state is ProfileSuccessState
         ? state as ProfileSuccessState
         : const ProfileSuccessState().copyWith();
-    emit(currentState.copyWith( isLoading: true, messageFailed: ""));
+    emit(currentState.copyWith(isLoading: true, messageFailed: ""));
     final userUpdated = await changePasswordUseCase
         .call(ChangePasswordParam(event.oldPassword, event.newPassword));
     userUpdated.fold(
@@ -152,7 +141,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         }
       },
       (r) {
-        emit(currentState.copyWith( isLoading: false, messageFailed: ""));
+        emit(currentState.copyWith(isLoading: false, messageFailed: ""));
       },
     );
   }

@@ -1,17 +1,18 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/utils.dart';
 
-class WidgetActionProfileButton extends StatelessWidget {
-  const WidgetActionProfileButton({
+class WidgetActionButton extends StatelessWidget {
+  const WidgetActionButton({
     super.key,
-    required this.onTap,
     required this.name,
+    required this.onTap,
   });
 
-  final VoidCallback onTap;
   final String name;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
