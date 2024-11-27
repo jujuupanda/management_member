@@ -18,11 +18,15 @@ class WidgetShimmerNews {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              height: 120,
+              height: 200.h,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                color: PaletteColor().lightGray,
+                color: PaletteColor().white,
                 borderRadius: BorderRadius.circular(16.r),
+                border: Border.all(
+                  width: 1,
+                  color: PaletteColor().softGray,
+                ),
               ),
             ),
           );

@@ -72,6 +72,7 @@ class NewsFullContentScreen extends StatelessWidget {
             children: [
               const PageHeader(
                 isDetail: true,
+                isAdmin: true,
               ),
               Expanded(
                 child: ContainerBody(

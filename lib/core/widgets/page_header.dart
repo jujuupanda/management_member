@@ -78,7 +78,7 @@ class _PageHeaderState extends State<PageHeader> {
   }
 
   isAdmin() {
-    if(widget.isAdmin == true){
+    if (widget.isAdmin == true) {
       if (widget.page == "profile") {
         return FutureBuilder(
           future: getRole(),
@@ -135,10 +135,34 @@ class _PageHeaderState extends State<PageHeader> {
           },
         );
       }
-      return const SizedBox();
+    }
+    if (widget.isAdmin == true && widget.isDetail == true) {
+      return FutureBuilder(
+        future: getRole(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SizedBox();
+          } else if (snapshot.hasError) {
+            return const SizedBox();
+          } else if (snapshot.hasData) {
+            final role = snapshot.data!;
+            if (role == "admin") {
+              return IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.more_vert_rounded,
+                  color: PaletteColor().white,
+                ),
+              );
+            }
+            return const SizedBox();
+          } else {
+            return const SizedBox();
+          }
+        },
+      );
     }
     return const SizedBox();
-
   }
 
   changeProfilePicture() {
