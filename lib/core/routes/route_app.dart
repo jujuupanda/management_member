@@ -170,7 +170,7 @@ final GoRouter routerApp = GoRouter(
       pageBuilder: (context, state) => buildPageWithDefaultTransition(
         context: context,
         state: state,
-        child:  NewsFullContentScreen(news: state.extra as NewsEntity),
+        child: NewsFullContentScreen(news: state.extra as NewsEntity),
       ),
     ),
 
@@ -203,7 +203,9 @@ final GoRouter routerApp = GoRouter(
               path: "/news",
               name: RouteName().news,
               builder: (context, state) {
-                return const NewsScreen();
+                return NewsScreen(
+                  toDeleted: state.extra as NewsEntity?,
+                );
               },
             )
           ],

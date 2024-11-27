@@ -37,4 +37,27 @@ class NewsRemoteDataSource extends NewsDataSource {
       },
     );
   }
+
+  @override
+  Future<Either<Failure, BlankModel>> editNews(EditNewsParam params) async {
+    try {
+      final docRef = firebaseDB.collection("news").doc(params.news.id);
+      await docRef.update(params.news.toJson());
+      await docRef.get();
+      return Right(BlankModel());
+    } catch (e) {
+      return Left(ServerFailure("Gagal memperbarui berita"));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BlankModel>> deleteNews(DeleteNewsParam params) async {
+    try {
+      final docRef = firebaseDB.collection("news").doc(params.news.id);
+      await docRef.delete();
+      return Right(BlankModel());
+    } catch (e) {
+      return Left(ServerFailure("Gagal menghapus berita"));
+    }
+  }
 }

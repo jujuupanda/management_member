@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/routes/route_app.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/container_body.dart';
 import '../../../../core/widgets/page_background.dart';
@@ -59,11 +61,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return BlocListener<ProfileBloc, ProfileState>(
       listener: (context, state) {
         if (state is ProfileSuccessState) {
-          if (state.isLoading == false &&
-              state.messageFailed == "") {
-
-            PopUpDialog()
-                .successUpdateProfile(context, "Kata sandi berhasil diubah");
+          if (state.isLoading == false && state.messageFailed == "") {
+            PopUpDialog().successDoSomething(
+              context,
+              "Kata sandi berhasil diubah",
+              () => context.goNamed(RouteName().profile),
+            );
           }
         }
       },

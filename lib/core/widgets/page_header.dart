@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/utils/utils.dart';
@@ -15,6 +16,8 @@ class PageHeader extends StatefulWidget {
     this.page,
     this.editProfilePicture,
     this.deleteProfilePicture,
+    this.editNews,
+    this.deleteNews,
   });
 
   final bool? isDetail;
@@ -23,6 +26,8 @@ class PageHeader extends StatefulWidget {
   final String? page;
   final VoidCallback? editProfilePicture;
   final VoidCallback? deleteProfilePicture;
+  final VoidCallback? editNews;
+  final VoidCallback? deleteNews;
 
   @override
   State<PageHeader> createState() => _PageHeaderState();
@@ -147,12 +152,52 @@ class _PageHeaderState extends State<PageHeader> {
           } else if (snapshot.hasData) {
             final role = snapshot.data!;
             if (role == "admin") {
-              return IconButton(
-                onPressed: () {},
+              return PopupMenuButton<String>(
+                onSelected: (value) {
+                  if (value == 'edit') {
+                    widget.editNews!();
+                  } else if (value == 'delete') {
+                    widget.deleteNews!();
+                  }
+                },
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem<String>(
+                      value: "edit",
+                      child: Row(
+                        children: [
+                          const Icon(Icons.edit),
+                          Gap(4.w),
+                          Text(
+                            "Edit Postingan",
+                            style: StyleText().openSansNormalBlack,
+                          ),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem<String>(
+                      value: "delete",
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.delete_forever_rounded,
+                          ),
+                          Gap(4.w),
+                          Text(
+                            "Hapus Postingan",
+                            style: StyleText().openSansNormalBlack,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ];
+                },
                 icon: Icon(
                   Icons.more_vert_rounded,
                   color: PaletteColor().white,
                 ),
+                offset: Offset(0, 50.h),
+                color: PaletteColor().lightGray,
               );
             }
             return const SizedBox();

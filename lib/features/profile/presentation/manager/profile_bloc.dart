@@ -106,9 +106,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         : const ProfileSuccessState().copyWith();
     emit(currentState.copyWith(isLoading: true));
     final fromEntity = UserModel.fromEntity(event.user);
-    final toUpdate = fromEntity.copyWith(event.object);
-    final userUpdated =
-        await editProfileUseCase.call(EditProfileParam(toUpdate));
+    final toUpdate = EditProfileParam(fromEntity.copyWith(event.object));
+    final userUpdated = await editProfileUseCase.call(toUpdate);
     userUpdated.fold(
       (l) {
         if (l is ServerFailure) {

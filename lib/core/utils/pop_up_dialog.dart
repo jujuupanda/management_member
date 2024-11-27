@@ -170,64 +170,71 @@ class PopUpDialog {
     );
   }
 
-  void successUpdateProfile(BuildContext context, String text) {
+  void successDoSomething(BuildContext context, String text, VoidCallback onTap) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 10.w,
-            vertical: 10.h,
-          ),
-          title: Text(
-            "Berhasil",
-            style: StyleText().openSansBigValueBlack,
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Gap(20.h),
-              Icon(
-                Icons.check_circle_outline_rounded,
-                size: 90,
-                color: PaletteColor().softDarkGrey,
-              ),
-              Gap(10.h),
-              Text(
-                text,
-                style: StyleText().openSansNormalBlack,
-              ),
-              Gap(20.h),
-            ],
-          ),
-          actions: [
-            Container(
-              height: 35.h,
-              width: 80.w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.r),
-                color: PaletteColor().softDarkGrey,
-              ),
-              child: Material(
-                color: PaletteColor().transparent,
-                child: InkWell(
-                  onTap: () => context.goNamed(RouteName().profile),
-                  splashColor: PaletteColor().lightGray,
+        return WillPopScope(
+          onWillPop: () async {
+            return false;
+          },
+          child: AlertDialog(
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 10.w,
+              vertical: 10.h,
+            ),
+            title: Text(
+              "Berhasil",
+              style: StyleText().openSansBigValueBlack,
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Gap(20.h),
+                Icon(
+                  Icons.check_circle_outline_rounded,
+                  size: 90,
+                  color: PaletteColor().softDarkGrey,
+                ),
+                Gap(10.h),
+                Text(
+                  text,
+                  style: StyleText().openSansNormalBlack,
+                ),
+                Gap(20.h),
+              ],
+            ),
+            actions: [
+              Container(
+                height: 35.h,
+                width: 80.w,
+                decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.r),
-                  child: Center(
-                    child: Text(
-                      "Baik",
-                      style: StyleText().openSansNormalWhite,
+                  color: PaletteColor().softDarkGrey,
+                ),
+                child: Material(
+                  color: PaletteColor().transparent,
+                  child: InkWell(
+                    onTap: onTap,
+                    splashColor: PaletteColor().lightGray,
+                    borderRadius: BorderRadius.circular(10.r),
+                    child: Center(
+                      child: Text(
+                        "Baik",
+                        style: StyleText().openSansNormalWhite,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
   }
+
 
   exitPopUp(BuildContext context, VoidCallback onTap) {
     showDialog(

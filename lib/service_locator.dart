@@ -16,6 +16,8 @@ import 'features/login/presentation/manager/auth_bloc.dart';
 import 'features/news/data/data_sources/news_data_source.dart';
 import 'features/news/data/repositories/news_repository_impl.dart';
 import 'features/news/domain/use_cases/create_news_use_case.dart';
+import 'features/news/domain/use_cases/delete_news_use_case.dart';
+import 'features/news/domain/use_cases/edit_news_use_case.dart';
 import 'features/news/domain/use_cases/get_news_use_case.dart';
 import 'features/news/presentation/manager/news_bloc.dart';
 import 'features/profile/data/data_sources/profile_data_source.dart';
@@ -124,6 +126,16 @@ void serviceLocator() async {
     () => GetNewsUseCase(
       getIt<NewsRepositoryImpl>(),
     ),
+
+  );getIt.registerLazySingleton<EditNewsUseCase>(
+    () => EditNewsUseCase(
+      getIt<NewsRepositoryImpl>(),
+    ),
+  );
+  getIt.registerLazySingleton<DeleteNewsUseCase>(
+    () => DeleteNewsUseCase(
+      getIt<NewsRepositoryImpl>(),
+    ),
   );
 
   /// Bloc
@@ -158,6 +170,8 @@ void serviceLocator() async {
     () => NewsBloc(
       createNewsUseCase: getIt<CreateNewsUseCase>(),
       getNewsUseCase: getIt<GetNewsUseCase>(),
+      editNewsUseCase: getIt<EditNewsUseCase>(),
+      deleteNewsUseCase: getIt<DeleteNewsUseCase>(),
     ),
   );
 

@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/routes/route_app.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/container_body.dart';
 import '../../../../core/widgets/page_background.dart';
@@ -13,7 +16,10 @@ import '../../domain/entities/news_entity.dart';
 import '../manager/news_bloc.dart';
 
 class NewsFullContentScreen extends StatelessWidget {
-  const NewsFullContentScreen({super.key, required this.news});
+  const NewsFullContentScreen({
+    super.key,
+    required this.news,
+  });
 
   final NewsEntity news;
 
@@ -50,8 +56,6 @@ class NewsFullContentScreen extends StatelessWidget {
                       imageUrl: item,
                       fit: BoxFit.cover,
                       width: double.infinity,
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
                     ),
@@ -62,6 +66,34 @@ class NewsFullContentScreen extends StatelessWidget {
     );
   }
 
+  editNews() {
+    return () {
+      //goto page edit
+      print("object");
+    };
+  }
+
+  deleteNews(BuildContext context) {
+    return () {
+      PopUpDialog().caution(
+        context,
+        Icons.delete_forever_rounded,
+        "Ingin menghapus berita?",
+        () {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            PopUpDialog().successDoSomething(
+              context,
+              "Berhasil menghapus berita",
+              () {
+                context.goNamed(RouteName().news, extra: news);
+              },
+            );
+          });
+        },
+      );
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,9 +102,11 @@ class NewsFullContentScreen extends StatelessWidget {
           const PageBackground(),
           Column(
             children: [
-              const PageHeader(
+              PageHeader(
                 isDetail: true,
                 isAdmin: true,
+                editNews: editNews(),
+                deleteNews: deleteNews(context),
               ),
               Expanded(
                 child: ContainerBody(

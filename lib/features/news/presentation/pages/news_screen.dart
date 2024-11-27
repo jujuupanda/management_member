@@ -13,13 +13,17 @@ import '../widgets/widget_shimmer_news.dart';
 import '../../domain/entities/news_entity.dart';
 
 class NewsScreen extends StatefulWidget {
-  const NewsScreen({super.key});
+  const NewsScreen({super.key, this.toDeleted});
+
+  final NewsEntity? toDeleted;
 
   @override
   State<NewsScreen> createState() => _NewsScreenState();
 }
 
 class _NewsScreenState extends State<NewsScreen> {
+  NewsEntity? toDeleted;
+
   @override
   void initState() {
     super.initState();
@@ -28,6 +32,11 @@ class _NewsScreenState extends State<NewsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.toDeleted != null) {
+      toDeleted = widget.toDeleted;
+      BlocFunction().deleteNews(context, toDeleted!);
+      toDeleted = null;
+    }
     return Scaffold(
       body: Stack(
         children: [
@@ -71,7 +80,9 @@ class _NewsScreenState extends State<NewsScreen> {
 
   Padding listNews(List<NewsEntity> news) {
     return Padding(
-      padding:  EdgeInsets.symmetric( vertical: 16.h,),
+      padding: EdgeInsets.symmetric(
+        vertical: 16.h,
+      ),
       child: ListView.builder(
         shrinkWrap: true,
         itemCount: news.length,
@@ -79,10 +90,11 @@ class _NewsScreenState extends State<NewsScreen> {
           horizontal: 16.w,
         ),
         itemBuilder: (context, index) {
-          return WidgetNewsCardView(news: news[index],);
+          return WidgetNewsCardView(
+            news: news[index],
+          );
         },
       ),
     );
   }
 }
-
