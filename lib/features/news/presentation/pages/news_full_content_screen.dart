@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -66,10 +65,12 @@ class NewsFullContentScreen extends StatelessWidget {
     );
   }
 
-  editNews() {
+  editNews(BuildContext context) {
     return () {
-      //goto page edit
-      print("object");
+      context.pushNamed(
+        RouteName().editNews,
+        extra: news,
+      );
     };
   }
 
@@ -104,8 +105,8 @@ class NewsFullContentScreen extends StatelessWidget {
             children: [
               PageHeader(
                 isDetail: true,
-                isAdmin: true,
-                editNews: editNews(),
+                page: "news",
+                editNews: editNews(context),
                 deleteNews: deleteNews(context),
               ),
               Expanded(

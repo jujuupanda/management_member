@@ -6,6 +6,7 @@ class NewsEntity {
   final String author;
   final String publishedAt;
   final String category;
+  final bool archived;
 
   const NewsEntity({
     required this.id,
@@ -15,5 +16,6 @@ class NewsEntity {
     required this.author,
     required this.publishedAt,
     required this.category,
+    required this.archived,
   });
 }

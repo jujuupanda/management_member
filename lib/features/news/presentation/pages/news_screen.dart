@@ -44,7 +44,6 @@ class _NewsScreenState extends State<NewsScreen> {
           Column(
             children: [
               const PageHeader(
-                isAdmin: true,
                 page: "news",
               ),
               Gap(10.h),

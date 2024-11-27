@@ -7,38 +7,56 @@ import '../../../../core/widgets/container_body.dart';
 import '../../../../core/widgets/page_background.dart';
 import '../../../../core/widgets/page_header.dart';
 import '../../../../core/widgets/widget_action_button.dart';
+import '../../domain/entities/news_entity.dart';
 
-class CreateNewsScreen extends StatefulWidget {
-  const CreateNewsScreen({super.key});
+class EditNewsScreen extends StatefulWidget {
+  const EditNewsScreen({super.key, required this.news});
+
+  final NewsEntity news;
 
   @override
-  State<CreateNewsScreen> createState() => _CreateNewsScreenState();
+  State<EditNewsScreen> createState() => _EditNewsScreenState();
 }
 
-class _CreateNewsScreenState extends State<CreateNewsScreen> {
+class _EditNewsScreenState extends State<EditNewsScreen> {
   late TextEditingController titleC;
   late TextEditingController contentC;
   late TextEditingController categoryC;
+  late bool archiveC;
   final List<String> imageC = [];
 
   @override
   void initState() {
     super.initState();
-    titleC = TextEditingController();
-    contentC = TextEditingController();
-    categoryC = TextEditingController();
+    titleC = TextEditingController(text: widget.news.title);
+    contentC = TextEditingController(text: widget.news.content);
+    categoryC = TextEditingController(text: widget.news.category);
+    archiveC = widget.news.archived;
   }
 
-  createNews(BuildContext context) {
+  editNews(BuildContext context) {
     return () {
-      BlocFunction().createNews(
+      BlocFunction().editNews(
         context,
-        titleC.text,
-        contentC.text,
-        imageC,
-        categoryC.text,
+        widget.news,
+        {
+          "title": titleC.text,
+          "content": contentC.text,
+          "image": imageC,
+          "category": categoryC.text,
+        },
       );
     };
+  }
+
+  archiveNews(BuildContext context) {
+    BlocFunction().editNews(
+      context,
+      widget.news,
+      {
+        "archived": archiveC,
+      },
+    );
   }
 
   @override
@@ -68,16 +86,18 @@ class _CreateNewsScreenState extends State<CreateNewsScreen> {
                       children: [
                         Center(
                           child: Text(
-                            "Tambah Berita",
+                            "Edit Berita",
                             style: StyleText().openSansTitleBlack,
                           ),
                         ),
+                        Gap(10.h),
+                        archiveWidget(),
                         Gap(10.h),
                         Text(
                           "Judul",
                           style: StyleText().openSansNormalBlack,
                         ),
-                        AddNewsTextFormField(
+                        EditNewsTextFormField(
                           controller: titleC,
                           identifiedAs: "title",
                         ),
@@ -86,7 +106,7 @@ class _CreateNewsScreenState extends State<CreateNewsScreen> {
                           "Isi",
                           style: StyleText().openSansNormalBlack,
                         ),
-                        AddNewsTextFormField(
+                        EditNewsTextFormField(
                           controller: contentC,
                           identifiedAs: "content",
                         ),
@@ -106,14 +126,15 @@ class _CreateNewsScreenState extends State<CreateNewsScreen> {
                             )
                           ],
                         ),
-                        imageC.isNotEmpty
+                        widget.news.image.isNotEmpty
                             ? ListView.builder(
                                 shrinkWrap: true,
                                 padding: EdgeInsets.zero,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: imageC.length,
+                                itemCount: widget.news.image.length,
                                 itemBuilder: (context, index) {
-                                  return imageCardView(imageC[index]);
+                                  return imageCardView(
+                                      widget.news.image[index]);
                                 },
                               )
                             : Center(
@@ -126,8 +147,8 @@ class _CreateNewsScreenState extends State<CreateNewsScreen> {
                         Align(
                           alignment: Alignment.centerRight,
                           child: WidgetActionButton(
-                            name: "Buat",
-                            onTap: createNews(context),
+                            name: "Simpan",
+                            onTap: editNews(context),
                           ),
                         ),
                         Gap(30.h),
@@ -139,6 +160,38 @@ class _CreateNewsScreenState extends State<CreateNewsScreen> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Material archiveWidget() {
+    return Material(
+      color: PaletteColor().transparent,
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            archiveC = !archiveC;
+          });
+          archiveNews(context);
+        },
+        splashColor: PaletteColor().lightGray,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Icon(
+                archiveC == false
+                    ? Icons.archive_rounded
+                    : Icons.unarchive_rounded,
+              ),
+              Gap(5.w),
+              Text(
+                archiveC == false ? "Arsipkan" : "Batal Arsip",
+                style: StyleText().openSansNormalBlack,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -186,8 +239,8 @@ class _CreateNewsScreenState extends State<CreateNewsScreen> {
   }
 }
 
-class AddNewsTextFormField extends StatelessWidget {
-  const AddNewsTextFormField({
+class EditNewsTextFormField extends StatelessWidget {
+  const EditNewsTextFormField({
     super.key,
     required this.identifiedAs,
     required this.controller,

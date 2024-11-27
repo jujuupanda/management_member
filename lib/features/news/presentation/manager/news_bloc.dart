@@ -46,6 +46,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       author: event.news.author,
       publishedAt: event.news.publishedAt,
       category: event.news.category,
+      archived: event.news.archived,
     );
     try {
       final newsCreated =
@@ -106,6 +107,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       },
       (r) {
         emit(currentState.copyWith(isLoading: false));
+        add(GetNews());
       },
     );
   }

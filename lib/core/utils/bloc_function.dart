@@ -91,6 +91,7 @@ class BlocFunction {
               author: "",
               publishedAt: "",
               category: category,
+              archived: false,
             ),
           ),
         );
