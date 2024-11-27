@@ -9,6 +9,7 @@ class NewsModel extends NewsEntity {
     required super.author,
     required super.publishedAt,
     required super.category,
+    required super.archived,
   });
 
   factory NewsModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +21,7 @@ class NewsModel extends NewsEntity {
       author: json["author"] ?? "",
       publishedAt: json["published_at"] ?? DateTime.now().toString(),
       category: json["category"] ?? "",
+      archived: json["archived"] ?? false,
     );
   }
 
@@ -32,6 +34,7 @@ class NewsModel extends NewsEntity {
       "author": author,
       "published_at": publishedAt,
       "category": category,
+      "archived": archived,
     };
   }
 
@@ -44,6 +47,7 @@ class NewsModel extends NewsEntity {
       author: author,
       publishedAt: publishedAt,
       category: category,
+      archived: archived,
     );
   }
 
@@ -56,26 +60,20 @@ class NewsModel extends NewsEntity {
       author: news.author,
       publishedAt: news.publishedAt,
       category: news.category,
+      archived: news.archived,
     );
   }
 
-  NewsModel copyWith({
-    String? id,
-    String? title,
-    String? content,
-    List<String>? image,
-    String? author,
-    String? publishedAt,
-    String? category,
-  }) {
+  NewsModel copyWith(Map<String, dynamic> updates) {
     return NewsModel(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      content: content ?? this.content,
-      image: image ?? this.image,
-      author: author ?? this.author,
-      publishedAt: publishedAt ?? this.publishedAt,
-      category: category ?? this.category,
+      id: updates["id"] ?? id,
+      title: updates["title"] ?? title,
+      content: updates["content"] ?? content,
+      image: updates["image"] ?? image,
+      author: updates["author"] ?? author,
+      publishedAt: updates["published_at"] ?? publishedAt,
+      category: updates["category"] ?? category,
+      archived: updates["archived"] ?? archived,
     );
   }
 }

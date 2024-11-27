@@ -15,7 +15,10 @@ import '../../features/message/presentation/pages/message_screen.dart';
 import '../../features/navigation_bar/presentation/pages/bottom_navigation_bar.dart';
 import '../../features/news/domain/entities/news_entity.dart';
 import '../../features/news/presentation/pages/create_news_screen.dart';
+import '../../features/news/presentation/pages/edit_news_screen.dart';
+import '../../features/news/presentation/pages/news_cached_images_full_screen.dart';
 import '../../features/news/presentation/pages/news_full_content_screen.dart';
+import '../../features/news/presentation/pages/news_images_full_screen.dart';
 import '../../features/news/presentation/pages/news_screen.dart';
 import '../../features/profile/presentation/pages/add_user_screen.dart';
 import '../../features/profile/presentation/pages/change_password_screen.dart';
@@ -170,8 +173,55 @@ final GoRouter routerApp = GoRouter(
       pageBuilder: (context, state) => buildPageWithDefaultTransition(
         context: context,
         state: state,
-        child:  NewsFullContentScreen(news: state.extra as NewsEntity),
+        child: NewsFullContentScreen(news: state.extra as NewsEntity),
       ),
+    ),
+    GoRoute(
+      path: '/editNews',
+      name: RouteName().editNews,
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        context: context,
+        state: state,
+        child: EditNewsScreen(news: state.extra as NewsEntity),
+      ),
+    ),
+    GoRoute(
+      path: '/newsImagesFullScreen',
+      name: RouteName().newsImagesFullScreen,
+      pageBuilder: (context, state) {
+        final Map<String, dynamic> extraData =
+            state.extra as Map<String, dynamic>;
+        final news = extraData['news'] as NewsEntity;
+        final index = extraData['index'] as int;
+
+        return buildPageWithDefaultTransition(
+          context: context,
+          state: state,
+          child: NewsImagesFullScreen(
+            news: news,
+            index: index,
+          ),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/newsCachedImagesFullScreen',
+      name: RouteName().newsCachedImagesFullScreen,
+      pageBuilder: (context, state) {
+        final Map<String, dynamic> extraData =
+        state.extra as Map<String, dynamic>;
+        final cachedImages = extraData['cachedImages'] as List<File>;
+        final index = extraData['index'] as int;
+
+        return buildPageWithDefaultTransition(
+          context: context,
+          state: state,
+          child: NewsCachedImagesFullScreen(
+            cachedImages: cachedImages,
+            index: index,
+          ),
+        );
+      },
     ),
 
     /// Route with parent
@@ -203,7 +253,9 @@ final GoRouter routerApp = GoRouter(
               path: "/news",
               name: RouteName().news,
               builder: (context, state) {
-                return const NewsScreen();
+                return NewsScreen(
+                  toDeleted: state.extra as NewsEntity?,
+                );
               },
             )
           ],

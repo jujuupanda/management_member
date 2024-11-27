@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/routes/route_app.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/container_body.dart';
 import '../../../../core/widgets/page_background.dart';
@@ -74,8 +76,11 @@ class _AddUserScreenState extends State<AddUserScreen> {
       listener: (context, state) {
         if (state is ProfileSuccessState) {
           if (state.isLoading == false && state.messageFailed == "") {
-            PopUpDialog().successUpdateProfile(
-                context, "Berhasil menambahkan pengguna baru");
+            PopUpDialog().successDoSomething(
+              context,
+              "Berhasil menambahkan pengguna baru",
+              () => context.goNamed(RouteName().profile),
+            );
           }
         }
       },

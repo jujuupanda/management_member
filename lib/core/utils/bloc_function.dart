@@ -91,6 +91,7 @@ class BlocFunction {
               author: "",
               publishedAt: "",
               category: category,
+              archived: false,
             ),
           ),
         );
@@ -98,6 +99,14 @@ class BlocFunction {
 
   getNews(BuildContext context) {
     context.read<NewsBloc>().add(GetNews());
+  }
+
+  editNews(BuildContext context, NewsEntity news, Map<String, dynamic> object) {
+    context.read<NewsBloc>().add(EditNews(news, object));
+  }
+
+  deleteNews(BuildContext context, NewsEntity news) {
+    context.read<NewsBloc>().add(DeleteNews(news));
   }
 
   initialProfile(BuildContext context) {

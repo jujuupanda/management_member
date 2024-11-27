@@ -18,4 +18,7 @@ class RouteName {
   final attendancePictureScreen = "attendancePictureScreen";
   final createNews = "createNews";
   final newsFullContent = "newsFullContent";
+  final editNews = "editNews";
+  final newsImagesFullScreen = "newsImagesFullScreen";
+  final newsCachedImagesFullScreen = "newsCachedImagesFullScreen";
 }
