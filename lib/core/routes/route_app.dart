@@ -17,6 +17,7 @@ import '../../features/news/domain/entities/news_entity.dart';
 import '../../features/news/presentation/pages/create_news_screen.dart';
 import '../../features/news/presentation/pages/edit_news_screen.dart';
 import '../../features/news/presentation/pages/news_full_content_screen.dart';
+import '../../features/news/presentation/pages/news_images_full_screen.dart';
 import '../../features/news/presentation/pages/news_screen.dart';
 import '../../features/profile/presentation/pages/add_user_screen.dart';
 import '../../features/profile/presentation/pages/change_password_screen.dart';
@@ -183,6 +184,24 @@ final GoRouter routerApp = GoRouter(
         child: EditNewsScreen(news: state.extra as NewsEntity),
       ),
     ),
+    GoRoute(
+        path: '/newsImagesFullScreen',
+        name: RouteName().newsImagesFullScreen,
+        pageBuilder: (context, state) {
+          final Map<String, dynamic> extraData =
+              state.extra as Map<String, dynamic>;
+          final news = extraData['news'] as NewsEntity;
+          final index = extraData['index'] as int;
+
+          return buildPageWithDefaultTransition(
+            context: context,
+            state: state,
+            child: NewsImagesFullScreen(
+              news: news,
+              index: index,
+            ),
+          );
+        }),
 
     /// Route with parent
     /// if have many role in app, just add more StatefulShellRoute.indexedStack

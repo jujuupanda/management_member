@@ -14,13 +14,38 @@ import '../../../../core/widgets/page_header.dart';
 import '../../domain/entities/news_entity.dart';
 import '../manager/news_bloc.dart';
 
-class NewsFullContentScreen extends StatelessWidget {
+class NewsFullContentScreen extends StatefulWidget {
   const NewsFullContentScreen({
     super.key,
     required this.news,
   });
 
   final NewsEntity news;
+
+  @override
+  State<NewsFullContentScreen> createState() => _NewsFullContentScreenState();
+}
+
+class _NewsFullContentScreenState extends State<NewsFullContentScreen> {
+  int currentIndex = 0;
+
+  checkCurrentIndexFromDetail() async {
+    final result = await context.pushNamed<int>(
+      RouteName().newsImagesFullScreen,
+      extra: {
+        "index": currentIndex,
+      },
+    );
+    if (result != null) {
+      setState(() {
+        currentIndex = result;
+      });
+    } else {
+      setState(() {
+        currentIndex = 0;
+      });
+    }
+  }
 
   indentationContent(String content) {
     List<String> paragraphs = content.split("\n");
@@ -37,30 +62,45 @@ class NewsFullContentScreen extends StatelessWidget {
     return paragraphWidgets;
   }
 
-  imageSlider(NewsEntity news) {
+  imageSlider(
+    BuildContext context,
+    NewsEntity news,
+  ) {
     return Padding(
       padding: EdgeInsets.only(bottom: 20.h),
-      child: CarouselSlider(
+      child: CarouselSlider.builder(
         options: CarouselOptions(
           autoPlay: false,
           enlargeCenterPage: true,
-          aspectRatio: 16 / 9,
+          aspectRatio: 4 / 3,
           viewportFraction: 1,
+          initialPage: currentIndex,
         ),
-        items: news.image
-            .map((item) => GestureDetector(
-                  onTap: () {},
-                  child: Center(
-                    child: CachedNetworkImage(
-                      imageUrl: item,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                  ),
-                ))
-            .toList(),
+        itemCount: news.image.length,
+        itemBuilder: (context, index, realIndex) {
+          return GestureDetector(
+            onTap: () {
+              context.pushNamed<Map<String, dynamic>>(
+                RouteName().newsImagesFullScreen,
+                extra: {
+                  "news": news,
+                  "index": index,
+                },
+              );
+            },
+            child: Hero(
+              tag: "newsImages-$index",
+              child: Center(
+                child: CachedNetworkImage(
+                  imageUrl: news.image[index],
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -69,7 +109,7 @@ class NewsFullContentScreen extends StatelessWidget {
     return () {
       context.pushNamed(
         RouteName().editNews,
-        extra: news,
+        extra: widget.news,
       );
     };
   }
@@ -86,7 +126,7 @@ class NewsFullContentScreen extends StatelessWidget {
               context,
               "Berhasil menghapus berita",
               () {
-                context.goNamed(RouteName().news, extra: news);
+                context.goNamed(RouteName().news, extra: widget.news);
               },
             );
           });
@@ -97,6 +137,7 @@ class NewsFullContentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {});
     return Scaffold(
       body: Stack(
         children: [
@@ -115,7 +156,7 @@ class NewsFullContentScreen extends StatelessWidget {
                     builder: (context, state) {
                       if (state is NewsLoaded) {
                         final newsIndexed = state.news!
-                            .where((listNews) => listNews.id == news.id)
+                            .where((listNews) => listNews.id == widget.news.id)
                             .first;
                         return ListView(
                           padding: EdgeInsets.symmetric(
@@ -133,7 +174,7 @@ class NewsFullContentScreen extends StatelessWidget {
                             ),
                             Gap(20.h),
                             newsIndexed.image.isNotEmpty
-                                ? imageSlider(newsIndexed)
+                                ? imageSlider(context, newsIndexed)
                                 : const SizedBox(),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
