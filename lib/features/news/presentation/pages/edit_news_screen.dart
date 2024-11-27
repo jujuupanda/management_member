@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -56,6 +58,52 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
       {
         "archived": archiveC,
       },
+    );
+  }
+
+  imageSlider(
+    BuildContext context,
+    NewsEntity news,
+  ) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 20.h),
+      child: CarouselSlider.builder(
+        options: CarouselOptions(
+          autoPlay: false,
+          enlargeCenterPage: true,
+          aspectRatio: 4 / 3,
+          viewportFraction: 1,
+          initialPage: 0,
+        ),
+        itemCount: news.image.length,
+        itemBuilder: (context, index, realIndex) {
+          return GestureDetector(
+            onLongPress: () {
+              PopUpDialog().caution(
+                context,
+                Icons.delete_forever_rounded,
+                "Hapus foto?",
+                () {
+                  setState(() {
+                    // cachedImage.removeAt(index);
+                  });
+                },
+              );
+            },
+            child: Hero(
+              tag: "newsImages-$index",
+              child: Center(
+                child: CachedNetworkImage(
+                  imageUrl: news.image[index],
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -127,16 +175,7 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
                           ],
                         ),
                         widget.news.image.isNotEmpty
-                            ? ListView.builder(
-                                shrinkWrap: true,
-                                padding: EdgeInsets.zero,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: widget.news.image.length,
-                                itemBuilder: (context, index) {
-                                  return imageCardView(
-                                      widget.news.image[index]);
-                                },
-                              )
+                            ? imageSlider(context, widget.news)
                             : Center(
                                 child: Text(
                                   "Tidak ada gambar",

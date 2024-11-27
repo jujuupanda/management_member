@@ -137,7 +137,6 @@ class _NewsFullContentScreenState extends State<NewsFullContentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    setState(() {});
     return Scaffold(
       body: Stack(
         children: [

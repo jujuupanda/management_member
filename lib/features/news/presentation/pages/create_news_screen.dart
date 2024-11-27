@@ -205,9 +205,16 @@ class _CreateNewsScreenState extends State<CreateNewsScreen> {
             );
           },
           onLongPress: () {
-            setState(() {
-              cachedImage.removeAt(index);
-            });
+            PopUpDialog().caution(
+              context,
+              Icons.delete_forever_rounded,
+              "Hapus foto?",
+              () {
+                setState(() {
+                  cachedImage.removeAt(index);
+                });
+              },
+            );
           },
           child: Hero(
             tag: "cachedImageNews-$index",
