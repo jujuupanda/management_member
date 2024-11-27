@@ -36,7 +36,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     final currentState = state is NewsLoaded
         ? state as NewsLoaded
         : const NewsLoaded().copyWith();
-    emit(currentState.copyWith(isLoading: true));
+    emit(currentState.copyWith(isLoading: true, isCreated: false));
 
     final toCreate = NewsModel(
       id: event.news.id,
@@ -58,7 +58,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           }
         },
         (r) {
-          emit(currentState.copyWith(isLoading: false));
+          emit(currentState.copyWith(isLoading: false, isCreated: true));
           add(GetNews());
         },
       );

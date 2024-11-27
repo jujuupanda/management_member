@@ -16,6 +16,7 @@ import '../../features/navigation_bar/presentation/pages/bottom_navigation_bar.d
 import '../../features/news/domain/entities/news_entity.dart';
 import '../../features/news/presentation/pages/create_news_screen.dart';
 import '../../features/news/presentation/pages/edit_news_screen.dart';
+import '../../features/news/presentation/pages/news_cached_images_full_screen.dart';
 import '../../features/news/presentation/pages/news_full_content_screen.dart';
 import '../../features/news/presentation/pages/news_images_full_screen.dart';
 import '../../features/news/presentation/pages/news_screen.dart';
@@ -185,23 +186,43 @@ final GoRouter routerApp = GoRouter(
       ),
     ),
     GoRoute(
-        path: '/newsImagesFullScreen',
-        name: RouteName().newsImagesFullScreen,
-        pageBuilder: (context, state) {
-          final Map<String, dynamic> extraData =
-              state.extra as Map<String, dynamic>;
-          final news = extraData['news'] as NewsEntity;
-          final index = extraData['index'] as int;
+      path: '/newsImagesFullScreen',
+      name: RouteName().newsImagesFullScreen,
+      pageBuilder: (context, state) {
+        final Map<String, dynamic> extraData =
+            state.extra as Map<String, dynamic>;
+        final news = extraData['news'] as NewsEntity;
+        final index = extraData['index'] as int;
 
-          return buildPageWithDefaultTransition(
-            context: context,
-            state: state,
-            child: NewsImagesFullScreen(
-              news: news,
-              index: index,
-            ),
-          );
-        }),
+        return buildPageWithDefaultTransition(
+          context: context,
+          state: state,
+          child: NewsImagesFullScreen(
+            news: news,
+            index: index,
+          ),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/newsCachedImagesFullScreen',
+      name: RouteName().newsCachedImagesFullScreen,
+      pageBuilder: (context, state) {
+        final Map<String, dynamic> extraData =
+        state.extra as Map<String, dynamic>;
+        final cachedImages = extraData['cachedImages'] as List<File>;
+        final index = extraData['index'] as int;
+
+        return buildPageWithDefaultTransition(
+          context: context,
+          state: state,
+          child: NewsCachedImagesFullScreen(
+            cachedImages: cachedImages,
+            index: index,
+          ),
+        );
+      },
+    ),
 
     /// Route with parent
     /// if have many role in app, just add more StatefulShellRoute.indexedStack

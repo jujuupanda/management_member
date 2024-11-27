@@ -21,7 +21,7 @@ class WidgetInformationInitial extends StatelessWidget {
   final File? isCaptured;
 
   capturedPhoto() async {
-    final capturedPhoto = await PickImage().pickImage(ImageSource.camera);
+    final capturedPhoto = await PickImage().pickImageSquare(ImageSource.camera);
     if (capturedPhoto != null) {
       onPhotoCaptured(capturedPhoto);
     }
