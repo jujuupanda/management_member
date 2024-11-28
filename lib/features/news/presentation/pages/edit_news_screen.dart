@@ -91,7 +91,7 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
               );
             },
             child: Hero(
-              tag: "newsImages-$index",
+              tag: widget.news.image[index],
               child: Center(
                 child: CachedNetworkImage(
                   imageUrl: news.image[index],

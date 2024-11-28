@@ -91,11 +91,12 @@ class _NewsCachedImagesFullScreenState extends State<NewsCachedImagesFullScreen>
                       aspectRatio: 4 / 3,
                       viewportFraction: 1,
                       initialPage: currentIndex,
+                      enableInfiniteScroll: false,
                     ),
                     itemCount: widget.cachedImages.length,
                     itemBuilder: (context, index, realIndex) {
                       return WidgetZoom(
-                        heroAnimationTag: "cachedImageNews-$index",
+                        heroAnimationTag: widget.cachedImages[index].path,
                         zoomWidget: SizedBox(
                           height: MediaQuery.of(context).size.width,
                           width: MediaQuery.of(context).size.width,

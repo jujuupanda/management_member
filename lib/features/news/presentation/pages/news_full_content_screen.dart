@@ -89,7 +89,7 @@ class _NewsFullContentScreenState extends State<NewsFullContentScreen> {
               );
             },
             child: Hero(
-              tag: "newsImages-$index",
+              tag: widget.news.image[index],
               child: Center(
                 child: CachedNetworkImage(
                   imageUrl: news.image[index],

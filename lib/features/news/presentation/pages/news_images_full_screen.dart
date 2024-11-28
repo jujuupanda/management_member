@@ -90,11 +90,12 @@ class _NewsImagesFullScreenState extends State<NewsImagesFullScreen>
                       aspectRatio: 4 / 3,
                       viewportFraction: 1,
                       initialPage: currentIndex,
+                      enableInfiniteScroll: false,
                     ),
                     itemCount: widget.news.image.length,
                     itemBuilder: (context, index, realIndex) {
                       return WidgetZoom(
-                        heroAnimationTag: "newsImages-$index",
+                        heroAnimationTag: widget.news.image[index],
                         zoomWidget: SizedBox(
                           height: MediaQuery.of(context).size.width,
                           width: MediaQuery.of(context).size.width,

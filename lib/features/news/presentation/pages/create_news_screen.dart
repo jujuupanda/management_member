@@ -217,7 +217,7 @@ class _CreateNewsScreenState extends State<CreateNewsScreen> {
             );
           },
           child: Hero(
-            tag: "cachedImageNews-$index",
+            tag: cachedImage[index].path,
             child: Image.file(
               cachedImage[index],
               fit: BoxFit.cover,
