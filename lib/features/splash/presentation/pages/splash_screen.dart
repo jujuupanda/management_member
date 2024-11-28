@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/routes/route_app.dart';
+import '../../../../core/utils/utils.dart';
 import '../../../login/presentation/manager/auth_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -44,9 +44,20 @@ class _SplashScreenState extends State<SplashScreen> {
       },
       child: Scaffold(
         body: Center(
-          child: Text(
-            "SPLASH SCREEN",
-            style: GoogleFonts.openSans(fontSize: 24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.work,
+                size: 130,
+                color: PaletteColor().softBlack,
+              ),
+              Text(
+                "Manajemen Anggota",
+                style: StyleText().openSansTitleBlack,
+              ),
+            ],
           ),
         ),
       ),

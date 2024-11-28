@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/widgets/container_body.dart';
+import '../../../../core/widgets/page_background.dart';
+import '../../../../core/widgets/page_header.dart';
 import '../../../attendance/domain/entities/attendance_entity.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
@@ -63,118 +66,132 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size(double.maxFinite, 56.h),
-        child: appBarHome(context),
-      ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          BlocFunction().getAttendance(context);
-        },
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: 12.h,
-              horizontal: 12.w,
-            ),
-            child: BlocBuilder<AttendanceBloc, AttendanceState>(
-              builder: (context, state) {
-                if (state is AttendancesLoaded) {
-                  if (state.isLoading == true) {
-                    return WidgetShimmerHome().homeScreenShimmer(context);
-                  }
-                  final attendances = state.attendances!;
-                  final attendanceSorted = selectedDate != null
-                      ? attendances
-                          .where((date) =>
-                              DateTime.parse(date.attendToday.timeStamp).year ==
-                                  selectedDate!.year &&
-                              DateTime.parse(date.attendToday.timeStamp)
-                                      .month ==
-                                  selectedDate!.month)
-                          .toList()
-                      : attendances;
+      body: Stack(
+        children: [
+          const PageBackground(),
+          Column(
+            children: [
+              const PageHeader(
+                isHome: true,
+              ),
+              Gap(10.h),
+              Expanded(
+                child: ContainerBody(
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 12.h,
+                        horizontal: 12.w,
+                      ),
+                      child: BlocBuilder<AttendanceBloc, AttendanceState>(
+                        builder: (context, state) {
+                          if (state is AttendancesLoaded) {
+                            if (state.isLoading == true) {
+                              return WidgetShimmerHome()
+                                  .homeScreenShimmer(context);
+                            }
+                            final attendances = state.attendances!;
+                            final attendanceSorted = selectedDate != null
+                                ? attendances
+                                    .where((date) =>
+                                        DateTime.parse(
+                                                    date.attendToday.timeStamp)
+                                                .year ==
+                                            selectedDate!.year &&
+                                        DateTime.parse(
+                                                    date.attendToday.timeStamp)
+                                                .month ==
+                                            selectedDate!.month)
+                                    .toList()
+                                : attendances;
 
-                  final attendancePresent = SortingFilterObject()
-                      .attendanceSortingFilter(attendances: attendanceSorted);
-                  final attendanceLate =
-                      SortingFilterObject().attendanceLateFilter(
-                    attendances: attendanceSorted,
-                    hour: 8,
-                    minute: 0,
-                  );
-                  final attendanceAbsent =
-                      SortingFilterObject().absentAttendFilter(
-                    startDate: selectedDate,
-                    activeWork: state.activeWork!,
-                    attendanceList: attendanceSorted,
-                  );
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      titleAttendanceReport(context),
-                      Gap(10.h),
-                      attendanceChart(
-                        attendancePresent,
-                        attendanceLate,
-                        attendanceAbsent,
+                            final attendancePresent = SortingFilterObject()
+                                .attendanceSortingFilter(
+                                    attendances: attendanceSorted);
+                            final attendanceLate =
+                                SortingFilterObject().attendanceLateFilter(
+                              attendances: attendanceSorted,
+                              hour: 8,
+                              minute: 0,
+                            );
+                            final attendanceAbsent =
+                                SortingFilterObject().absentAttendFilter(
+                              startDate: selectedDate,
+                              activeWork: state.activeWork!,
+                              attendanceList: attendanceSorted,
+                            );
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                titleAttendanceReport(context),
+                                Gap(10.h),
+                                attendanceChart(
+                                  attendancePresent,
+                                  attendanceLate,
+                                  attendanceAbsent,
+                                ),
+                                Gap(10.h),
+                                titleYourAttendance(context),
+                                Gap(10.h),
+                                attendanceReportByDate(
+                                  context,
+                                  attendancePresent,
+                                  attendanceLate,
+                                  attendanceAbsent,
+                                ),
+                                Gap(120.h),
+                                // titleExcusedProposal(context),
+                                // Gap(10.h),
+                                // excusedProposalList(),
+                                // Gap(20.h),
+                                // titleLatestExcusedProposal(),
+                                // latestExcusedProposal(),
+                                // Gap(20.h),
+                              ],
+                            );
+                          }
+                          return WidgetShimmerHome().homeScreenShimmer(context);
+                        },
                       ),
-                      Gap(10.h),
-                      titleYourAttendance(context),
-                      Gap(10.h),
-                      attendanceReportByDate(
-                        context,
-                        attendancePresent,
-                        attendanceLate,
-                        attendanceAbsent,
-                      ),
-                      Gap(20.h),
-                      titleExcusedProposal(context),
-                      Gap(10.h),
-                      excusedProposalList(),
-                      Gap(20.h),
-                      titleLatestExcusedProposal(),
-                      latestExcusedProposal()
-                    ],
-                  );
-                }
-                return WidgetShimmerHome().homeScreenShimmer(context);
-              },
-            ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
+        ],
       ),
     );
   }
 
   AppBar appBarHome(BuildContext context) {
     return AppBar(
-        title: const Text("Aplikasi Kehadiran"),
-        titleTextStyle: StyleText().openSansHeaderBlack,
-        backgroundColor: PaletteColor().softBlack,
-        actions: [
-          InkWell(
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  duration: Duration(seconds: 1),
-                  content: Text("Notifikasi"),
-                ),
-              );
-            },
-            splashColor: Colors.white.withOpacity(0.3),
-            borderRadius: BorderRadius.circular(50),
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.notifications,
-                color: Colors.white,
+      title: const Text("Aplikasi Kehadiran"),
+      titleTextStyle: StyleText().openSansHeaderBlack,
+      backgroundColor: PaletteColor().softBlack,
+      actions: [
+        InkWell(
+          onTap: () {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                duration: Duration(seconds: 1),
+                content: Text("Notifikasi"),
               ),
+            );
+          },
+          splashColor: Colors.white.withOpacity(0.3),
+          borderRadius: BorderRadius.circular(50),
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.notifications,
+              color: Colors.white,
             ),
           ),
-        ],
-      );
+        ),
+      ],
+    );
   }
 
   ListView latestExcusedProposal() {

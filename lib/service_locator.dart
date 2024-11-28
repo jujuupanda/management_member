@@ -13,6 +13,7 @@ import 'features/login/domain/use_cases/login_checker_use_case.dart';
 import 'features/login/domain/use_cases/login_use_case.dart';
 import 'features/login/domain/use_cases/logout_use_case.dart';
 import 'features/login/presentation/manager/auth_bloc.dart';
+import 'features/message/presentation/manager/message_bloc.dart';
 import 'features/news/data/data_sources/news_data_source.dart';
 import 'features/news/data/repositories/news_repository_impl.dart';
 import 'features/news/domain/use_cases/create_news_use_case.dart';
@@ -173,6 +174,9 @@ void serviceLocator() async {
       editNewsUseCase: getIt<EditNewsUseCase>(),
       deleteNewsUseCase: getIt<DeleteNewsUseCase>(),
     ),
+  );
+  getIt.registerFactory<MessageBloc>(
+    () => MessageBloc(),
   );
 
   /// Outside

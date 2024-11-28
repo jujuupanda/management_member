@@ -33,7 +33,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +42,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           Column(
             children: [
               const PageHeader(),
-              Gap(32.h),
               Expanded(
                 child: RefreshIndicator(
                   onRefresh: () async {

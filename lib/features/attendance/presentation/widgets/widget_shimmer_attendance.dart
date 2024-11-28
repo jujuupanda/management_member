@@ -40,6 +40,7 @@ class WidgetShimmerAttendance {
             ShimmerWidget(child: WidgetAttendanceButtonForShimmer()),
           ],
         ),
+        Gap(24.h),
       ],
     );
   }

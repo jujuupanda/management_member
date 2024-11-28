@@ -11,6 +11,7 @@ class PageHeader extends StatefulWidget {
   const PageHeader({
     super.key,
     this.isDetail = false,
+    this.isHome = false,
     this.changeProfilePicture = false,
     this.page,
     this.editProfilePicture,
@@ -21,6 +22,7 @@ class PageHeader extends StatefulWidget {
   });
 
   final bool? isDetail;
+  final bool? isHome;
   final bool? changeProfilePicture;
   final String? page;
   final VoidCallback? editProfilePicture;
@@ -48,6 +50,7 @@ class _PageHeaderState extends State<PageHeader> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          isHome(),
           widgetPopContext(),
           const Spacer(),
           isAdmin(),
@@ -56,6 +59,20 @@ class _PageHeaderState extends State<PageHeader> {
         ],
       ),
     );
+  }
+
+  isHome() {
+    if (widget.isHome == true) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+        child: Text(
+          "Manajemen Anggota",
+          style: StyleText().openSansBigValueWhite,
+        ),
+      );
+    } else {
+      return const SizedBox();
+    }
   }
 
   widgetPopContext() {
