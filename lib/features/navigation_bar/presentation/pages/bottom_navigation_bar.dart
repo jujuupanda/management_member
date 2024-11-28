@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/utils/utils.dart';
+
 class MyNavigationBar extends StatefulWidget {
   const MyNavigationBar({super.key, required this.child});
 
@@ -22,43 +24,43 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
 
   bottomNavigationBarItem() {
     return [
-      const BottomNavigationBarItem(
-        icon: Icon(Icons.home_filled),
+       BottomNavigationBarItem(
+        icon: const Icon(Icons.home_filled),
         activeIcon: Icon(
           Icons.home_filled,
-          color: Colors.blueAccent,
+          color: PaletteColor().softBlack,
         ),
         label: "Beranda",
       ),
-      const BottomNavigationBarItem(
-        icon: Icon(Icons.newspaper),
+       BottomNavigationBarItem(
+        icon: const Icon(Icons.newspaper),
         activeIcon: Icon(
           Icons.newspaper,
-          color: Colors.blueAccent,
+          color: PaletteColor().softBlack,
         ),
         label: "Berita",
       ),
-      const BottomNavigationBarItem(
-        icon: Icon(Icons.corporate_fare_rounded),
+       BottomNavigationBarItem(
+        icon: const Icon(Icons.add_circle_outline),
         activeIcon: Icon(
-          Icons.corporate_fare_rounded,
-          color: Colors.blueAccent,
+          Icons.add_circle_outline,
+          color: PaletteColor().softBlack,
         ),
         label: "Kehadiran",
       ),
-      const BottomNavigationBarItem(
-        icon: Icon(Icons.message),
+       BottomNavigationBarItem(
+        icon: const Icon(Icons.message),
         activeIcon: Icon(
           Icons.message,
-          color: Colors.blueAccent,
+          color: PaletteColor().softBlack,
         ),
         label: "Pesan",
       ),
-      const BottomNavigationBarItem(
-        icon: Icon(Icons.person_rounded),
+       BottomNavigationBarItem(
+        icon: const Icon(Icons.person_rounded),
         activeIcon: Icon(
           Icons.person_rounded,
-          color: Colors.blueAccent,
+          color: PaletteColor().softBlack,
         ),
         label: "Saya",
       ),

@@ -89,7 +89,7 @@ class _NewsFullContentScreenState extends State<NewsFullContentScreen> {
               );
             },
             child: Hero(
-              tag: "newsImages-$index",
+              tag: widget.news.image[index],
               child: Center(
                 child: CachedNetworkImage(
                   imageUrl: news.image[index],
@@ -117,16 +117,17 @@ class _NewsFullContentScreenState extends State<NewsFullContentScreen> {
   deleteNews(BuildContext context) {
     return () {
       PopUpDialog().caution(
-        context,
-        Icons.delete_forever_rounded,
-        "Ingin menghapus berita?",
-        () {
+        context: context,
+        iconData: Icons.delete_forever_rounded,
+        message: "Ingin menghapus berita?",
+        confirmOnTap: () {
           Future.delayed(const Duration(milliseconds: 500), () {
             PopUpDialog().successDoSomething(
               context,
               "Berhasil menghapus berita",
               () {
-                context.goNamed(RouteName().news, extra: widget.news);
+                context.pop();
+                GoRouter.of(context).pop(widget.news);
               },
             );
           });

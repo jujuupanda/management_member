@@ -34,10 +34,10 @@ class _ChangeProfilePictureScreenState extends State<ChangeProfilePictureScreen>
   removeImage(UserEntity user) {
     return () {
       PopUpDialog().caution(
-        context,
-        Icons.delete_forever_rounded,
-        "Ingin menghapus foto profile?",
-        () {
+       context:  context,
+       iconData:  Icons.delete_forever_rounded,
+       message:  "Ingin menghapus foto profile?",
+        confirmOnTap: () {
           BlocFunction().editProfile(
             context,
             user,

@@ -11,21 +11,25 @@ class PageHeader extends StatefulWidget {
   const PageHeader({
     super.key,
     this.isDetail = false,
+    this.isHome = false,
     this.changeProfilePicture = false,
     this.page,
     this.editProfilePicture,
     this.deleteProfilePicture,
     this.editNews,
     this.deleteNews,
+    this.popContextChanged,
   });
 
   final bool? isDetail;
+  final bool? isHome;
   final bool? changeProfilePicture;
   final String? page;
   final VoidCallback? editProfilePicture;
   final VoidCallback? deleteProfilePicture;
   final VoidCallback? editNews;
   final VoidCallback? deleteNews;
+  final VoidCallback? popContextChanged;
 
   @override
   State<PageHeader> createState() => _PageHeaderState();
@@ -46,17 +50,8 @@ class _PageHeaderState extends State<PageHeader> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          widget.isDetail == true
-              ? IconButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  icon: Icon(
-                    Icons.arrow_back_rounded,
-                    color: PaletteColor().white,
-                  ),
-                )
-              : const SizedBox(),
+          isHome(),
+          widgetPopContext(),
           const Spacer(),
           isAdmin(),
           changeProfilePicture(),
@@ -64,6 +59,36 @@ class _PageHeaderState extends State<PageHeader> {
         ],
       ),
     );
+  }
+
+  isHome() {
+    if (widget.isHome == true) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+        child: Text(
+          "Manajemen Anggota",
+          style: StyleText().openSansBigValueWhite,
+        ),
+      );
+    } else {
+      return const SizedBox();
+    }
+  }
+
+  widgetPopContext() {
+    if (widget.isDetail == true) {
+      return IconButton(
+        onPressed: widget.popContextChanged ??
+            () {
+              context.pop();
+            },
+        icon: Icon(
+          Icons.arrow_back_rounded,
+          color: PaletteColor().white,
+        ),
+      );
+    }
+    return const SizedBox();
   }
 
   isDetail() {
@@ -120,14 +145,27 @@ class _PageHeaderState extends State<PageHeader> {
           } else if (snapshot.hasData) {
             final role = snapshot.data!;
             if (role == "admin") {
-              return IconButton(
-                onPressed: () {
-                  context.pushNamed(RouteName().createNews);
-                },
-                icon: Icon(
-                  Icons.newspaper_outlined,
-                  color: PaletteColor().white,
-                ),
+              return Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      context.pushNamed(RouteName().archivedNews);
+                    },
+                    icon: Icon(
+                      Icons.archive_rounded,
+                      color: PaletteColor().white,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      context.pushNamed(RouteName().createNews);
+                    },
+                    icon: Icon(
+                      Icons.newspaper_outlined,
+                      color: PaletteColor().white,
+                    ),
+                  ),
+                ],
               );
             }
             return const SizedBox();
