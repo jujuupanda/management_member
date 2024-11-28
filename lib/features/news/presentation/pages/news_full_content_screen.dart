@@ -169,8 +169,14 @@ class _NewsFullContentScreenState extends State<NewsFullContentScreen> {
                               style: StyleText().openSansTitleBlack,
                             ),
                             Text(
-                              "${ParsingString().formatDateTimeIDFormatFull(newsIndexed.publishedAt)}, Oleh: ${newsIndexed.author}",
+                              ParsingString().formatDateTimeIDFormatFull(newsIndexed.publishedAt),
                               style: StyleText().openSansSmallBlack,
+                              maxLines: 1,
+                            ),
+                            Text(
+                              "Penulis: ${newsIndexed.author}",
+                              style: StyleText().openSansSmallBlack,
+                              maxLines: 1,
                             ),
                             Gap(20.h),
                             newsIndexed.image.isNotEmpty

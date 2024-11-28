@@ -93,9 +93,9 @@ class _LoginFormFieldState extends State<LoginFormField> {
         //     .hasMatch(value)) {
         //   return 'Password setidaknya mengandung huruf besar dan angka!';
         // }
-        if (value.length < 6) {
-          return 'Masukkan kata sandi yang valid';
-        }
+        // if (value.length < 6) {
+        //   return 'Masukkan kata sandi yang valid';
+        // }
         return null;
       };
     } else {

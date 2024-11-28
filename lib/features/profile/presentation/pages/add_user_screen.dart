@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/container_body.dart';
+import '../../../../core/widgets/custom_circle_loading.dart';
 import '../../../../core/widgets/page_background.dart';
 import '../../../../core/widgets/page_header.dart';
 import '../../../../core/widgets/shimmer_widget.dart';
@@ -177,6 +178,16 @@ class _AddUserScreenState extends State<AddUserScreen> {
                   ),
                 ),
               ],
+            ),
+            BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (context, state) {
+                if (state is ProfileSuccessState) {
+                  if (state.isLoading == true) {
+                    return const CustomCircleLoading();
+                  }
+                }
+                return const SizedBox();
+              },
             ),
           ],
         ),

@@ -274,47 +274,6 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
     );
   }
 
-  Padding imageCardView(String imageUrl) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.h),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 1,
-            color: PaletteColor().softDarkGrey,
-          ),
-          borderRadius: BorderRadius.circular(12.r),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(
-                  imageUrl,
-                  style: StyleText().openSansNormalBlack,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Material(
-                color: PaletteColor().transparent,
-                child: InkWell(
-                  onTap: () {},
-                  borderRadius: BorderRadius.circular(32.r),
-                  splashColor: PaletteColor().lightGray,
-                  child: const Padding(
-                    padding: EdgeInsets.all(4.0),
-                    child: Icon(Icons.close),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 class EditNewsTextFormField extends StatelessWidget {

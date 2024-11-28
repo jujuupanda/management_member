@@ -13,7 +13,7 @@ class PaletteColor {
   Color blue1 = const Color(0xFF4d8afa);
   Color blue2 = const Color(0xFF29449e);
   Color lightGray = const Color(0xFFaaaaaa);
-  Color softDarkGrey = const Color(0xFF353839);
+  Color darkGrey = const Color(0xFF353839);
   Color softBlue1 = const Color(0xFF92b6f0);
   Color softBlue2 = const Color(0xFFa0bff0);
   Color softBlue3 = const Color(0xFFb2cbf2);

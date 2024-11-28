@@ -359,8 +359,8 @@ class _HomeScreenState extends State<HomeScreen> {
       List<AttendanceEntity> attendanceLate, List<DateTime> attendanceAbsent) {
     return Center(
       child: Container(
-        height: 300,
-        width: 400,
+        height: 300.h,
+        width: 400.w,
         decoration: BoxDecoration(
           color: PaletteColor().white,
           border: Border.all(color: PaletteColor().lightGray),
@@ -376,10 +376,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: Stack(
           children: [
-            PieChartAttendance(
-              attendancePresent: attendancePresent,
-              attendanceLate: attendanceLate,
-              attendanceAbsent: attendanceAbsent,
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return PieChartAttendance(
+                  attendancePresent: attendancePresent,
+                  attendanceLate: attendanceLate,
+                  attendanceAbsent: attendanceAbsent,
+                );
+              },
             ),
             Align(
               alignment: Alignment.topRight,
@@ -393,7 +397,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ? ParsingString().formatDateTimeIDOnlyMonthYear(
                           selectedDate.toString())
                       : "Semua Tanggal",
-                  style: StyleText().openSansTitleBlack,
+                  style: StyleText().openSansNormalBlack,
                 ),
               ),
             ),

@@ -86,6 +86,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: PaletteColor().white,
                               shape: BoxShape.circle,
                             ),
+                            child: Icon(
+                              Icons.work,
+                              color: PaletteColor().darkGrey,
+                              size: 150,
+                            ),
                           ),
                           Gap(30.h),
                           Container(
@@ -151,22 +156,22 @@ class _LoginScreenState extends State<LoginScreen> {
 
   SizedBox loadingWidget() {
     return SizedBox(
-                                    height: 40.h,
-                                    child: Center(
-                                      child: BlocBuilder<AuthBloc, AuthState>(
-                                        builder: (context, state) {
-                                          if (state is AuthLoading) {
-                                            return const CustomCircleLoading();
-                                          }
-                                          if (state is LoginFailed) {
-                                            return LoginErrorWidget(
-                                              text: state.message,
-                                            );
-                                          }
-                                          return const SizedBox();
-                                        },
-                                      ),
-                                    ),
-                                  );
+      height: 40.h,
+      child: Center(
+        child: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            if (state is AuthLoading) {
+              return const CustomCircleLoading();
+            }
+            if (state is LoginFailed) {
+              return LoginErrorWidget(
+                text: state.message,
+              );
+            }
+            return const SizedBox();
+          },
+        ),
+      ),
+    );
   }
 }

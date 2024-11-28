@@ -22,8 +22,9 @@ class ParsingString {
 
   String formatDateTimeIDFormatFull(String dateTimeString) {
     DateTime dateTime = DateTime.parse(dateTimeString);
-    String date = DateFormat('E, d MMMM yyyy, HH:mm', 'id_ID').format(dateTime);
-    return date;
+    String time = DateFormat('HH:mm', 'id_ID').format(dateTime);
+    String date = DateFormat('HH:mm EEEE, d MMMM yyyy', 'id_ID').format(dateTime);
+    return "$time WIB, $date";
   }
 
   String formatDateTimeIDOnlyMonthYear(String dateTimeString) {
