@@ -18,9 +18,11 @@ class NewsFullContentScreen extends StatefulWidget {
   const NewsFullContentScreen({
     super.key,
     required this.news,
+    required this.fromArchive,
   });
 
   final NewsEntity news;
+  final bool fromArchive;
 
   @override
   State<NewsFullContentScreen> createState() => _NewsFullContentScreenState();
@@ -114,6 +116,35 @@ class _NewsFullContentScreenState extends State<NewsFullContentScreen> {
     };
   }
 
+  unArchiveNews(BuildContext context) {
+    return () {
+      PopUpDialog().caution(
+        context: context,
+        iconData: Icons.unarchive_rounded,
+        message: "Batal arsip berita?",
+        confirmOnTap: () {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            PopUpDialog().successDoSomething(
+              context,
+              "Berhasil membatalkan arsip berita",
+              () {
+                BlocFunction().editNews(
+                  context,
+                  widget.news,
+                  {
+                    "archived": false,
+                  },
+                );
+                context.pop();
+                GoRouter.of(context).pop();
+              },
+            );
+          });
+        },
+      );
+    };
+  }
+
   deleteNews(BuildContext context) {
     return () {
       PopUpDialog().caution(
@@ -144,12 +175,21 @@ class _NewsFullContentScreenState extends State<NewsFullContentScreen> {
           const PageBackground(),
           Column(
             children: [
-              PageHeader(
-                isDetail: true,
-                page: "news",
-                editNews: editNews(context),
-                deleteNews: deleteNews(context),
-              ),
+              widget.fromArchive == false
+                  ? PageHeader(
+                      isDetail: true,
+                      page: "news",
+                      editNews: editNews(context),
+                      deleteNews: deleteNews(context),
+                    )
+                  : PageHeader(
+                      isDetail: true,
+                      page: "news",
+                      fromArchive: true,
+                      editNews: unArchiveNews(context),
+                      deleteNews: deleteNews(context),
+                    ),
+              Gap(10.h),
               Expanded(
                 child: ContainerBody(
                   child: BlocBuilder<NewsBloc, NewsState>(
@@ -169,8 +209,15 @@ class _NewsFullContentScreenState extends State<NewsFullContentScreen> {
                               style: StyleText().openSansTitleBlack,
                             ),
                             Text(
-                              "${ParsingString().formatDateTimeIDFormatFull(newsIndexed.publishedAt)}, Oleh: ${newsIndexed.author}",
+                              ParsingString().formatDateTimeIDFormatFull(
+                                  newsIndexed.publishedAt),
                               style: StyleText().openSansSmallBlack,
+                              maxLines: 1,
+                            ),
+                            Text(
+                              "Penulis: ${newsIndexed.author}",
+                              style: StyleText().openSansSmallBlack,
+                              maxLines: 1,
                             ),
                             Gap(20.h),
                             newsIndexed.image.isNotEmpty

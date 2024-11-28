@@ -98,7 +98,7 @@ class PopUpDialog {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.r),
                         border: Border.all(
-                            color: PaletteColor().softDarkGrey, width: 1),
+                            color: PaletteColor().darkGrey, width: 1),
                         color: PaletteColor().white,
                       ),
                       child: Material(
@@ -121,7 +121,7 @@ class PopUpDialog {
                       width: 80.w,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.r),
-                        color: PaletteColor().softDarkGrey,
+                        color: PaletteColor().darkGrey,
                       ),
                       child: Material(
                         color: PaletteColor().transparent,
@@ -196,7 +196,7 @@ class PopUpDialog {
                 Icon(
                   Icons.check_circle_outline_rounded,
                   size: 90,
-                  color: PaletteColor().softDarkGrey,
+                  color: PaletteColor().darkGrey,
                 ),
                 Gap(10.h),
                 Text(
@@ -212,7 +212,7 @@ class PopUpDialog {
                 width: 80.w,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.r),
-                  color: PaletteColor().softDarkGrey,
+                  color: PaletteColor().darkGrey,
                 ),
                 child: Material(
                   color: PaletteColor().transparent,
@@ -256,7 +256,7 @@ class PopUpDialog {
               Icon(
                 Icons.logout,
                 size: 90,
-                color: PaletteColor().softDarkGrey,
+                color: PaletteColor().darkGrey,
               ),
               Gap(10.h),
               Text(
@@ -276,7 +276,7 @@ class PopUpDialog {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
                     border: Border.all(
-                        color: PaletteColor().softDarkGrey, width: 1),
+                        color: PaletteColor().darkGrey, width: 1),
                     color: PaletteColor().white,
                   ),
                   child: Material(
@@ -299,7 +299,7 @@ class PopUpDialog {
                   width: 80.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
-                    color: PaletteColor().softDarkGrey,
+                    color: PaletteColor().darkGrey,
                   ),
                   child: Material(
                     color: PaletteColor().transparent,
@@ -354,7 +354,7 @@ class PopUpDialog {
               Icon(
                 iconData,
                 size: 90,
-                color: PaletteColor().softDarkGrey,
+                color: PaletteColor().darkGrey,
               ),
               Gap(10.h),
               Text(
@@ -374,7 +374,7 @@ class PopUpDialog {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
                     border: Border.all(
-                        color: PaletteColor().softDarkGrey, width: 1),
+                        color: PaletteColor().darkGrey, width: 1),
                     color: PaletteColor().white,
                   ),
                   child: Material(
@@ -397,7 +397,7 @@ class PopUpDialog {
                   width: 80.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
-                    color: PaletteColor().softDarkGrey,
+                    color: PaletteColor().darkGrey,
                   ),
                   child: Material(
                     color: PaletteColor().transparent,

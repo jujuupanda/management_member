@@ -29,7 +29,7 @@ class AttendChartLegend extends StatelessWidget {
               Text(
                 "Hadir",
                 style:
-                StyleText().openSansNormalBlack,
+                StyleText().openSansSmallBlack,
               ),
             ],
           ),
@@ -44,7 +44,7 @@ class AttendChartLegend extends StatelessWidget {
               Text(
                 "Terlambat",
                 style:
-                StyleText().openSansNormalBlack,
+                StyleText().openSansSmallBlack,
               ),
             ],
           ),
@@ -59,7 +59,7 @@ class AttendChartLegend extends StatelessWidget {
               Text(
                 "Tidak Hadir",
                 style:
-                StyleText().openSansNormalBlack,
+                StyleText().openSansSmallBlack,
               ),
             ],
           ),

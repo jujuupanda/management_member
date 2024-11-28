@@ -24,40 +24,55 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
 
   bottomNavigationBarItem() {
     return [
-       BottomNavigationBarItem(
-        icon: const Icon(Icons.home_filled),
+      BottomNavigationBarItem(
+        icon: Icon(
+          Icons.home_filled,
+          color: PaletteColor().lightGray,
+        ),
         activeIcon: Icon(
           Icons.home_filled,
           color: PaletteColor().softBlack,
         ),
         label: "Beranda",
       ),
-       BottomNavigationBarItem(
-        icon: const Icon(Icons.newspaper),
+      BottomNavigationBarItem(
+        icon: Icon(
+          Icons.newspaper,
+          color: PaletteColor().lightGray,
+        ),
         activeIcon: Icon(
           Icons.newspaper,
           color: PaletteColor().softBlack,
         ),
         label: "Berita",
       ),
-       BottomNavigationBarItem(
-        icon: const Icon(Icons.add_circle_outline),
+      BottomNavigationBarItem(
+        icon: Icon(
+          Icons.add_circle_outline,
+          color: PaletteColor().lightGray,
+        ),
         activeIcon: Icon(
           Icons.add_circle_outline,
           color: PaletteColor().softBlack,
         ),
         label: "Kehadiran",
       ),
-       BottomNavigationBarItem(
-        icon: const Icon(Icons.message),
+      BottomNavigationBarItem(
+        icon: Icon(
+          Icons.message,
+          color: PaletteColor().lightGray,
+        ),
         activeIcon: Icon(
           Icons.message,
           color: PaletteColor().softBlack,
         ),
         label: "Pesan",
       ),
-       BottomNavigationBarItem(
-        icon: const Icon(Icons.person_rounded),
+      BottomNavigationBarItem(
+        icon: Icon(
+          Icons.person_rounded,
+          color: PaletteColor().lightGray,
+        ),
         activeIcon: Icon(
           Icons.person_rounded,
           color: PaletteColor().softBlack,

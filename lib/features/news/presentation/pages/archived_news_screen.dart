@@ -51,9 +51,6 @@ class _ArchivedNewsScreenState extends State<ArchivedNewsScreen> {
                     child: BlocBuilder<NewsBloc, NewsState>(
                       builder: (context, state) {
                         if (state is NewsLoaded) {
-                          if (state.isLoading == true) {
-                            return WidgetShimmerNews().listNewsShimmer();
-                          }
                           final news = state.news!;
                           final sortedLatestNews = SortingFilterObject()
                               .newsSortingFilter(news: news, isArchive: true);
@@ -96,11 +93,19 @@ class _ArchivedNewsScreenState extends State<ArchivedNewsScreen> {
             onTap: () async {
               NewsEntity? returnedData = await context.pushNamed(
                 RouteName().newsFullContent,
-                extra: news[index],
+                extra: {
+                  "news": news[index],
+                  "fromArchive": true,
+                },
               );
               if (returnedData != null) {
                 if (context.mounted) {
-                  BlocFunction().deleteNews(context, returnedData);
+                  Future.delayed(
+                    const Duration(seconds: 1),
+                    () {
+                      BlocFunction().deleteNews(context, returnedData);
+                    },
+                  );
                 }
               }
             },

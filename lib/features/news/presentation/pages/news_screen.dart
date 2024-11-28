@@ -17,13 +17,11 @@ import '../../domain/entities/news_entity.dart';
 class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});
 
-
   @override
   State<NewsScreen> createState() => _NewsScreenState();
 }
 
 class _NewsScreenState extends State<NewsScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -51,9 +49,6 @@ class _NewsScreenState extends State<NewsScreen> {
                     child: BlocBuilder<NewsBloc, NewsState>(
                       builder: (context, state) {
                         if (state is NewsLoaded) {
-                          if (state.isLoading == true) {
-                            return WidgetShimmerNews().listNewsShimmer();
-                          }
                           final news = state.news!;
                           final sortedLatestNews = SortingFilterObject()
                               .newsSortingFilter(news: news);
@@ -96,11 +91,19 @@ class _NewsScreenState extends State<NewsScreen> {
             onTap: () async {
               NewsEntity? returnedData = await context.pushNamed(
                 RouteName().newsFullContent,
-                extra: news[index],
+                extra: {
+                  "news": news[index],
+                  "fromArchive": false,
+                },
               );
               if (returnedData != null) {
                 if (context.mounted) {
-                  BlocFunction().deleteNews(context, returnedData);
+                  Future.delayed(
+                    const Duration(seconds: 1),
+                    () {
+                      BlocFunction().deleteNews(context, returnedData);
+                    },
+                  );
                 }
               }
             },

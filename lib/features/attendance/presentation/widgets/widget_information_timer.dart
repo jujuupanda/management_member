@@ -47,7 +47,7 @@ class _WidgetInformationTimerState extends State<WidgetInformationTimer> {
         decoration: BoxDecoration(
           border: Border.all(color: PaletteColor().lightGray),
           borderRadius: BorderRadius.circular(12.r),
-          color: PaletteColor().softDarkGrey,
+          color: PaletteColor().darkGrey,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.3),

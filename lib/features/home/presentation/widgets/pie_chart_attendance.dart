@@ -25,10 +25,9 @@ class _PieChartAttendanceState extends State<PieChartAttendance> {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.3,
-      child: AspectRatio(
-        aspectRatio: 1,
+    return Center(
+      child: Transform.scale(
+        scale: 0.9,
         child: PieChart(
           PieChartData(
             pieTouchData: PieTouchData(

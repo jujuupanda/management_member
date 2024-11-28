@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/routes/route_app.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/container_body.dart';
+import '../../../../core/widgets/custom_circle_loading.dart';
 import '../../../../core/widgets/page_background.dart';
 import '../../../../core/widgets/page_header.dart';
 import '../../../../core/widgets/widget_action_button.dart';
@@ -177,6 +178,16 @@ class _CreateNewsScreenState extends State<CreateNewsScreen> {
                 )
               ],
             ),
+            BlocBuilder<NewsBloc, NewsState>(
+              builder: (context, state) {
+                if (state is NewsLoaded) {
+                  if (state.isLoading == true) {
+                    return const CustomCircleLoading();
+                  }
+                }
+                return const SizedBox();
+              },
+            ),
           ],
         ),
       ),
@@ -236,7 +247,7 @@ class _CreateNewsScreenState extends State<CreateNewsScreen> {
         decoration: BoxDecoration(
           border: Border.all(
             width: 1,
-            color: PaletteColor().softDarkGrey,
+            color: PaletteColor().darkGrey,
           ),
           borderRadius: BorderRadius.circular(12.r),
         ),

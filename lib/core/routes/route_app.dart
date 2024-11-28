@@ -171,11 +171,21 @@ final GoRouter routerApp = GoRouter(
     GoRoute(
       path: '/newsFullContent',
       name: RouteName().newsFullContent,
-      pageBuilder: (context, state) => buildPageWithDefaultTransition(
-        context: context,
-        state: state,
-        child: NewsFullContentScreen(news: state.extra as NewsEntity),
-      ),
+      pageBuilder: (context, state) {
+        final Map<String, dynamic> extraData =
+            state.extra as Map<String, dynamic>;
+        final fromArchive = extraData["fromArchive"] as bool;
+        final news = extraData["news"] as NewsEntity;
+
+        return buildPageWithDefaultTransition(
+          context: context,
+          state: state,
+          child: NewsFullContentScreen(
+            news: news,
+            fromArchive: fromArchive,
+          ),
+        );
+      },
     ),
     GoRoute(
       path: '/editNews',
