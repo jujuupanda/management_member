@@ -170,7 +170,8 @@ class PopUpDialog {
     );
   }
 
-  void successDoSomething(BuildContext context, String text, VoidCallback onTap) {
+  void successDoSomething(
+      BuildContext context, String text, VoidCallback onTap) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -234,7 +235,6 @@ class PopUpDialog {
       },
     );
   }
-
 
   exitPopUp(BuildContext context, VoidCallback onTap) {
     showDialog(
@@ -327,8 +327,13 @@ class PopUpDialog {
     );
   }
 
-  caution(BuildContext context, IconData iconData, String message,
-      VoidCallback onTap) {
+  caution({
+    required BuildContext context,
+    required IconData iconData,
+    required String message,
+    VoidCallback? cancelOnTap,
+    VoidCallback? confirmOnTap,
+  }) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -374,7 +379,7 @@ class PopUpDialog {
                   child: Material(
                     color: PaletteColor().transparent,
                     child: InkWell(
-                      onTap: () => context.pop(),
+                      onTap: cancelOnTap ?? () => context.pop(),
                       splashColor: PaletteColor().lightGray,
                       borderRadius: BorderRadius.circular(10.r),
                       child: Center(
@@ -397,7 +402,7 @@ class PopUpDialog {
                     color: PaletteColor().transparent,
                     child: InkWell(
                       onTap: () {
-                        onTap();
+                        confirmOnTap!();
                         context.pop();
                       },
                       splashColor: PaletteColor().lightGray,

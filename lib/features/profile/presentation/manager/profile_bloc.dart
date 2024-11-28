@@ -61,7 +61,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final currentState = state is ProfileSuccessState
         ? state as ProfileSuccessState
         : const ProfileSuccessState().copyWith();
-    emit(currentState.copyWith(isLoading: true, messageFailed: ""));
+    emit(currentState.copyWith(isLoading: true, messageFailed: "", isCreated: false));
 
     final hashedPassword = PasswordService().hashPassword(event.password);
 
@@ -95,7 +95,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         }
       },
       (r) {
-        emit(currentState.copyWith(isLoading: false, messageFailed: ""));
+        emit(currentState.copyWith(isLoading: false, messageFailed: "", isCreated: true));
       },
     );
   }
@@ -127,7 +127,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final currentState = state is ProfileSuccessState
         ? state as ProfileSuccessState
         : const ProfileSuccessState().copyWith();
-    emit(currentState.copyWith(isLoading: true, messageFailed: ""));
+    emit(currentState.copyWith(isLoading: true, messageFailed: "", isPasswordChanged: false));
     final userUpdated = await changePasswordUseCase
         .call(ChangePasswordParam(event.oldPassword, event.newPassword));
     userUpdated.fold(
@@ -140,7 +140,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         }
       },
       (r) {
-        emit(currentState.copyWith(isLoading: false, messageFailed: ""));
+        emit(currentState.copyWith(isLoading: false, messageFailed: "", isPasswordChanged: true));
       },
     );
   }

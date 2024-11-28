@@ -40,15 +40,6 @@ class _CreateNewsScreenState extends State<CreateNewsScreen> {
     categoryC = TextEditingController();
   }
 
-  uploadImage() async {
-    for (var file in cachedImageC) {
-      final imageUrl = await PickImage().uploadImage(file, "news");
-      setState(() {
-        imageC.add(imageUrl);
-      });
-    }
-  }
-
   createNews(BuildContext context) {
     return () async {
       if (formKey.currentState!.validate()) {
@@ -73,6 +64,15 @@ class _CreateNewsScreenState extends State<CreateNewsScreen> {
         cachedImageC.addAll(pickedFiles);
       });
     };
+  }
+
+  uploadImage() async {
+    for (var file in cachedImageC) {
+      final imageUrl = await PickImage().uploadImage(file, "news");
+      setState(() {
+        imageC.add(imageUrl);
+      });
+    }
   }
 
   @override
@@ -206,10 +206,10 @@ class _CreateNewsScreenState extends State<CreateNewsScreen> {
           },
           onLongPress: () {
             PopUpDialog().caution(
-              context,
-              Icons.delete_forever_rounded,
-              "Hapus foto?",
-              () {
+              context: context,
+              iconData: Icons.delete_forever_rounded,
+              message: "Hapus foto?",
+              confirmOnTap: () {
                 setState(() {
                   cachedImage.removeAt(index);
                 });

@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/container_body.dart';
@@ -10,6 +14,7 @@ import '../../../../core/widgets/page_background.dart';
 import '../../../../core/widgets/page_header.dart';
 import '../../../../core/widgets/widget_action_button.dart';
 import '../../domain/entities/news_entity.dart';
+import '../manager/news_bloc.dart';
 
 class EditNewsScreen extends StatefulWidget {
   const EditNewsScreen({super.key, required this.news});
@@ -25,7 +30,8 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
   late TextEditingController contentC;
   late TextEditingController categoryC;
   late bool archiveC;
-  final List<String> imageC = [];
+  late List<String> imageC = [];
+  final List<File> cachedImageC = [];
 
   @override
   void initState() {
@@ -34,6 +40,7 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
     contentC = TextEditingController(text: widget.news.content);
     categoryC = TextEditingController(text: widget.news.category);
     archiveC = widget.news.archived;
+    imageC = widget.news.image;
   }
 
   editNews(BuildContext context) {
@@ -61,6 +68,46 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
     );
   }
 
+  pickMultiImage() {
+    return () async {
+      final pickedFiles = await PickImage().pickMultiImageFourThree();
+      setState(() {
+        cachedImageC.addAll(pickedFiles);
+      });
+      await uploadImage();
+    };
+  }
+
+  uploadImage() async {
+    for (var file in cachedImageC) {
+      final imageUrl = await PickImage().uploadImage(file, "news");
+      setState(() {
+        imageC.add(imageUrl);
+      });
+    }
+  }
+
+  popContextChanged(BuildContext context) {
+    return () {
+      if (widget.news.title != titleC.text) {
+        PopUpDialog().caution(
+          context: context,
+          iconData: Icons.warning_amber_outlined,
+          message: "Simpan perubahan?",
+          confirmOnTap: () {
+            editNews(context);
+          },
+          cancelOnTap: () {
+            context.pop();
+            context.pop();
+          },
+        );
+      } else {
+        context.pop();
+      }
+    };
+  }
+
   imageSlider(
     BuildContext context,
     NewsEntity news,
@@ -80,12 +127,12 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
           return GestureDetector(
             onLongPress: () {
               PopUpDialog().caution(
-                context,
-                Icons.delete_forever_rounded,
-                "Hapus foto?",
-                () {
+                context: context,
+                iconData: Icons.delete_forever_rounded,
+                message: "Hapus foto?",
+                confirmOnTap: () {
                   setState(() {
-                    // cachedImage.removeAt(index);
+                    imageC.removeAt(index);
                   });
                 },
               );
@@ -94,7 +141,7 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
               tag: widget.news.image[index],
               child: Center(
                 child: CachedNetworkImage(
-                  imageUrl: news.image[index],
+                  imageUrl: imageC[index],
                   fit: BoxFit.cover,
                   width: double.infinity,
                   errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -109,96 +156,110 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          const PageBackground(),
-          Column(
-            children: [
-              const PageHeader(
-                isDetail: true,
-              ),
-              Gap(10.h),
-              ContainerBody(
-                height: MediaQuery.of(context).size.height - 110.h,
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                    vertical: 24.h,
-                    horizontal: 12.w,
-                  ),
-                  child: Form(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Center(
-                          child: Text(
-                            "Edit Berita",
-                            style: StyleText().openSansTitleBlack,
-                          ),
-                        ),
-                        Gap(10.h),
-                        archiveWidget(),
-                        Gap(10.h),
-                        Text(
-                          "Judul",
-                          style: StyleText().openSansNormalBlack,
-                        ),
-                        EditNewsTextFormField(
-                          controller: titleC,
-                          identifiedAs: "title",
-                        ),
-                        Gap(20.h),
-                        Text(
-                          "Isi",
-                          style: StyleText().openSansNormalBlack,
-                        ),
-                        EditNewsTextFormField(
-                          controller: contentC,
-                          identifiedAs: "content",
-                        ),
-                        Gap(20.h),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "Gambar",
-                                style: StyleText().openSansNormalBlack,
-                              ),
+    return BlocListener<NewsBloc, NewsState>(
+      listener: (context, state) {
+        if (state is NewsLoaded) {
+          if (state.isLoading == false && state.isEdited == true) {
+            PopUpDialog().successDoSomething(
+              context,
+              "Posingan berhasil diubah",
+              () => context.pop(),
+            );
+          }
+        }
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: [
+            const PageBackground(),
+            Column(
+              children: [
+                PageHeader(
+                  isDetail: true,
+                  popContextChanged: popContextChanged(context),
+                ),
+                Gap(10.h),
+                ContainerBody(
+                  height: MediaQuery.of(context).size.height - 110.h,
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: EdgeInsets.symmetric(
+                      vertical: 24.h,
+                      horizontal: 12.w,
+                    ),
+                    child: Form(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
+                            child: Text(
+                              "Edit Berita",
+                              style: StyleText().openSansTitleBlack,
                             ),
-                            IconButton(
-                              onPressed: () {},
-                              icon:
-                                  const Icon(Icons.add_photo_alternate_rounded),
-                            )
-                          ],
-                        ),
-                        widget.news.image.isNotEmpty
-                            ? imageSlider(context, widget.news)
-                            : Center(
+                          ),
+                          Gap(10.h),
+                          archiveWidget(),
+                          Gap(10.h),
+                          Text(
+                            "Judul",
+                            style: StyleText().openSansNormalBlack,
+                          ),
+                          EditNewsTextFormField(
+                            controller: titleC,
+                            identifiedAs: "title",
+                          ),
+                          Gap(20.h),
+                          Text(
+                            "Isi",
+                            style: StyleText().openSansNormalBlack,
+                          ),
+                          EditNewsTextFormField(
+                            controller: contentC,
+                            identifiedAs: "content",
+                          ),
+                          Gap(20.h),
+                          Row(
+                            children: [
+                              Expanded(
                                 child: Text(
-                                  "Tidak ada gambar",
+                                  "Gambar",
                                   style: StyleText().openSansNormalBlack,
                                 ),
                               ),
-                        Gap(36.h),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: WidgetActionButton(
-                            name: "Simpan",
-                            onTap: editNews(context),
+                              IconButton(
+                                onPressed: pickMultiImage(),
+                                icon: const Icon(
+                                    Icons.add_photo_alternate_rounded),
+                              )
+                            ],
                           ),
-                        ),
-                        Gap(30.h),
-                      ],
+                          widget.news.image.isNotEmpty
+                              ? imageSlider(context, widget.news)
+                              : Center(
+                                  child: Text(
+                                    "Tidak ada gambar",
+                                    style: StyleText().openSansNormalBlack,
+                                  ),
+                                ),
+                          Gap(36.h),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: WidgetActionButton(
+                              name: "Simpan",
+                              onTap: editNews(context),
+                            ),
+                          ),
+                          Gap(30.h),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              )
-            ],
-          ),
-        ],
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

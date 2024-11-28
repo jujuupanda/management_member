@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/routes/route_app.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/container_body.dart';
 import '../../../../core/widgets/page_background.dart';
@@ -75,11 +74,14 @@ class _AddUserScreenState extends State<AddUserScreen> {
     return BlocListener<ProfileBloc, ProfileState>(
       listener: (context, state) {
         if (state is ProfileSuccessState) {
-          if (state.isLoading == false && state.messageFailed == "") {
+          if (state.isLoading == false && state.messageFailed == "" && state.isCreated == true) {
             PopUpDialog().successDoSomething(
               context,
               "Berhasil menambahkan pengguna baru",
-              () => context.goNamed(RouteName().profile),
+              () {
+                context.pop();
+                context.pop();
+              },
             );
           }
         }

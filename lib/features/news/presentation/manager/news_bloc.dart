@@ -95,7 +95,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         ? state as NewsLoaded
         : const NewsLoaded().copyWith();
 
-    emit(currentState.copyWith(isLoading: true));
+    emit(currentState.copyWith(isLoading: true, isEdited: false));
     final fromEntity = NewsModel.fromEntity(event.news);
     final toUpdate = EditNewsParam(fromEntity.copyWith(event.object));
     final newsUpdated = await editNewsUseCase.call(toUpdate);
@@ -106,7 +106,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
         }
       },
       (r) {
-        emit(currentState.copyWith(isLoading: false));
+        emit(currentState.copyWith(isLoading: false, isEdited: true));
         add(GetNews());
       },
     );

@@ -117,10 +117,10 @@ class _NewsFullContentScreenState extends State<NewsFullContentScreen> {
   deleteNews(BuildContext context) {
     return () {
       PopUpDialog().caution(
-        context,
-        Icons.delete_forever_rounded,
-        "Ingin menghapus berita?",
-        () {
+        context: context,
+        iconData: Icons.delete_forever_rounded,
+        message: "Ingin menghapus berita?",
+        confirmOnTap: () {
           Future.delayed(const Duration(milliseconds: 500), () {
             PopUpDialog().successDoSomething(
               context,

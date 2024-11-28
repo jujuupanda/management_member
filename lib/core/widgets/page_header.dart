@@ -17,6 +17,7 @@ class PageHeader extends StatefulWidget {
     this.deleteProfilePicture,
     this.editNews,
     this.deleteNews,
+    this.popContextChanged,
   });
 
   final bool? isDetail;
@@ -26,6 +27,7 @@ class PageHeader extends StatefulWidget {
   final VoidCallback? deleteProfilePicture;
   final VoidCallback? editNews;
   final VoidCallback? deleteNews;
+  final VoidCallback? popContextChanged;
 
   @override
   State<PageHeader> createState() => _PageHeaderState();
@@ -46,17 +48,7 @@ class _PageHeaderState extends State<PageHeader> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          widget.isDetail == true
-              ? IconButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  icon: Icon(
-                    Icons.arrow_back_rounded,
-                    color: PaletteColor().white,
-                  ),
-                )
-              : const SizedBox(),
+          widgetPopContext(),
           const Spacer(),
           isAdmin(),
           changeProfilePicture(),
@@ -64,6 +56,22 @@ class _PageHeaderState extends State<PageHeader> {
         ],
       ),
     );
+  }
+
+  widgetPopContext() {
+    if (widget.isDetail == true) {
+      return IconButton(
+        onPressed: widget.popContextChanged ??
+            () {
+              context.pop();
+            },
+        icon: Icon(
+          Icons.arrow_back_rounded,
+          color: PaletteColor().white,
+        ),
+      );
+    }
+    return const SizedBox();
   }
 
   isDetail() {
