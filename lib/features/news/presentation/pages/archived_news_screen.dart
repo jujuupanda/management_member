@@ -108,7 +108,10 @@ class _ArchivedNewsScreenState extends State<ArchivedNewsScreen> {
             onTap: () async {
               NewsEntity? returnedData = await context.pushNamed(
                 RouteName().newsFullContent,
-                extra: news[index],
+                extra: {
+                  "news": news[index],
+                  "fromArchive": true,
+                },
               );
               if (returnedData != null) {
                 if (context.mounted) {

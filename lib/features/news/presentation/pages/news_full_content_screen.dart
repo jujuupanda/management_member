@@ -18,9 +18,11 @@ class NewsFullContentScreen extends StatefulWidget {
   const NewsFullContentScreen({
     super.key,
     required this.news,
+    required this.fromArchive,
   });
 
   final NewsEntity news;
+  final bool fromArchive;
 
   @override
   State<NewsFullContentScreen> createState() => _NewsFullContentScreenState();
@@ -150,6 +152,7 @@ class _NewsFullContentScreenState extends State<NewsFullContentScreen> {
                 editNews: editNews(context),
                 deleteNews: deleteNews(context),
               ),
+              Gap(10.h),
               Expanded(
                 child: ContainerBody(
                   child: BlocBuilder<NewsBloc, NewsState>(
