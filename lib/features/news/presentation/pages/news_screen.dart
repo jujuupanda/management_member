@@ -49,21 +49,6 @@ class _NewsScreenState extends State<NewsScreen> {
                     child: BlocBuilder<NewsBloc, NewsState>(
                       builder: (context, state) {
                         if (state is NewsLoaded) {
-                          if (state.isLoading == true) {
-                            // return WidgetShimmerNews().listNewsShimmer();
-                            final news = state.news!;
-                            final sortedLatestNews = SortingFilterObject()
-                                .newsSortingFilter(news: news);
-                            if (sortedLatestNews.isEmpty) {
-                              return Center(
-                                child: Text(
-                                  "Belum ada berita terbaru",
-                                  style: StyleText().openSansTitleBlack,
-                                ),
-                              );
-                            }
-                            return listNews(sortedLatestNews);
-                          }
                           final news = state.news!;
                           final sortedLatestNews = SortingFilterObject()
                               .newsSortingFilter(news: news);

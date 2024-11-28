@@ -12,6 +12,7 @@ class PageHeader extends StatefulWidget {
     super.key,
     this.isDetail = false,
     this.isHome = false,
+    this.fromArchive = false,
     this.changeProfilePicture = false,
     this.page,
     this.editProfilePicture,
@@ -23,6 +24,7 @@ class PageHeader extends StatefulWidget {
 
   final bool? isDetail;
   final bool? isHome;
+  final bool? fromArchive;
   final bool? changeProfilePicture;
   final String? page;
   final VoidCallback? editProfilePicture;
@@ -55,7 +57,7 @@ class _PageHeaderState extends State<PageHeader> {
           const Spacer(),
           isAdmin(),
           changeProfilePicture(),
-          isDetail(),
+          isDetailNotification(),
         ],
       ),
     );
@@ -91,7 +93,7 @@ class _PageHeaderState extends State<PageHeader> {
     return const SizedBox();
   }
 
-  isDetail() {
+  isDetailNotification() {
     if (widget.isDetail == true) {
       return const SizedBox();
     }
@@ -175,7 +177,9 @@ class _PageHeaderState extends State<PageHeader> {
         },
       );
     }
-    if (widget.isDetail == true && widget.page == "news") {
+    if (widget.isDetail == true &&
+        widget.page == "news" &&
+        widget.fromArchive == false) {
       return FutureBuilder(
         future: getRole(),
         builder: (context, snapshot) {
@@ -205,6 +209,75 @@ class _PageHeaderState extends State<PageHeader> {
                           Gap(4.w),
                           Text(
                             "Edit Postingan",
+                            style: StyleText().openSansNormalBlack,
+                          ),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem<String>(
+                      value: "delete",
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.delete_forever_rounded,
+                          ),
+                          Gap(4.w),
+                          Text(
+                            "Hapus Postingan",
+                            style: StyleText().openSansNormalBlack,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ];
+                },
+                icon: Icon(
+                  Icons.more_vert_rounded,
+                  color: PaletteColor().white,
+                ),
+                offset: Offset(0, 50.h),
+                color: PaletteColor().lightGray,
+              );
+            }
+            return const SizedBox();
+          } else {
+            return const SizedBox();
+          }
+        },
+      );
+    }
+    if (widget.isDetail == true &&
+        widget.page == "news" &&
+        widget.fromArchive == true) {
+      return FutureBuilder(
+        future: getRole(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SizedBox();
+          } else if (snapshot.hasError) {
+            return const SizedBox();
+          } else if (snapshot.hasData) {
+            final role = snapshot.data!;
+            if (role == "admin") {
+              return PopupMenuButton<String>(
+                onSelected: (value) {
+                  if (value == 'unArchive') {
+                    widget.editNews!();
+                  }
+                  if (value == 'delete') {
+                    widget.deleteNews!();
+                  }
+                },
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem<String>(
+                      value: "unArchive",
+                      child: Row(
+                        children: [
+                          const Icon(Icons.unarchive_rounded),
+                          Gap(4.w),
+                          Text(
+                            "Buka Arsip",
                             style: StyleText().openSansNormalBlack,
                           ),
                         ],

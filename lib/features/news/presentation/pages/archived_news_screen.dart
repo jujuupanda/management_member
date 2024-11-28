@@ -51,21 +51,6 @@ class _ArchivedNewsScreenState extends State<ArchivedNewsScreen> {
                     child: BlocBuilder<NewsBloc, NewsState>(
                       builder: (context, state) {
                         if (state is NewsLoaded) {
-                          if (state.isLoading == true) {
-                            // return WidgetShimmerNews().listNewsShimmer();
-                            final news = state.news!;
-                            final sortedLatestNews = SortingFilterObject()
-                                .newsSortingFilter(news: news, isArchive: true);
-                            if (sortedLatestNews.isEmpty) {
-                              return Center(
-                                child: Text(
-                                  "Arsip kosong",
-                                  style: StyleText().openSansTitleBlack,
-                                ),
-                              );
-                            }
-                            return listNews(sortedLatestNews);
-                          }
                           final news = state.news!;
                           final sortedLatestNews = SortingFilterObject()
                               .newsSortingFilter(news: news, isArchive: true);
