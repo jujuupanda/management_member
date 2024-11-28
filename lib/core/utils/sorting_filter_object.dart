@@ -65,7 +65,7 @@ class SortingFilterObject {
 
       // ACTIVE WORK DI BULAN YANG SAMA DENGAN BULAN SEKARANG
       if ((startDateSelectedInMonth.isBefore(activeWorkDate) ||
-          startDateSelectedInMonth.day == activeWorkDate.day) &&
+              startDateSelectedInMonth.day == activeWorkDate.day) &&
           startDateSelectedInMonth.month == activeWorkDate.month &&
           startDateSelectedInMonth.month == endDateNow.month) {
         final allDates = List.generate(
@@ -88,11 +88,11 @@ class SortingFilterObject {
 
       // BULAN SAAT INI
       if ((startDateSelectedInMonth.isAfter(activeWorkDate) ||
-          startDateSelectedInMonth.day == activeWorkDate.day) &&
-          startDateSelectedInMonth.month == DateTime.now().month){
+              startDateSelectedInMonth.day == activeWorkDate.day) &&
+          startDateSelectedInMonth.month == DateTime.now().month) {
         final allDates = List.generate(
           endDateNow.difference(startDateSelectedInMonth).inDays + 1,
-              (index) => startDateSelectedInMonth.add(Duration(days: index)),
+          (index) => startDateSelectedInMonth.add(Duration(days: index)),
         );
 
         final absentDates = allDates.where((date) {
@@ -169,8 +169,14 @@ class SortingFilterObject {
 
   List<NewsEntity> newsSortingFilter({
     required List<NewsEntity> news,
+    bool? isArchive,
   }) {
-    return news
+    return news.where(
+      (news) {
+        final unArchivedNews = news.archived == (isArchive ?? false);
+        return unArchivedNews;
+      },
+    ).toList()
       ..sort((a, b) {
         final dateTimeA = DateTime.parse(a.publishedAt);
         final dateTimeB = DateTime.parse(b.publishedAt);
@@ -178,8 +184,6 @@ class SortingFilterObject {
       });
   }
 }
-
-
 
 String _getLastDateOfMonthFormatted(String inputDate) {
   DateTime parsedDate = DateTime.parse(inputDate);

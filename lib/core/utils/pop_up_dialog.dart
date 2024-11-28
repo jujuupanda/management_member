@@ -335,6 +335,7 @@ class PopUpDialog {
     VoidCallback? confirmOnTap,
   }) {
     showDialog(
+      useRootNavigator: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(

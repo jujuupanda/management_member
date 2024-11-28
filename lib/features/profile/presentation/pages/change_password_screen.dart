@@ -66,7 +66,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               "Kata sandi berhasil diubah",
               () {
                 context.pop();
-                context.pop();
+                GoRouter.of(context).pop();
               },
             );
           }

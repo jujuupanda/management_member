@@ -74,13 +74,15 @@ class _AddUserScreenState extends State<AddUserScreen> {
     return BlocListener<ProfileBloc, ProfileState>(
       listener: (context, state) {
         if (state is ProfileSuccessState) {
-          if (state.isLoading == false && state.messageFailed == "" && state.isCreated == true) {
+          if (state.isLoading == false &&
+              state.messageFailed == "" &&
+              state.isCreated == true) {
             PopUpDialog().successDoSomething(
               context,
               "Berhasil menambahkan pengguna baru",
               () {
                 context.pop();
-                context.pop();
+                GoRouter.of(context).pop();
               },
             );
           }

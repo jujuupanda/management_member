@@ -53,19 +53,10 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
           "content": contentC.text,
           "image": imageC,
           "category": categoryC.text,
+          "archived": archiveC,
         },
       );
     };
-  }
-
-  archiveNews(BuildContext context) {
-    BlocFunction().editNews(
-      context,
-      widget.news,
-      {
-        "archived": archiveC,
-      },
-    );
   }
 
   pickMultiImage() {
@@ -75,6 +66,21 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
         cachedImageC.addAll(pickedFiles);
       });
       await uploadImage();
+    };
+  }
+
+  deleteImage(int index) {
+    return () {
+      PopUpDialog().caution(
+        context: context,
+        iconData: Icons.delete_forever_rounded,
+        message: "Hapus foto?",
+        confirmOnTap: () {
+          setState(() {
+            imageC.removeAt(index);
+          });
+        },
+      );
     };
   }
 
@@ -89,69 +95,25 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
 
   popContextChanged(BuildContext context) {
     return () {
-      if (widget.news.title != titleC.text) {
+      if (widget.news.title != titleC.text &&
+          widget.news.content != contentC.text ||
+          widget.news.image != imageC ||
+          widget.news.category != categoryC.text ||
+          widget.news.archived != archiveC) {
         PopUpDialog().caution(
           context: context,
           iconData: Icons.warning_amber_outlined,
           message: "Simpan perubahan?",
-          confirmOnTap: () {
-            editNews(context);
-          },
+          confirmOnTap: editNews(context),
           cancelOnTap: () {
             context.pop();
-            context.pop();
+            GoRouter.of(context).pop();
           },
         );
       } else {
         context.pop();
       }
     };
-  }
-
-  imageSlider(
-    BuildContext context,
-    NewsEntity news,
-  ) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 20.h),
-      child: CarouselSlider.builder(
-        options: CarouselOptions(
-          autoPlay: false,
-          enlargeCenterPage: true,
-          aspectRatio: 4 / 3,
-          viewportFraction: 1,
-          initialPage: 0,
-        ),
-        itemCount: news.image.length,
-        itemBuilder: (context, index, realIndex) {
-          return GestureDetector(
-            onLongPress: () {
-              PopUpDialog().caution(
-                context: context,
-                iconData: Icons.delete_forever_rounded,
-                message: "Hapus foto?",
-                confirmOnTap: () {
-                  setState(() {
-                    imageC.removeAt(index);
-                  });
-                },
-              );
-            },
-            child: Hero(
-              tag: widget.news.image[index],
-              child: Center(
-                child: CachedNetworkImage(
-                  imageUrl: imageC[index],
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
   }
 
   @override
@@ -163,7 +125,11 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
             PopUpDialog().successDoSomething(
               context,
               "Posingan berhasil diubah",
-              () => context.pop(),
+              () {
+                context.pop();
+                GoRouter.of(context).pop();
+                GoRouter.of(context).pop();
+              },
             );
           }
         }
@@ -264,6 +230,41 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
     );
   }
 
+  imageSlider(
+    BuildContext context,
+    NewsEntity news,
+  ) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 20.h),
+      child: CarouselSlider.builder(
+        options: CarouselOptions(
+          autoPlay: false,
+          enlargeCenterPage: true,
+          aspectRatio: 4 / 3,
+          viewportFraction: 1,
+          initialPage: 0,
+        ),
+        itemCount: news.image.length,
+        itemBuilder: (context, index, realIndex) {
+          return GestureDetector(
+            onLongPress: deleteImage(index),
+            child: Hero(
+              tag: widget.news.image[index],
+              child: Center(
+                child: CachedNetworkImage(
+                  imageUrl: imageC[index],
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   Material archiveWidget() {
     return Material(
       color: PaletteColor().transparent,
@@ -272,7 +273,6 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
           setState(() {
             archiveC = !archiveC;
           });
-          archiveNews(context);
         },
         splashColor: PaletteColor().lightGray,
         child: Padding(
