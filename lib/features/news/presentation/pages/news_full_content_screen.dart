@@ -126,7 +126,8 @@ class _NewsFullContentScreenState extends State<NewsFullContentScreen> {
               context,
               "Berhasil menghapus berita",
               () {
-                context.goNamed(RouteName().news, extra: widget.news);
+                context.pop();
+                GoRouter.of(context).pop(widget.news);
               },
             );
           });

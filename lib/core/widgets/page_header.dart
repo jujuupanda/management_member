@@ -128,14 +128,27 @@ class _PageHeaderState extends State<PageHeader> {
           } else if (snapshot.hasData) {
             final role = snapshot.data!;
             if (role == "admin") {
-              return IconButton(
-                onPressed: () {
-                  context.pushNamed(RouteName().createNews);
-                },
-                icon: Icon(
-                  Icons.newspaper_outlined,
-                  color: PaletteColor().white,
-                ),
+              return Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      context.pushNamed(RouteName().archivedNews);
+                    },
+                    icon: Icon(
+                      Icons.archive_rounded,
+                      color: PaletteColor().white,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      context.pushNamed(RouteName().createNews);
+                    },
+                    icon: Icon(
+                      Icons.newspaper_outlined,
+                      color: PaletteColor().white,
+                    ),
+                  ),
+                ],
               );
             }
             return const SizedBox();

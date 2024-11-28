@@ -14,6 +14,7 @@ import '../../features/login/presentation/pages/login_screen.dart';
 import '../../features/message/presentation/pages/message_screen.dart';
 import '../../features/navigation_bar/presentation/pages/bottom_navigation_bar.dart';
 import '../../features/news/domain/entities/news_entity.dart';
+import '../../features/news/presentation/pages/archived_news_screen.dart';
 import '../../features/news/presentation/pages/create_news_screen.dart';
 import '../../features/news/presentation/pages/edit_news_screen.dart';
 import '../../features/news/presentation/pages/news_cached_images_full_screen.dart';
@@ -209,7 +210,7 @@ final GoRouter routerApp = GoRouter(
       name: RouteName().newsCachedImagesFullScreen,
       pageBuilder: (context, state) {
         final Map<String, dynamic> extraData =
-        state.extra as Map<String, dynamic>;
+            state.extra as Map<String, dynamic>;
         final cachedImages = extraData['cachedImages'] as List<File>;
         final index = extraData['index'] as int;
 
@@ -220,6 +221,18 @@ final GoRouter routerApp = GoRouter(
             cachedImages: cachedImages,
             index: index,
           ),
+        );
+      },
+    ),
+
+    GoRoute(
+      path: '/archivedNews',
+      name: RouteName().archivedNews,
+      pageBuilder: (context, state) {
+        return buildPageWithDefaultTransition(
+          context: context,
+          state: state,
+          child: const ArchivedNewsScreen(),
         );
       },
     ),
@@ -253,9 +266,7 @@ final GoRouter routerApp = GoRouter(
               path: "/news",
               name: RouteName().news,
               builder: (context, state) {
-                return NewsScreen(
-                  toDeleted: state.extra as NewsEntity?,
-                );
+                return const NewsScreen();
               },
             )
           ],

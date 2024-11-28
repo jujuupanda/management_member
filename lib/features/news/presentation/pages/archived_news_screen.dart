@@ -14,16 +14,16 @@ import '../widgets/widget_news_card_view.dart';
 import '../widgets/widget_shimmer_news.dart';
 import '../../domain/entities/news_entity.dart';
 
-class NewsScreen extends StatefulWidget {
-  const NewsScreen({super.key});
-
+class ArchivedNewsScreen extends StatefulWidget {
+  const ArchivedNewsScreen({
+    super.key,
+  });
 
   @override
-  State<NewsScreen> createState() => _NewsScreenState();
+  State<ArchivedNewsScreen> createState() => _ArchivedNewsScreenState();
 }
 
-class _NewsScreenState extends State<NewsScreen> {
-
+class _ArchivedNewsScreenState extends State<ArchivedNewsScreen> {
   @override
   void initState() {
     super.initState();
@@ -39,7 +39,7 @@ class _NewsScreenState extends State<NewsScreen> {
           Column(
             children: [
               const PageHeader(
-                page: "news",
+                isDetail: true,
               ),
               Gap(10.h),
               Expanded(
@@ -56,11 +56,11 @@ class _NewsScreenState extends State<NewsScreen> {
                           }
                           final news = state.news!;
                           final sortedLatestNews = SortingFilterObject()
-                              .newsSortingFilter(news: news);
+                              .newsSortingFilter(news: news, isArchive: true);
                           if (sortedLatestNews.isEmpty) {
                             return Center(
                               child: Text(
-                                "Belum ada berita terbaru",
+                                "Arsip kosong",
                                 style: StyleText().openSansTitleBlack,
                               ),
                             );

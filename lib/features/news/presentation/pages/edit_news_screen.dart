@@ -93,28 +93,6 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
     }
   }
 
-  popContextChanged(BuildContext context) {
-    return () {
-      if (widget.news.title != titleC.text &&
-          widget.news.content != contentC.text ||
-          widget.news.image != imageC ||
-          widget.news.category != categoryC.text ||
-          widget.news.archived != archiveC) {
-        PopUpDialog().caution(
-          context: context,
-          iconData: Icons.warning_amber_outlined,
-          message: "Simpan perubahan?",
-          confirmOnTap: editNews(context),
-          cancelOnTap: () {
-            context.pop();
-            GoRouter.of(context).pop();
-          },
-        );
-      } else {
-        context.pop();
-      }
-    };
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +107,7 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
                 context.pop();
                 GoRouter.of(context).pop();
                 GoRouter.of(context).pop();
+
               },
             );
           }
@@ -141,9 +120,8 @@ class _EditNewsScreenState extends State<EditNewsScreen> {
             const PageBackground(),
             Column(
               children: [
-                PageHeader(
+                const PageHeader(
                   isDetail: true,
-                  popContextChanged: popContextChanged(context),
                 ),
                 Gap(10.h),
                 ContainerBody(
@@ -401,3 +379,30 @@ class EditNewsTextFormField extends StatelessWidget {
     }
   }
 }
+
+///fungsi untuk cek simpan perubahan saat keluar
+// popContextChanged(BuildContext context) {
+//   return () {
+//     if (widget.news.title != titleC.text ||
+//         widget.news.content != contentC.text ||
+//         widget.news.image != imageC ||
+//         widget.news.category != categoryC.text ||
+//         widget.news.archived != archiveC) {
+//       PopUpDialog().caution(
+//         context: context,
+//         iconData: Icons.warning_amber_outlined,
+//         message: "Simpan perubahan?",
+//         confirmOnTap: (){
+//           context.pop();
+//           editNews(context);
+//         },
+//         cancelOnTap: () {
+//           context.pop();
+//           GoRouter.of(context).pop();
+//         },
+//       );
+//     } else {
+//       context.pop();
+//     }
+//   };
+// }
