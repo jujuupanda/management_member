@@ -1,7 +1,7 @@
 part of 'utils.dart';
 
 class PopUpDialog {
-  void attendanceCheckInDialog(BuildContext context, File file) {
+  attendanceCheckInDialog(BuildContext context, File imageFile) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -104,7 +104,7 @@ class PopUpDialog {
                       child: Material(
                         color: PaletteColor().transparent,
                         child: InkWell(
-                          onTap: () => context.pop(),
+                          onTap: () => Navigator.of(context).pop(),
                           splashColor: PaletteColor().lightGray,
                           borderRadius: BorderRadius.circular(10.r),
                           child: Center(
@@ -126,27 +126,21 @@ class PopUpDialog {
                       child: Material(
                         color: PaletteColor().transparent,
                         child: InkWell(
-                          onTap: () async {
+                          onTap: () {
                             if (selectedOption == 0) {
                             } else {
                               if (selectedOption == 1) {
                                 attendType = "Luring/WFO";
-                              } else {
+                              }
+                              if (selectedOption == 2) {
                                 attendType = "Daring/WFH";
                               }
-                              final locationInfo = await GeoLocationService()
-                                  .getCurrentLocation();
-                              final photoUrl = await PickImage()
-                                  .uploadImage(file, "attendance");
-                              if (context.mounted) {
-                                BlocFunction().checkInButton(
-                                  context,
-                                  attendType,
-                                  photoUrl,
-                                  "${locationInfo.latitude}, ${locationInfo.longitude}",
-                                );
-                                Navigator.of(context).pop();
-                              }
+                              BlocFunction().checkInButton(
+                                context,
+                                attendType,
+                                imageFile,
+                              );
+                              Navigator.of(context).pop(selectedOption);
                             }
                           },
                           splashColor: PaletteColor().lightGray,
@@ -275,8 +269,8 @@ class PopUpDialog {
                   width: 80.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(
-                        color: PaletteColor().darkGrey, width: 1),
+                    border:
+                        Border.all(color: PaletteColor().darkGrey, width: 1),
                     color: PaletteColor().white,
                   ),
                   child: Material(
@@ -373,8 +367,8 @@ class PopUpDialog {
                   width: 80.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(
-                        color: PaletteColor().darkGrey, width: 1),
+                    border:
+                        Border.all(color: PaletteColor().darkGrey, width: 1),
                     color: PaletteColor().white,
                   ),
                   child: Material(

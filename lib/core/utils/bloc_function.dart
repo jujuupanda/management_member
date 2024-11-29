@@ -15,13 +15,11 @@ class BlocFunction {
   checkInButton(
     BuildContext context,
     String attendType,
-    String imagePath,
-    String location,
+    File imageFile,
   ) {
     context.read<AttendanceBloc>().add(CheckInEvent(
           attendType,
-          imagePath,
-          location,
+          imageFile,
         ));
   }
 

@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/services/connectivity_service.dart';
 import '../../../../core/services/device_service.dart';
+import '../../../../core/services/geo_location_service.dart';
 import '../../../../core/services/secure_storage_service.dart';
 import '../../../../core/services/token_service.dart';
 import '../../../../core/shared/param/no_param.dart';
@@ -39,15 +42,18 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
     on<GetAttendanceEvent>(getAttendance);
   }
 
-  checkIn(event, emit) async {
+  checkIn(CheckInEvent event,Emitter<AttendanceState> emit) async {
     final currentState = state is AttendancesLoaded
         ? state as AttendancesLoaded
         : const AttendancesLoaded();
-    emit(currentState.copyWith(isLoading: true));
+    emit(currentState.copyWith(isLoading: true, isLoadingCheckIn: true));
     // get info
     final deviceInfo = await DeviceService().getDeviceInfo();
     final connectivityInfo = await ConnectivityService().getConnectivityInfo();
-
+    final locationInfo =
+        await GeoLocationService().getCurrentLocationNoContext();
+    final photoUrl = await PickImage()
+        .uploadImage(event.imageFile, "attendance");
     //get username
     final payloadUsername = await TokenService().jwtPayloadUsername();
 
@@ -63,9 +69,9 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       timeStamp: DateTime.now().toString(),
       checkIn: DateTime.now().toString(),
       checkOut: "",
-      location: event.location,
+      location: "${locationInfo.latitude}, ${locationInfo.longitude}",
       typeAttend: event.typeAttend,
-      photoUrl: event.imagePath,
+      photoUrl: photoUrl,
       device: device,
     );
 
@@ -80,12 +86,14 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       (l) {
         emit(currentState.copyWith(
           isLoading: false,
+          isLoadingCheckIn: false,
         ));
       },
       (r) {
         emit(currentState.copyWith(
           attendToday: r,
           isLoading: false,
+          isLoadingCheckIn: false,
         ));
         add(GetAttendanceEvent());
       },

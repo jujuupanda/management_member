@@ -108,7 +108,6 @@ class WidgetInformationWithData extends StatelessWidget {
           ],
         ),
         Gap(24.h),
-
       ],
     );
   }
