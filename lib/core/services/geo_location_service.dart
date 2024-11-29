@@ -88,4 +88,31 @@ class GeoLocationService {
       return Future.error("Gagal mendapatkan lokasi");
     }
   }
+  Future<Position> getCurrentLocationNoContext() async {
+    await requestLocationPermission();
+    // bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    // if (!serviceEnabled) {
+    //   return Future.error("Layanan lokasi tidak aktif.");
+    // }
+
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      return Future.error("Izin lokasi ditolak.");
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error("Izin lokasi ditolak secara permanen.");
+    }
+
+    try {
+      final currentLocation = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.best,
+        ),
+      );
+      return currentLocation;
+    } catch (e) {
+      return Future.error("Gagal mendapatkan lokasi");
+    }
+  }
 }

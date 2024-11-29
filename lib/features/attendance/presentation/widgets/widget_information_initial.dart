@@ -29,8 +29,9 @@ class WidgetInformationInitial extends StatelessWidget {
 
   checkIn(BuildContext context) {
     return isCaptured != null
-        ? () {
+        ? ()  {
             PopUpDialog().attendanceCheckInDialog(context, isCaptured!);
+
           }
         : () {
             capturedPhoto();
@@ -89,7 +90,6 @@ class WidgetInformationInitial extends StatelessWidget {
           ],
         ),
         Gap(24.h),
-
       ],
     );
   }

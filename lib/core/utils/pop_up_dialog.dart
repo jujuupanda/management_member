@@ -1,13 +1,12 @@
 part of 'utils.dart';
 
 class PopUpDialog {
-  void attendanceCheckInDialog(BuildContext context, File file) {
+  attendanceCheckInDialog(BuildContext context, File imageFile) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         int selectedOption = 0;
         String attendType = "";
-        String photoUrl = "";
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
@@ -105,7 +104,7 @@ class PopUpDialog {
                       child: Material(
                         color: PaletteColor().transparent,
                         child: InkWell(
-                          onTap: () => context.pop(),
+                          onTap: () => Navigator.of(context).pop(),
                           splashColor: PaletteColor().lightGray,
                           borderRadius: BorderRadius.circular(10.r),
                           child: Center(
@@ -127,28 +126,21 @@ class PopUpDialog {
                       child: Material(
                         color: PaletteColor().transparent,
                         child: InkWell(
-                          onTap: () async {
+                          onTap: () {
                             if (selectedOption == 0) {
                             } else {
                               if (selectedOption == 1) {
                                 attendType = "Luring/WFO";
-                              } else {
+                              }
+                              if (selectedOption == 2) {
                                 attendType = "Daring/WFH";
                               }
-                              Navigator.of(context).pop();
-
-                              final locationInfo = await GeoLocationService()
-                                  .getCurrentLocation(context);
-                              final photoUrl = await PickImage()
-                                  .uploadImage(file, "attendance");
-                              if (context.mounted) {
-                                BlocFunction().checkInButton(
-                                  context,
-                                  attendType,
-                                  photoUrl,
-                                  "${locationInfo.latitude}, ${locationInfo.longitude}",
-                                );
-                              }
+                              BlocFunction().checkInButton(
+                                context,
+                                attendType,
+                                imageFile,
+                              );
+                              Navigator.of(context).pop(selectedOption);
                             }
                           },
                           splashColor: PaletteColor().lightGray,

@@ -6,17 +6,15 @@ sealed class AttendanceEvent extends Equatable {
 
 final class CheckInEvent extends AttendanceEvent {
   final String typeAttend;
-  final String imagePath;
-  final String location;
+  final File imageFile;
 
   const CheckInEvent(
     this.typeAttend,
-    this.imagePath,
-    this.location,
+    this.imageFile,
   );
 
   @override
-  List<Object?> get props => [typeAttend, imagePath, location];
+  List<Object?> get props => [typeAttend, imageFile];
 }
 
 final class CheckOutEvent extends AttendanceEvent {
