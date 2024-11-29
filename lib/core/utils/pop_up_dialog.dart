@@ -7,6 +7,7 @@ class PopUpDialog {
       builder: (BuildContext context) {
         int selectedOption = 0;
         String attendType = "";
+        String photoUrl = "";
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
@@ -134,8 +135,10 @@ class PopUpDialog {
                               } else {
                                 attendType = "Daring/WFH";
                               }
+                              Navigator.of(context).pop();
+
                               final locationInfo = await GeoLocationService()
-                                  .getCurrentLocation();
+                                  .getCurrentLocation(context);
                               final photoUrl = await PickImage()
                                   .uploadImage(file, "attendance");
                               if (context.mounted) {
@@ -145,7 +148,6 @@ class PopUpDialog {
                                   photoUrl,
                                   "${locationInfo.latitude}, ${locationInfo.longitude}",
                                 );
-                                Navigator.of(context).pop();
                               }
                             }
                           },
@@ -275,8 +277,8 @@ class PopUpDialog {
                   width: 80.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(
-                        color: PaletteColor().darkGrey, width: 1),
+                    border:
+                        Border.all(color: PaletteColor().darkGrey, width: 1),
                     color: PaletteColor().white,
                   ),
                   child: Material(
@@ -373,8 +375,8 @@ class PopUpDialog {
                   width: 80.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.r),
-                    border: Border.all(
-                        color: PaletteColor().darkGrey, width: 1),
+                    border:
+                        Border.all(color: PaletteColor().darkGrey, width: 1),
                     color: PaletteColor().white,
                   ),
                   child: Material(

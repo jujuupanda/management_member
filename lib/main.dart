@@ -25,7 +25,7 @@ void main() async {
     anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wYmZ5dWZ0enNnc3JteGRmdXBoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzE0MDUxMzIsImV4cCI6MjA0Njk4MTEzMn0.l0gLUev3x01pKTdKAUX_Y21_Y_XBI61dAxeGBVUu9Tc',
   );
   await DatabaseService().initialFirebaseMessaging();
-  GeoLocationService().getCurrentLocation();
+  await GeoLocationService().requestLocationPermission();
   await initializeDateFormatting('id_ID', null);
 
   runApp(const MyApp());

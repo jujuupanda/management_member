@@ -84,9 +84,9 @@ class PickImage {
     return null;
   }
 
-  uploadImage(File file, String folderName) {
+  Future<String> uploadImage(File file, String folderName) async {
     final stringUrlImage =
-        DatabaseService().uploadImageToStorage(folderName, file);
+        await DatabaseService().uploadImageToStorage(folderName, file);
     return stringUrlImage;
   }
 }
