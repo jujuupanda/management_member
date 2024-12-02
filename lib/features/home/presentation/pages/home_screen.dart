@@ -119,11 +119,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 minute: 0,
                               );
                               final attendanceAbsent =
-                                  SortingFilterObject().absentAttendFilter(
-                                startDate: selectedDate,
-                                activeWork: state.activeWork!,
-                                attendanceList: attendanceSorted,
+                                  SortingFilterObject().absentAttendanceFilter(
+                                stringSelectedMonth: selectedDate.toString(),
+                                stringActiveWork: state.activeWork!,
+                                listAttendance: attendanceSorted,
                               );
+                              // final attendanceAbsent =
+                              // SortingFilterObject().absentAttendFilter(
+                              //   startDate: selectedDate,
+                              //   activeWork: state.activeWork!,
+                              //   attendanceList: attendanceSorted,
+                              // );
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

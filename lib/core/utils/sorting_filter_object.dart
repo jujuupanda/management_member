@@ -14,6 +14,49 @@ class SortingFilterObject {
     });
   }
 
+  List<DateTime> absentAttendanceFilter({
+    required String stringActiveWork,
+    required String stringSelectedMonth,
+    required List<AttendanceEntity> listAttendance,
+  }) {
+    //convert string to date time
+    final selectedMonth = DateTime.parse(stringSelectedMonth);
+    final activeWorkDate = DateTime.parse(stringActiveWork);
+
+    // Mendapatkan tanggal awal dan akhir bulan yang dipilih
+    DateTime startOfMonth = DateTime(selectedMonth.year, selectedMonth.month, 1);
+    DateTime endOfMonth = DateTime(selectedMonth.year, selectedMonth.month + 1, 0);
+
+    // Menyimpan tanggal-tanggal ketidakhadiran
+    List<DateTime> absentDates = [];
+
+    // Hitung jumlah ketidakhadiran dalam bulan yang dipilih
+    for (var attendance in listAttendance) {
+      DateTime attendanceDate = DateTime.parse(attendance.attendToday.timeStamp);
+
+      // Pastikan attendanceDate berada dalam rentang bulan yang dipilih
+      if (attendanceDate.isBefore(startOfMonth) || attendanceDate.isAfter(endOfMonth)) {
+        continue; // Skip jika tanggal tidak dalam bulan yang dipilih
+      }
+
+      // Validasi ketidakhadiran berdasarkan kondisi activeWork dan tanggal sebelum hari ini
+      if (attendanceDate.isBefore(activeWorkDate) || attendanceDate.isAfter(DateTime.now())) {
+        continue; // Skip jika tanggal sebelum active work atau setelah hari ini
+      }
+
+      // Jika tanggal jatuh pada hari Sabtu, anggap sebagai libur
+      if (attendanceDate.weekday == DateTime.saturday) {
+        continue; // Skip jika hari Sabtu
+      }
+
+      // Jika tidak ada absensi, masukkan tanggalnya ke dalam daftar ketidakhadiran
+      absentDates.add(attendanceDate);
+    }
+
+    absentDates.sort((a, b) => b.compareTo(a)); // Descending filter
+    return absentDates;
+  }
+
   //daftar hadir
   List<DateTime> absentAttendFilter({
     DateTime? startDate,
