@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     BlocFunction().getAttendance(context);
+    BlocFunction().getAllAttendanceAllAccount(context);
   }
 
   Future<void> monthPicker(BuildContext contexto) async {
@@ -73,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               const PageHeader(
                 isHome: true,
+                page: "home",
               ),
               Gap(10.h),
               Expanded(
@@ -110,17 +112,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                 .attendanceSortingFilter(
                                     attendances: attendanceSorted);
                             final attendanceLate =
-                                SortingFilterObject().attendanceLateFilter(
+                                SortingFilterObject().lateAttendanceFilter(
                               attendances: attendanceSorted,
                               hour: 8,
                               minute: 0,
                             );
                             final attendanceAbsent =
-                                SortingFilterObject().absentAttendFilter(
-                              startDate: selectedDate,
-                              activeWork: state.activeWork!,
-                              attendanceList: attendanceSorted,
+                                SortingFilterObject().absentAttendanceFilter(
+                              selectedMonth: selectedDate,
+                              stringActiveWork: state.activeWork!,
+                              listAttendance: attendanceSorted,
                             );
+                            // final attendanceAbsent =
+                            // SortingFilterObject().absentAttendFilter(
+                            //   startDate: selectedDate,
+                            //   activeWork: state.activeWork!,
+                            //   attendanceList: attendanceSorted,
+                            // );
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -162,35 +170,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  AppBar appBarHome(BuildContext context) {
-    return AppBar(
-      title: const Text("Aplikasi Kehadiran"),
-      titleTextStyle: StyleText().openSansHeaderBlack,
-      backgroundColor: PaletteColor().softBlack,
-      actions: [
-        InkWell(
-          onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                duration: Duration(seconds: 1),
-                content: Text("Notifikasi"),
-              ),
-            );
-          },
-          splashColor: Colors.white.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(50),
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.notifications,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -417,10 +396,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Stack(
         children: [
-          Center(
-            child: Text(
-              "Laporan Kehadiran",
-              style: StyleText().openSansTitleBlack,
+          GestureDetector(
+            onTap: () {
+              BlocFunction().getAllAttendanceAllAccount(context);
+            },
+            child: Center(
+              child: Text(
+                "Laporan Kehadiran",
+                style: StyleText().openSansTitleBlack,
+              ),
             ),
           ),
           Row(

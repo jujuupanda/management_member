@@ -108,6 +108,34 @@ class _PageHeaderState extends State<PageHeader> {
   }
 
   isAdmin() {
+    if (widget.isDetail == false && widget.page == "home") {
+      return FutureBuilder(
+        future: getRole(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SizedBox();
+          } else if (snapshot.hasError) {
+            return const SizedBox();
+          } else if (snapshot.hasData) {
+            final role = snapshot.data!;
+            if (role == "admin") {
+              return IconButton(
+                onPressed: () {
+                  context.pushNamed(RouteName().manageAttendance);
+                },
+                icon: Icon(
+                  Icons.manage_accounts,
+                  color: PaletteColor().white,
+                ),
+              );
+            }
+            return const SizedBox();
+          } else {
+            return const SizedBox();
+          }
+        },
+      );
+    }
     if (widget.isDetail == false && widget.page == "profile") {
       return FutureBuilder(
         future: getRole(),

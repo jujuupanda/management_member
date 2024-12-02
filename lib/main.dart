@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/services/database_service.dart';
 import 'core/services/geo_location_service.dart';
 import 'features/attendance/presentation/manager/attendance_bloc.dart';
+import 'features/home/presentation/manager/manage_attendance_bloc.dart';
 import 'features/login/presentation/manager/auth_bloc.dart';
 import 'features/message/presentation/manager/message_bloc.dart';
 import 'features/news/presentation/manager/news_bloc.dart';
@@ -22,7 +23,8 @@ void main() async {
   );
   await Supabase.initialize(
     url: 'https://npbfyuftzsgsrmxdfuph.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wYmZ5dWZ0enNnc3JteGRmdXBoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzE0MDUxMzIsImV4cCI6MjA0Njk4MTEzMn0.l0gLUev3x01pKTdKAUX_Y21_Y_XBI61dAxeGBVUu9Tc',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wYmZ5dWZ0enNnc3JteGRmdXBoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzE0MDUxMzIsImV4cCI6MjA0Njk4MTEzMn0.l0gLUev3x01pKTdKAUX_Y21_Y_XBI61dAxeGBVUu9Tc',
   );
   await DatabaseService().initialFirebaseMessaging();
   await GeoLocationService().requestLocationPermission();
@@ -53,7 +55,10 @@ class MyApp extends StatelessWidget {
           create: (context) => getIt<NewsBloc>(),
         ),
         BlocProvider(
-          create: (context) =>  getIt<MessageBloc>(),
+          create: (context) => getIt<MessageBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<ManageAttendanceBloc>(),
         ),
       ],
       child: GestureDetector(

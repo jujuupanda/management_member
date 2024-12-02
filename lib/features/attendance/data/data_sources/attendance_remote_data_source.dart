@@ -1,5 +1,3 @@
-
-
 part of 'attendance_data_source.dart';
 
 class AttendanceRemoteDataSource extends AttendanceDataSource {
@@ -10,13 +8,16 @@ class AttendanceRemoteDataSource extends AttendanceDataSource {
     try {
       final docId = ParsingString().parsingTimeToYMD(DateTime.now().toString());
       final payloadUsername = await TokenService().jwtPayloadUsername();
-      final docRef = firebaseDB
+      final docRef = firebaseDB.collection("attendances").doc(payloadUsername);
+      final docRefSubCollection = firebaseDB
           .collection("attendances")
           .doc(payloadUsername)
           .collection("attendance")
           .doc(docId);
-      await docRef.set(params.attendance.toJson());
-      final responseAttend = await docRef.get();
+      await docRef.set({"time_stamp": DateTime.now().toString()});
+      await docRefSubCollection.set(params.attendance.toJson());
+
+      final responseAttend = await docRefSubCollection.get();
 
       if (responseAttend.exists) {
         final resultAttend = AttendanceModel.fromJson(responseAttend.data()!);
@@ -63,7 +64,7 @@ class AttendanceRemoteDataSource extends AttendanceDataSource {
         .doc(docId);
     final responseAttend = docRef.snapshots();
     yield* responseAttend.map(
-          (snapshot) {
+      (snapshot) {
         try {
           final attendance = AttendanceModel.fromJson(snapshot.data()!);
           return Right(attendance);

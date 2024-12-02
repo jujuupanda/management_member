@@ -13,6 +13,8 @@ import 'package:intl/intl.dart';
 
 import '../../features/attendance/domain/entities/attendance_entity.dart';
 import '../../features/attendance/presentation/manager/attendance_bloc.dart';
+import '../../features/home/presentation/manager/manage_attendance_bloc.dart';
+import '../../features/login/domain/use_cases/login_use_case.dart';
 import '../../features/login/presentation/manager/auth_bloc.dart';
 import '../../features/news/data/models/news_model.dart';
 import '../../features/news/domain/entities/news_entity.dart';

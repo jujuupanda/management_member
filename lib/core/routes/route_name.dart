@@ -22,4 +22,5 @@ class RouteName {
   final newsImagesFullScreen = "newsImagesFullScreen";
   final newsCachedImagesFullScreen = "newsCachedImagesFullScreen";
   final archivedNews = "archivedNews";
+  final manageAttendance = "manageAttendance";
 }
