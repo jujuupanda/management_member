@@ -12,24 +12,44 @@ class ManageAttendanceRemoteDataSource extends ManageAttendanceDataSource {
   @override
   Stream<Either<Failure, List<AttendanceModel>>> getAllAttendance(
       NoParam params) async* {
-    print("!!!!!!!!!!!!!!!");
-    final docRef = firebaseDB.collection("attendances");
-    final listAttendance = docRef.snapshots();
-    print("@@@@@@@@@@@@@@@@@@@@@@@@@@");
-    yield* listAttendance.map(
-      (event) {
-          print("#######################");
-          print(event.size);
+    // final docRef = firebaseDB.collection("attendances");
+    // final listAttendance = docRef.snapshots();
+    // yield* listAttendance.map(
+    //   (event) {
+    //     List<AttendanceModel> allAttendanceData = [];
+    //     for (var userDoc in event.docs) {
+    //       final docRef = userDoc.reference.collection("attendance");
+    //       final allAttendance = docRef.snapshots();
+    //       allAttendance.map(
+    //         (event) => print(event.docs.length),
+    //       );
+    //     }
+    //     return Left(ServerFailure("GAGAL"));
+    //   },
+    // );
+    try {
+      final docRef = firebaseDB.collection("attendances");
+      final listAttendance = docRef.snapshots();
+
+      await for (var event in listAttendance) {
+        // Proses operasi asinkron di luar yield
+        List<AttendanceModel> attendanceList = [];
+
         for (var profileAttendance in event.docs) {
-          print(profileAttendance.data());
-          print("^^^^^^^^^^^^^^^^^^");
-          // final attendanceProfileRef = profileAttendance.reference.collection("attendance");
-          // for (var attendanceByProfile in attendanceProfileRef){
-          //
-          // }
+          final subCollectionRef = profileAttendance.reference.collection("attendance");
+          final subCollectionSnapshot = await subCollectionRef.get(); // Operasi asinkron
+
+          for (var attendanceDoc in subCollectionSnapshot.docs) {
+            attendanceList.add(AttendanceModel.fromJson(attendanceDoc.data()));
+          }
         }
-        return Left(ServerFailure("GAGAL"));
-      },
-    );
+
+        print(attendanceList.length);
+        // Mengembalikan hasil yang diinginkan
+        yield Right(attendanceList); // Menggunakan yield untuk mengirim data
+      }
+    } catch (e) {
+      yield Left(ServerFailure("Terjadi kesalahan saat mengambil data"));
+    }
   }
 }
