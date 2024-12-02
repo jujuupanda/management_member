@@ -7,7 +7,6 @@ import '../../../../core/routes/route_app.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/custom_circle_loading.dart';
 import '../../../../core/widgets/page_background.dart';
-import '../../domain/use_cases/login_use_case.dart';
 import '../manager/auth_bloc.dart';
 import '../widgets/login_button.dart';
 import '../widgets/login_form_field.dart';
@@ -26,16 +25,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   //Login Button
-  loginButton() {
+  loginButton(BuildContext context) {
     return () {
       if (formKey.currentState!.validate()) {
-        BlocProvider.of<AuthBloc>(context).add(
-          LoginEvent(
-            LoginParam(
-              usernameC.text,
-              passwordC.text,
-            ),
-          ),
+        BlocFunction().loginButton(
+          context,
+          usernameC.text,
+          passwordC.text,
         );
         // context.goNamed(RouteName().home);
       }
@@ -134,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     const Gap(10),
                                     LoginButton(
                                       buttonName: "Masuk",
-                                      onTap: loginButton(),
+                                      onTap: loginButton(context),
                                     ),
                                   ],
                                 ),

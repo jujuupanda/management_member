@@ -9,6 +9,7 @@ import '../../features/attendance/presentation/pages/attendance_screen.dart';
 import '../../features/home/presentation/pages/absent_screen.dart';
 import '../../features/home/presentation/pages/home_screen.dart';
 import '../../features/home/presentation/pages/late_screen.dart';
+import '../../features/home/presentation/pages/manage_attendance_screen.dart';
 import '../../features/home/presentation/pages/present_screen.dart';
 import '../../features/login/presentation/pages/login_screen.dart';
 import '../../features/message/presentation/pages/message_screen.dart';
@@ -243,6 +244,17 @@ final GoRouter routerApp = GoRouter(
           context: context,
           state: state,
           child: const ArchivedNewsScreen(),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/manageAttendance',
+      name: RouteName().manageAttendance,
+      pageBuilder: (context, state) {
+        return buildPageWithDefaultTransition(
+          context: context,
+          state: state,
+          child: const ManageAttendanceScreen(),
         );
       },
     ),

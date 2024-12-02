@@ -1,9 +1,20 @@
 part of 'utils.dart';
 
 class BlocFunction {
-  //get user profile data
-  getProfile(BuildContext context) {
-    context.read<ProfileBloc>().add(GetProfile());
+  //Auth
+  loginButton(
+    BuildContext context,
+    String username,
+    String password,
+  ) {
+    BlocProvider.of<AuthBloc>(context).add(
+      LoginEvent(
+        LoginParam(
+          username,
+          password,
+        ),
+      ),
+    );
   }
 
   logoutButton(BuildContext context) {
@@ -12,27 +23,13 @@ class BlocFunction {
     };
   }
 
-  checkInButton(
-    BuildContext context,
-    String attendType,
-    File imageFile,
-  ) {
-    context.read<AttendanceBloc>().add(CheckInEvent(
-          attendType,
-          imageFile,
-        ));
+  //Profile
+  initialProfile(BuildContext context) {
+    context.read<ProfileBloc>().add(InitialProfile());
   }
 
-  checkOutButton(BuildContext context) {
-    context.read<AttendanceBloc>().add(CheckOutEvent());
-  }
-
-  attendChecker(BuildContext context) {
-    context.read<AttendanceBloc>().add(AttendCheckerEvent());
-  }
-
-  getAttendance(BuildContext context) {
-    context.read<AttendanceBloc>().add(GetAttendanceEvent());
+  getProfile(BuildContext context) {
+    context.read<ProfileBloc>().add(GetProfile());
   }
 
   addUser(
@@ -72,6 +69,31 @@ class BlocFunction {
     context.read<ProfileBloc>().add(ChangePassword(oldPassword, newPassword));
   }
 
+  //Attendance
+  checkInButton(
+    BuildContext context,
+    String attendType,
+    File imageFile,
+  ) {
+    context.read<AttendanceBloc>().add(CheckInEvent(
+          attendType,
+          imageFile,
+        ));
+  }
+
+  checkOutButton(BuildContext context) {
+    context.read<AttendanceBloc>().add(CheckOutEvent());
+  }
+
+  attendChecker(BuildContext context) {
+    context.read<AttendanceBloc>().add(AttendCheckerEvent());
+  }
+
+  getAttendance(BuildContext context) {
+    context.read<AttendanceBloc>().add(GetAttendanceEvent());
+  }
+
+  //News
   createNews(
     BuildContext context,
     String title,
@@ -107,7 +129,8 @@ class BlocFunction {
     context.read<NewsBloc>().add(DeleteNews(news));
   }
 
-  initialProfile(BuildContext context) {
-    context.read<ProfileBloc>().add(InitialProfile());
+  //Manage Attendance
+  getAllAttendanceAllAccount(BuildContext context) {
+    context.read<ManageAttendanceBloc>().add(GetAllAttendanceAllAccount());
   }
 }

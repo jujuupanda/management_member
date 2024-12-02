@@ -7,6 +7,10 @@ import 'features/attendance/domain/use_cases/check_in_use_case.dart';
 import 'features/attendance/domain/use_cases/check_out_use_case.dart';
 import 'features/attendance/domain/use_cases/get_attendance_use_case.dart';
 import 'features/attendance/presentation/manager/attendance_bloc.dart';
+import 'features/home/data/data_sources/manage_attendance_remote_data_source.dart';
+import 'features/home/data/repositories/manage_attendance_repository_impl.dart';
+import 'features/home/domain/use_cases/get_all_attendance_use_case.dart';
+import 'features/home/presentation/manager/manage_attendance_bloc.dart';
 import 'features/login/data/data_sources/auth_data_source.dart';
 import 'features/login/data/repositories/auth_repository_impl.dart';
 import 'features/login/domain/use_cases/login_checker_use_case.dart';
@@ -45,6 +49,9 @@ void serviceLocator() async {
   //News
   getIt.registerLazySingleton<NewsRemoteDataSource>(
       () => NewsRemoteDataSource());
+//Manage Attendance
+  getIt.registerLazySingleton<ManageAttendanceRemoteDataSource>(
+      () => ManageAttendanceRemoteDataSource());
 
   /// Repositories
   // Auth
@@ -69,6 +76,12 @@ void serviceLocator() async {
   getIt.registerLazySingleton<NewsRepositoryImpl>(
     () => NewsRepositoryImpl(
       remoteDataSource: getIt<NewsRemoteDataSource>(),
+    ),
+  );
+  //Manage Attendance
+  getIt.registerLazySingleton<ManageAttendanceRepositoryImpl>(
+    () => ManageAttendanceRepositoryImpl(
+      remoteDataSource: getIt<ManageAttendanceRemoteDataSource>(),
     ),
   );
 
@@ -127,8 +140,8 @@ void serviceLocator() async {
     () => GetNewsUseCase(
       getIt<NewsRepositoryImpl>(),
     ),
-
-  );getIt.registerLazySingleton<EditNewsUseCase>(
+  );
+  getIt.registerLazySingleton<EditNewsUseCase>(
     () => EditNewsUseCase(
       getIt<NewsRepositoryImpl>(),
     ),
@@ -136,6 +149,12 @@ void serviceLocator() async {
   getIt.registerLazySingleton<DeleteNewsUseCase>(
     () => DeleteNewsUseCase(
       getIt<NewsRepositoryImpl>(),
+    ),
+  );
+  //Manage Attendance
+  getIt.registerLazySingleton<GetAllAttendanceUseCase>(
+    () => GetAllAttendanceUseCase(
+      getIt<ManageAttendanceRepositoryImpl>(),
     ),
   );
 
@@ -175,8 +194,15 @@ void serviceLocator() async {
       deleteNewsUseCase: getIt<DeleteNewsUseCase>(),
     ),
   );
+  //Message
   getIt.registerFactory<MessageBloc>(
     () => MessageBloc(),
+  );
+  //Manage Attendance
+  getIt.registerFactory<ManageAttendanceBloc>(
+    () => ManageAttendanceBloc(
+      getAllAttendanceUseCase: getIt<GetAllAttendanceUseCase>(),
+    ),
   );
 
   /// Outside
