@@ -180,7 +180,7 @@ class SortingFilterObject {
     return absentDates;
   }
 
-  List<AttendanceEntity> attendanceLateFilter({
+  List<AttendanceEntity> lateAttendanceFilter({
     required List<AttendanceEntity> attendances,
     required int hour,
     required int minute,

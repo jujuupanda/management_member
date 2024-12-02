@@ -12,7 +12,6 @@ import 'package:month_picker_dialog/month_picker_dialog.dart';
 import '../../../../core/routes/route_app.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../attendance/presentation/manager/attendance_bloc.dart';
-import '../manager/manage_attendance_bloc.dart';
 import '../widgets/attendance_chart_legend.dart';
 import '../widgets/pie_chart_attendance.dart';
 import '../widgets/widget_attendance_recap.dart';
@@ -113,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   .attendanceSortingFilter(
                                       attendances: attendanceSorted);
                               final attendanceLate =
-                                  SortingFilterObject().attendanceLateFilter(
+                                  SortingFilterObject().lateAttendanceFilter(
                                 attendances: attendanceSorted,
                                 hour: 8,
                                 minute: 0,
