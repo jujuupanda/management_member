@@ -67,110 +67,110 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-          children: [
-            const PageBackground(),
-            Column(
-              children: [
-                const PageHeader(
-                  isHome: true,
-                  page: "home",
-                ),
-                Gap(10.h),
-                Expanded(
-                  child: ContainerBody(
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 12.h,
-                          horizontal: 12.w,
-                        ),
-                        child: BlocBuilder<AttendanceBloc, AttendanceState>(
-                          builder: (context, state) {
-                            if (state is AttendancesLoaded) {
-                              if (state.isLoading == true) {
-                                return WidgetShimmerHome()
-                                    .homeScreenShimmer(context);
-                              }
-                              final attendances = state.attendances!;
-                              final attendanceSorted = selectedDate != null
-                                  ? attendances
-                                      .where((date) =>
-                                          DateTime.parse(
-                                                      date.attendToday.timeStamp)
-                                                  .year ==
-                                              selectedDate!.year &&
-                                          DateTime.parse(
-                                                      date.attendToday.timeStamp)
-                                                  .month ==
-                                              selectedDate!.month)
-                                      .toList()
-                                  : attendances;
-
-                              final attendancePresent = SortingFilterObject()
-                                  .attendanceSortingFilter(
-                                      attendances: attendanceSorted);
-                              final attendanceLate =
-                                  SortingFilterObject().lateAttendanceFilter(
-                                attendances: attendanceSorted,
-                                hour: 8,
-                                minute: 0,
-                              );
-                              final attendanceAbsent =
-                                  SortingFilterObject().absentAttendanceFilter(
-                                stringSelectedMonth: selectedDate.toString(),
-                                stringActiveWork: state.activeWork!,
-                                listAttendance: attendanceSorted,
-                              );
-                              // final attendanceAbsent =
-                              // SortingFilterObject().absentAttendFilter(
-                              //   startDate: selectedDate,
-                              //   activeWork: state.activeWork!,
-                              //   attendanceList: attendanceSorted,
-                              // );
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  titleAttendanceReport(context),
-                                  Gap(10.h),
-                                  attendanceChart(
-                                    attendancePresent,
-                                    attendanceLate,
-                                    attendanceAbsent,
-                                  ),
-                                  Gap(10.h),
-                                  titleYourAttendance(context),
-                                  Gap(10.h),
-                                  attendanceReportByDate(
-                                    context,
-                                    attendancePresent,
-                                    attendanceLate,
-                                    attendanceAbsent,
-                                  ),
-                                  Gap(120.h),
-                                  // titleExcusedProposal(context),
-                                  // Gap(10.h),
-                                  // excusedProposalList(),
-                                  // Gap(20.h),
-                                  // titleLatestExcusedProposal(),
-                                  // latestExcusedProposal(),
-                                  // Gap(20.h),
-                                ],
-                              );
+      body: Stack(
+        children: [
+          const PageBackground(),
+          Column(
+            children: [
+              const PageHeader(
+                isHome: true,
+                page: "home",
+              ),
+              Gap(10.h),
+              Expanded(
+                child: ContainerBody(
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 12.h,
+                        horizontal: 12.w,
+                      ),
+                      child: BlocBuilder<AttendanceBloc, AttendanceState>(
+                        builder: (context, state) {
+                          if (state is AttendancesLoaded) {
+                            if (state.isLoading == true) {
+                              return WidgetShimmerHome()
+                                  .homeScreenShimmer(context);
                             }
-                            return WidgetShimmerHome().homeScreenShimmer(context);
-                          },
-                        ),
+                            final attendances = state.attendances!;
+                            final attendanceSorted = selectedDate != null
+                                ? attendances
+                                    .where((date) =>
+                                        DateTime.parse(
+                                                    date.attendToday.timeStamp)
+                                                .year ==
+                                            selectedDate!.year &&
+                                        DateTime.parse(
+                                                    date.attendToday.timeStamp)
+                                                .month ==
+                                            selectedDate!.month)
+                                    .toList()
+                                : attendances;
+
+                            final attendancePresent = SortingFilterObject()
+                                .attendanceSortingFilter(
+                                    attendances: attendanceSorted);
+                            final attendanceLate =
+                                SortingFilterObject().lateAttendanceFilter(
+                              attendances: attendanceSorted,
+                              hour: 8,
+                              minute: 0,
+                            );
+                            final attendanceAbsent =
+                                SortingFilterObject().absentAttendanceFilter(
+                              selectedMonth: selectedDate,
+                              stringActiveWork: state.activeWork!,
+                              listAttendance: attendanceSorted,
+                            );
+                            // final attendanceAbsent =
+                            // SortingFilterObject().absentAttendFilter(
+                            //   startDate: selectedDate,
+                            //   activeWork: state.activeWork!,
+                            //   attendanceList: attendanceSorted,
+                            // );
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                titleAttendanceReport(context),
+                                Gap(10.h),
+                                attendanceChart(
+                                  attendancePresent,
+                                  attendanceLate,
+                                  attendanceAbsent,
+                                ),
+                                Gap(10.h),
+                                titleYourAttendance(context),
+                                Gap(10.h),
+                                attendanceReportByDate(
+                                  context,
+                                  attendancePresent,
+                                  attendanceLate,
+                                  attendanceAbsent,
+                                ),
+                                Gap(120.h),
+                                // titleExcusedProposal(context),
+                                // Gap(10.h),
+                                // excusedProposalList(),
+                                // Gap(20.h),
+                                // titleLatestExcusedProposal(),
+                                // latestExcusedProposal(),
+                                // Gap(20.h),
+                              ],
+                            );
+                          }
+                          return WidgetShimmerHome().homeScreenShimmer(context);
+                        },
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
-      );
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   ListView latestExcusedProposal() {
@@ -397,7 +397,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Stack(
         children: [
           GestureDetector(
-            onTap: (){
+            onTap: () {
               BlocFunction().getAllAttendanceAllAccount(context);
             },
             child: Center(

@@ -15,6 +15,21 @@ final class ManageAttendanceLoading extends ManageAttendanceState {
 }
 
 final class ManageAttendanceLoaded extends ManageAttendanceState {
+  final List<AttendanceEntity>? listAttendanceAllUser;
+
+  const ManageAttendanceLoaded({
+    this.listAttendanceAllUser = const [],
+  });
+
+  ManageAttendanceLoaded copyWith({
+    List<AttendanceEntity>? listAttendanceAllUser,
+  }) {
+    return ManageAttendanceLoaded(
+      listAttendanceAllUser:
+          listAttendanceAllUser ?? this.listAttendanceAllUser,
+    );
+  }
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [listAttendanceAllUser];
 }

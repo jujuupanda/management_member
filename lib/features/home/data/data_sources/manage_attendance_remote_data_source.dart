@@ -36,17 +36,15 @@ class ManageAttendanceRemoteDataSource extends ManageAttendanceDataSource {
         List<AttendanceModel> attendanceList = [];
 
         for (var profileAttendance in event.docs) {
-          final subCollectionRef = profileAttendance.reference.collection("attendance");
-          final subCollectionSnapshot = await subCollectionRef.get(); // Operasi asinkron
+          final subCollectionRef =
+              profileAttendance.reference.collection("attendance");
+          final subCollectionSnapshot = await subCollectionRef.get();
 
           for (var attendanceDoc in subCollectionSnapshot.docs) {
             attendanceList.add(AttendanceModel.fromJson(attendanceDoc.data()));
           }
         }
-
-        print(attendanceList.length);
-        // Mengembalikan hasil yang diinginkan
-        yield Right(attendanceList); // Menggunakan yield untuk mengirim data
+        yield Right(attendanceList);
       }
     } catch (e) {
       yield Left(ServerFailure("Terjadi kesalahan saat mengambil data"));
