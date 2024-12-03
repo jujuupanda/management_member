@@ -20,6 +20,12 @@ class ParsingString {
     return date;
   }
 
+  String formatDateTimeEEEEdMMMMyyyy(String dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    String date = DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(dateTime);
+    return date;
+  }
+
   String formatDateTimeIDFormatFull(String dateTimeString) {
     DateTime dateTime = DateTime.parse(dateTimeString);
     String time = DateFormat('HH:mm', 'id_ID').format(dateTime);

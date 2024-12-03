@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/shared/param/no_param.dart';
 import '../../../attendance/domain/entities/attendance_entity.dart';
+import '../../../profile/domain/entities/user_entity.dart';
 import '../../domain/use_cases/get_all_attendance_use_case.dart';
 
 part 'manage_attendance_event.dart';
@@ -29,7 +30,10 @@ class ManageAttendanceBloc
     await getAllAttendance.forEach(
       (element) => element.fold(
         (l) => emit(currentState.copyWith()),
-        (r) => emit(currentState.copyWith(listAttendanceAllUser: r)),
+        (r) => emit(currentState.copyWith(
+          listAllUser: r["userList"],
+          listAttendanceAllUser: r["attendanceList"],
+        )),
       ),
     );
   }
