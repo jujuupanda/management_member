@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
+import '../../../../core/routes/route_app.dart';
 import '../../../../core/utils/utils.dart';
 import '../../../../core/widgets/container_body.dart';
 import '../../../../core/widgets/page_background.dart';
@@ -85,6 +87,13 @@ class _ManageAttendanceScreenState extends State<ManageAttendanceScreen> {
                               children: [
                                 Gap(10.h),
                                 titleAttendanceReport(context),
+                                Text(
+                                  selectedDate != null
+                                      ? ParsingString().formatDateTimeIDOnlyMonthYear(
+                                      selectedDate.toString())
+                                      : "Semua Tanggal",
+                                  style: StyleText().openSansNormalBlack,
+                                ),
                                 ListView.builder(
                                   shrinkWrap: true,
                                   padding: EdgeInsets.symmetric(
@@ -160,13 +169,6 @@ class _ManageAttendanceScreenState extends State<ManageAttendanceScreen> {
                                               attendanceLate,
                                               attendanceAbsent,
                                             ),
-                                            // ...listGrouped!.map(
-                                            //   (e) => Text(
-                                            //     e.attendToday.timeStamp,
-                                            //     style:
-                                            //         StyleText().openSansNormalBlack,
-                                            //   ),
-                                            // ),
                                           ],
                                         ),
                                       ),
@@ -251,10 +253,10 @@ class _ManageAttendanceScreenState extends State<ManageAttendanceScreen> {
       children: [
         GestureDetector(
           onTap: () {
-            // context.pushNamed(
-            //   RouteName().present,
-            //   extra: attendancePresent,
-            // );
+            context.pushNamed(
+              RouteName().present,
+              extra: attendancePresent,
+            );
           },
           child: WidgetAttendanceRecap(
             name: "Hadir",
@@ -264,10 +266,10 @@ class _ManageAttendanceScreenState extends State<ManageAttendanceScreen> {
         ),
         GestureDetector(
           onTap: () {
-            // context.pushNamed(
-            //   RouteName().late,
-            //   extra: attendanceLate,
-            // );
+            context.pushNamed(
+              RouteName().late,
+              extra: attendanceLate,
+            );
           },
           child: WidgetAttendanceRecap(
             name: "Terlambat",
@@ -277,10 +279,10 @@ class _ManageAttendanceScreenState extends State<ManageAttendanceScreen> {
         ),
         GestureDetector(
           onTap: () {
-            // context.pushNamed(
-            //   RouteName().absent,
-            //   extra: attendanceAbsent,
-            // );
+            context.pushNamed(
+              RouteName().absent,
+              extra: attendanceAbsent,
+            );
           },
           child: WidgetAttendanceRecap(
             name: "Tidak Hadir",

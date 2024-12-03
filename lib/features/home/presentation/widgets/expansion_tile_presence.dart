@@ -17,7 +17,7 @@ class ExpansionTilePresence extends StatelessWidget {
     return ExpansionTile(
       title: Text(
         ParsingString()
-            .formatDateTimeIDFormat(attendance.attendToday.timeStamp),
+            .formatDateTimeEEEEdMMMMyyyy(attendance.attendToday.timeStamp),
         style: StyleText().openSansTitleBlack,
       ),
       expandedAlignment: Alignment.centerLeft,
@@ -60,7 +60,7 @@ class ExpansionTilePresenceAbsent extends StatelessWidget {
     return ExpansionTile(
       title: Text(
         ParsingString()
-            .formatDateTimeIDFormat(attendance.toString()),
+            .formatDateTimeEEEEdMMMMyyyy(attendance.toString()),
         style: StyleText().openSansTitleBlack,
       ),
       expandedAlignment: Alignment.centerLeft,
