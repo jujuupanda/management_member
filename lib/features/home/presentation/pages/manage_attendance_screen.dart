@@ -23,7 +23,7 @@ class ManageAttendanceScreen extends StatefulWidget {
 }
 
 class _ManageAttendanceScreenState extends State<ManageAttendanceScreen> {
-  DateTime? selectedDate = DateTime.now();
+  DateTime? selectedDate;
 
   Future<void> monthPicker(BuildContext contexto) async {
     return await showMonthPicker(
@@ -232,7 +232,7 @@ class _ManageAttendanceScreenState extends State<ManageAttendanceScreen> {
                   : const SizedBox(),
               IconButton(
                 onPressed: () {
-                  monthPicker(context);
+                  // monthPicker(context);
                 },
                 icon: const Icon(Icons.filter_alt),
               ),
