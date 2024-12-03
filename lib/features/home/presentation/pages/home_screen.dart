@@ -25,7 +25,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  DateTime? selectedDate = DateTime.now();
+  // DateTime? selectedDate = DateTime.now();
+  DateTime? selectedDate;
 
   @override
   void initState() {
@@ -94,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   .homeScreenShimmer(context);
                             }
                             final attendances = state.attendances!;
-                            final attendanceSorted = selectedDate != null
+                            final attendanceSelected = selectedDate != null
                                 ? attendances
                                     .where((date) =>
                                         DateTime.parse(
@@ -110,10 +111,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
                             final attendancePresent = SortingFilterObject()
                                 .attendanceSortingFilter(
-                                    attendances: attendanceSorted);
+                                    attendances: attendanceSelected);
                             final attendanceLate =
                                 SortingFilterObject().lateAttendanceFilter(
-                              attendances: attendanceSorted,
+                              attendances: attendanceSelected,
                               hour: 8,
                               minute: 0,
                             );
@@ -121,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 SortingFilterObject().absentAttendanceFilter(
                               selectedMonth: selectedDate,
                               stringActiveWork: state.activeWork!,
-                              listAttendance: attendanceSorted,
+                              listAttendance: attendanceSelected,
                             );
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -417,7 +418,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   : const SizedBox(),
               IconButton(
                 onPressed: () {
-                  monthPicker(context);
+                  // monthPicker(context);
                 },
                 icon: const Icon(Icons.filter_alt),
               ),
